@@ -21,6 +21,7 @@ Here list my environment:
 - Emacs 26
 - Org-mode 9.1.4
 - Babel load language elisp, bash
+- org-element
 
 * Setup
 
@@ -84,3 +85,12 @@ fi
 #+END_SRC
 
 After added the test case just execute org-babel-execute-buffer, the test report will be generated in the end of current org file.
+The test result looks like:
+| (test-case-1) | PASS |
+| (test-case-2) | PASS |
+| (test-case-3) | PASS |
+
+* Conclusion
+
+The solution is not perfect enough, it has duplicate shell code under each test case, the input/output code could not be highlight.
+The report is quit simple, when test cases number becomes large, require better solution to show the test result.

@@ -99,9 +99,9 @@ Org-mode is known as good tool to do planning/scheduling, but it also used as li
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org44634ca" class="outline-2">
-<h2 id="org44634ca">Introduction</h2>
-<div class="outline-text-2" id="text-org44634ca">
+    <div id="outline-container-org5a110b6" class="outline-2">
+<h2 id="org5a110b6">Introduction</h2>
+<div class="outline-text-2" id="text-org5a110b6">
 <p>
 Org-mode is known as good tool to do planning/scheduling, but it also used as <a href="http://howardism.org/Technical/Emacs/literate-programming-tutorial.html">literate programming tool</a>. It's quite nice to use <a href="http://orgmode.org/worg/org-contrib/babel/">Babel</a> to execute code inside org-mode, it should be possible to use org-mode write test case.
 Right now I could not find one native way inside org-mode to support this.
@@ -110,9 +110,9 @@ The tool I need to test is quit simple, <a href="https://clang.llvm.org/docs/Cla
 </div>
 </div>
 
-<div id="outline-container-org66c6375" class="outline-2">
-<h2 id="org66c6375">Prequirements</h2>
-<div class="outline-text-2" id="text-org66c6375">
+<div id="outline-container-orgfe56d1d" class="outline-2">
+<h2 id="orgfe56d1d">Prequirements</h2>
+<div class="outline-text-2" id="text-orgfe56d1d">
 <p>
 Here list my environment:
 </p>
@@ -120,13 +120,14 @@ Here list my environment:
 <li>Emacs 26</li>
 <li>Org-mode 9.1.4</li>
 <li>Babel load language elisp, bash</li>
+<li>org-element</li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org83abc5b" class="outline-2">
-<h2 id="org83abc5b">Setup</h2>
-<div class="outline-text-2" id="text-org83abc5b">
+<div id="outline-container-orga71519a" class="outline-2">
+<h2 id="orga71519a">Setup</h2>
+<div class="outline-text-2" id="text-orga71519a">
 <p>
 Just create one org file, input content like:
 </p>
@@ -190,6 +191,37 @@ fi
 
 <p>
 After added the test case just execute org-babel-execute-buffer, the test report will be generated in the end of current org file.
+The test result looks like:
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">(test-case-1)</td>
+<td class="org-left">PASS</td>
+</tr>
+<tr>
+<td class="org-left">(test-case-2)</td>
+<td class="org-left">PASS</td>
+</tr>
+<tr>
+<td class="org-left">(test-case-3)</td>
+<td class="org-left">PASS</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org6d7618f" class="outline-2">
+<h2 id="org6d7618f">Conclusion</h2>
+<div class="outline-text-2" id="text-org6d7618f">
+<p>
+The solution is not perfect enough, it has duplicate shell code under each test case, the input/output code could not be highlight.
+The report is quit simple, when test cases number becomes large, require better solution to show the test result.
 </p>
 </div>
 </div>
