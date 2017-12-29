@@ -86,9 +86,9 @@ fi
 
 After added the test case just execute org-babel-execute-buffer, the test report will be generated in the end of current org file.
 The test result looks like:
-| (test-case-1) | PASS |
-| (test-case-2) | PASS |
-| (test-case-3) | PASS |
+| (test-case-1) | PASS   |
+| (test-case-2) | PASS   |
+| (test-case-3) | FAILED |
 
 * Conclusion
 
