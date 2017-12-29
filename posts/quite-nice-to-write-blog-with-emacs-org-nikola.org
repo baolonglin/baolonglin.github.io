@@ -1,0 +1,13 @@
+#+BEGIN_COMMENT
+.. title: Quite nice to write blog with emacs org nikola
+.. slug: quite-nice-to-write-blog-with-emacs-org-nikola
+.. date: 2017-12-29 15:41:15 UTC+01:00
+.. tags: org-mode
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+#+END_COMMENT
+
+Plan to use [[https://getnikola.com/][Nikola]] as my blogging tool when I read cestlaz's blog [[http://cestlaz.github.io/posts/2016-04-17-emacs-jekyll-nikola/][Blogging with Emacs, Jekyll and Nikola]]. Today I fallow streakycobra's nice blog [[https://streakycobra.github.io/posts/blogging-in-org-mode-with-nikola/][Blogging in org-mode with Nikola]] setup my blog on github.
+It's quit simple and looks nice, the big thing is I can use org-mode to write blog without extra steps.
