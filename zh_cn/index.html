@@ -85,9 +85,9 @@
         </p>
 </div>
     </header><div class="e-content entry-content">
-    <div id="outline-container-orgb13ed29" class="outline-2">
-<h2 id="orgb13ed29">Introduction</h2>
-<div class="outline-text-2" id="text-orgb13ed29">
+    <div id="outline-container-org44634ca" class="outline-2">
+<h2 id="org44634ca">Introduction</h2>
+<div class="outline-text-2" id="text-org44634ca">
 <p>
 Org-mode is known as good tool to do planning/scheduling, but it also used as <a href="http://howardism.org/Technical/Emacs/literate-programming-tutorial.html">literate programming tool</a>. It's quite nice to use <a href="http://orgmode.org/worg/org-contrib/babel/">Babel</a> to execute code inside org-mode, it should be possible to use org-mode write test case.
 Right now I could not find one native way inside org-mode to support this.
@@ -96,9 +96,9 @@ The tool I need to test is quit simple, <a href="https://clang.llvm.org/docs/Cla
 </div>
 </div>
 
-<div id="outline-container-orgde05a7c" class="outline-2">
-<h2 id="orgde05a7c">Prequirements</h2>
-<div class="outline-text-2" id="text-orgde05a7c">
+<div id="outline-container-org66c6375" class="outline-2">
+<h2 id="org66c6375">Prequirements</h2>
+<div class="outline-text-2" id="text-org66c6375">
 <p>
 Here list my environment:
 </p>
@@ -110,32 +110,32 @@ Here list my environment:
 </div>
 </div>
 
-<div id="outline-container-org5d09d6c" class="outline-2">
-<h2 id="org5d09d6c">Setup</h2>
-<div class="outline-text-2" id="text-org5d09d6c">
+<div id="outline-container-org83abc5b" class="outline-2">
+<h2 id="org83abc5b">Setup</h2>
+<div class="outline-text-2" id="text-org83abc5b">
 <p>
 Just create one org file, input content like:
 </p>
 <div class="highlight"><pre><span></span>* Test title
 ** Setup
 #+BEGIN_SRC elisp
-,(setq org-confirm-babel-evaluate nil)
+(setq org-confirm-babel-evaluate nil)
 #+END_SRC
 ** Test suite title
 *** Test case title
-,    &lt;&lt; add test case content here, use yasnippet to insert here &gt;&gt;
+    &lt;&lt; add test case content here, use yasnippet to insert here &gt;&gt;
 ** Report
 #+BEGIN_SRC emacs-lisp
-,  (org-element-map (org-element-parse-buffer) '(fixed-width example-block)
-,    (lambda (result)
-,      (progn
-,        (list (org-element-property :results result)
-,              (if (string-prefix-p "PASS" (org-element-property :value result) )
-,                  "PASS"
-,                "FAILED")
-,              )
-,        ))
-,    )
+  (org-element-map (org-element-parse-buffer) '(fixed-width example-block)
+    (lambda (result)
+      (progn
+	(list (org-element-property :results result)
+	      (if (string-prefix-p "PASS" (org-element-property :value result) )
+		  "PASS"
+		"FAILED")
+	      )
+	))
+    )
 #+END_SRC
 </pre></div>
 
@@ -144,36 +144,35 @@ The content under Setup headline describes the setup information.
 The content under Report headline describes the test result report.
 The test case use yasnippet like:
 </p>
-<div class="highlight"><pre><span></span>,# -*- mode: snippet -*-
-,# name: tftc
-,# key: tftc
-,# --
+<div class="highlight"><pre><span></span># -*- mode: snippet -*-
+# name: tftc
+# key: tftc
+# --
 *** ${1: test case name}
 #+name: ${1:$(replace-regexp-in-string " " "-" (downcase yas-text))}
 #+BEGIN_SRC bash :results verbatim
-,format_result="$(clang-format &lt;&lt; EOF
-,{
-,${2: input original source code}
-,}
-,EOF
-,)"
-,
-,require_format="$(cat &lt;&lt; EOF
-,{
-,${3: input expected source code}
-,}
-,EOF
-,)"
-,
-,diff -u &lt;(echo "$format_result") &lt;(echo "$require_format")
-,if [ "$?" -eq 0 ]; then
-,echo "PASS"
-,else
-,echo "FAILED"
-,fi
+format_result="$(clang-format &lt;&lt; EOF
+{
+${2: input original source code}
+}
+EOF
+)"
+
+require_format="$(cat &lt;&lt; EOF
+{
+${3: input expected source code}
+}
+EOF
+)"
+
+diff -u &lt;(echo "$format_result") &lt;(echo "$require_format")
+if [ "$?" -eq 0 ]; then
+echo "PASS"
+else
+echo "FAILED"
+fi
+#+END_SRC
 </pre></div>
-<p>
-#+END<sub>SRC</sub></p>
 
 <p>
 After added the test case just execute org-babel-execute-buffer, the test report will be generated in the end of current org file.
