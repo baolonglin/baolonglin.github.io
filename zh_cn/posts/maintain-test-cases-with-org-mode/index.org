@@ -9,4 +9,78 @@
 .. type: text
 #+END_COMMENT
 
-Test
+* Introduction
+
+Org-mode is known as good tool to do planning/scheduling, but it also used as [[http://howardism.org/Technical/Emacs/literate-programming-tutorial.html][literate programming tool]]. It's quite nice to use [[http://orgmode.org/worg/org-contrib/babel/][Babel]] to execute code inside org-mode, it should be possible to use org-mode write test case.
+Right now I could not find one native way inside org-mode to support this.
+The tool I need to test is quit simple, [[https://clang.llvm.org/docs/ClangFormat.html][clang-format]], input one code snippet, output formated code.
+
+* Prequirements
+
+Here list my environment:
+- Emacs 26
+- Org-mode 9.1.4
+- Babel load language elisp, bash
+
+* Setup
+
+Just create one org file, input content like:
+#+BEGIN_SRC org
+,* Test title
+,** Setup
+,#+BEGIN_SRC elisp
+,(setq org-confirm-babel-evaluate nil)
+,#+END_SRC
+,** Test suite title
+,*** Test case title
+,    << add test case content here, use yasnippet to insert here >>
+,** Report
+,#+BEGIN_SRC emacs-lisp
+,  (org-element-map (org-element-parse-buffer) '(fixed-width example-block)
+,    (lambda (result)
+,      (progn
+,        (list (org-element-property :results result)
+,              (if (string-prefix-p "PASS" (org-element-property :value result) )
+,                  "PASS"
+,                "FAILED")
+,              )
+,        ))
+,    )
+,#+END_SRC
+#+END_SRC
+
+The content under Setup headline describes the setup information.
+The content under Report headline describes the test result report.
+The test case use yasnippet like:
+#+BEGIN_SRC org
+,# -*- mode: snippet -*-
+,# name: tftc
+,# key: tftc
+,# --
+,*** ${1: test case name}
+,#+name: ${1:$(replace-regexp-in-string " " "-" (downcase yas-text))}
+,#+BEGIN_SRC bash :results verbatim
+,format_result="$(clang-format << EOF
+,{
+,${2: input original source code}
+,}
+,EOF
+,)"
+,
+,require_format="$(cat << EOF
+,{
+,${3: input expected source code}
+,}
+,EOF
+,)"
+,
+,diff -u <(echo "$format_result") <(echo "$require_format")
+,if [ "$?" -eq 0 ]; then
+,echo "PASS"
+,else
+,echo "FAILED"
+,fi
+#+END_SRC
+#+END_SRC
+
+After added the test case just execute org-babel-execute-buffer, the test report will be generated in the end of current org file.

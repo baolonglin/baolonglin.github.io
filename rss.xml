@@ -1,4 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>BaoLong</title><link>https://baolonglin.github.io/</link><description>This is a site for Baolong.</description><atom:link href="https://baolonglin.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:lbl52001@gmail.com"&gt;Baolong Lin&lt;/a&gt; </copyright><lastBuildDate>Fri, 29 Dec 2017 13:34:39 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Maintain test cases with org-mode</title><link>https://baolonglin.github.io/posts/maintain-test-cases-with-org-mode/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
-Test
-&lt;/p&gt;</description><category>org-mode</category><guid>https://baolonglin.github.io/posts/maintain-test-cases-with-org-mode/</guid><pubDate>Fri, 29 Dec 2017 13:26:15 GMT</pubDate></item></channel></rss>
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>BaoLong</title><link>https://baolonglin.github.io/</link><description>This is a site for Baolong.</description><atom:link href="https://baolonglin.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:lbl52001@gmail.com"&gt;Baolong Lin&lt;/a&gt; </copyright><lastBuildDate>Fri, 29 Dec 2017 14:17:18 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Maintain test cases with org-mode</title><link>https://baolonglin.github.io/posts/maintain-test-cases-with-org-mode/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;div id="outline-container-orgb13ed29" class="outline-2"&gt;
+&lt;h2 id="orgb13ed29"&gt;Introduction&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgb13ed29"&gt;
+&lt;p&gt;
+Org-mode is known as good tool to do planning/scheduling, but it also used as &lt;a href="http://howardism.org/Technical/Emacs/literate-programming-tutorial.html"&gt;literate programming tool&lt;/a&gt;. It's quite nice to use &lt;a href="http://orgmode.org/worg/org-contrib/babel/"&gt;Babel&lt;/a&gt; to execute code inside org-mode, it should be possible to use org-mode write test case.
+Right now I could not find one native way inside org-mode to support this.
+The tool I need to test is quit simple, &lt;a href="https://clang.llvm.org/docs/ClangFormat.html"&gt;clang-format&lt;/a&gt;, input one code snippet, output formated code.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgde05a7c" class="outline-2"&gt;
+&lt;h2 id="orgde05a7c"&gt;Prequirements&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgde05a7c"&gt;
+&lt;p&gt;
+Here list my environment:
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Emacs 26&lt;/li&gt;
+&lt;li&gt;Org-mode 9.1.4&lt;/li&gt;
+&lt;li&gt;Babel load language elisp, bash&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org5d09d6c" class="outline-2"&gt;
+&lt;h2 id="org5d09d6c"&gt;Setup&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org5d09d6c"&gt;
+&lt;p&gt;
+Just create one org file, input content like:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;* Test title
+** Setup
+#+BEGIN_SRC elisp
+,(setq org-confirm-babel-evaluate nil)
+#+END_SRC
+** Test suite title
+*** Test case title
+,    &amp;lt;&amp;lt; add test case content here, use yasnippet to insert here &amp;gt;&amp;gt;
+** Report
+#+BEGIN_SRC emacs-lisp
+,  (org-element-map (org-element-parse-buffer) '(fixed-width example-block)
+,    (lambda (result)
+,      (progn
+,        (list (org-element-property :results result)
+,              (if (string-prefix-p "PASS" (org-element-property :value result) )
+,                  "PASS"
+,                "FAILED")
+,              )
+,        ))
+,    )
+#+END_SRC
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+The content under Setup headline describes the setup information.
+The content under Report headline describes the test result report.
+The test case use yasnippet like:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;,# -*- mode: snippet -*-
+,# name: tftc
+,# key: tftc
+,# --
+*** ${1: test case name}
+#+name: ${1:$(replace-regexp-in-string " " "-" (downcase yas-text))}
+#+BEGIN_SRC bash :results verbatim
+,format_result="$(clang-format &amp;lt;&amp;lt; EOF
+,{
+,${2: input original source code}
+,}
+,EOF
+,)"
+,
+,require_format="$(cat &amp;lt;&amp;lt; EOF
+,{
+,${3: input expected source code}
+,}
+,EOF
+,)"
+,
+,diff -u &amp;lt;(echo "$format_result") &amp;lt;(echo "$require_format")
+,if [ "$?" -eq 0 ]; then
+,echo "PASS"
+,else
+,echo "FAILED"
+,fi
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+#+END&lt;sub&gt;SRC&lt;/sub&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+After added the test case just execute org-babel-execute-buffer, the test report will be generated in the end of current org file.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>org-mode</category><guid>https://baolonglin.github.io/posts/maintain-test-cases-with-org-mode/</guid><pubDate>Fri, 29 Dec 2017 13:26:15 GMT</pubDate></item></channel></rss>
