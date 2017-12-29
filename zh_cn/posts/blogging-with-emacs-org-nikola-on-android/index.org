@@ -1,0 +1,24 @@
+#+BEGIN_COMMENT
+.. title: Blogging with emacs org, nikola on android
+.. slug: blogging-with-emacs-org-nikola-on-android
+.. date: 2017-12-29 22:55:21 UTC+01:00
+.. tags: org-mode
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+#+END_COMMENT
+
+
+It's useful to write blog on mobile which reachable
+any spare time. I use [[https://termux.com][Termux]] as a Linux environment.
+#+BEGIN_SRC sh
+apt install emacs clang git python python-dev libxml2 libxml2-dev libxslt libxslt-dev libjpeg-turbo-dev ndk-sysroot
+pip install virtualenv
+mkdir ~/pyenv
+virtualenv ~/pyenv/nikola
+source ~/pyenv/nikola/activate
+LDFLAGS="-L/system/lib/" CFLAGS="-I/data/data/com.termux/files/usr/include/" pip install --upgrade "Nikola[extras]"
+git clone <git repo> ~/blog
+#+END_SRC
+Now setup the Emacs, start new post as on laptop.
