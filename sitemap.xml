@@ -15,7 +15,7 @@
  </url>
  <url>
   <loc>https://baolonglin.github.io/archive.html</loc>
-  <lastmod>2017-12-29T13:34:00Z</lastmod>
+  <lastmod>2017-12-29T14:47:00Z</lastmod>
  </url>
  <url>
   <loc>https://baolonglin.github.io/categories/</loc>
@@ -38,6 +38,10 @@
   <lastmod>2017-12-29T13:34:00Z</lastmod>
  </url>
  <url>
+  <loc>https://baolonglin.github.io/posts/quite-nice-to-write-blog-with-emacs-org-nikola/</loc>
+  <lastmod>2017-12-29T14:47:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://baolonglin.github.io/zh_cn/</loc>
   <lastmod>2017-12-29T13:34:00Z</lastmod>
  </url>
@@ -47,7 +51,7 @@
  </url>
  <url>
   <loc>https://baolonglin.github.io/zh_cn/archive.html</loc>
-  <lastmod>2017-12-29T13:34:00Z</lastmod>
+  <lastmod>2017-12-29T14:47:00Z</lastmod>
  </url>
  <url>
   <loc>https://baolonglin.github.io/zh_cn/categories/</loc>
@@ -65,5 +69,10 @@
   <loc>https://baolonglin.github.io/zh_cn/posts/maintain-test-cases-with-org-mode/</loc>
   <lastmod>2017-12-29T13:34:00Z</lastmod>
   <xhtml:link rel="alternate" hreflang="en" href="https://baolonglin.github.io/posts/maintain-test-cases-with-org-mode/" />
+ </url>
+ <url>
+  <loc>https://baolonglin.github.io/zh_cn/posts/quite-nice-to-write-blog-with-emacs-org-nikola/</loc>
+  <lastmod>2017-12-29T14:47:00Z</lastmod>
+  <xhtml:link rel="alternate" hreflang="en" href="https://baolonglin.github.io/posts/quite-nice-to-write-blog-with-emacs-org-nikola/" />
  </url>
 </urlset>
