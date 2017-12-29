@@ -1,0 +1,4 @@
+Sitemap: https://baolonglin.github.io/sitemapindex.xml
+
+User-Agent: *
+Host: baolonglin.github.io
