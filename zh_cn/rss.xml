@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>BaoLong</title><link>https://baolonglin.github.io/</link><description>This is a site for Baolong.</description><atom:link href="https://baolonglin.github.io/zh_cn/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>zh_cn</language><copyright>Contents © 2017 &lt;a href="mailto:lbl52001@gmail.com"&gt;Baolong Lin&lt;/a&gt; </copyright><lastBuildDate>Fri, 29 Dec 2017 22:26:18 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Blogging with emacs org, nikola on android</title><link>https://baolonglin.github.io/zh_cn/posts/blogging-with-emacs-org-nikola-on-android/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>BaoLong</title><link>https://baolonglin.github.io/</link><description>This is a site for Baolong.</description><atom:link href="https://baolonglin.github.io/zh_cn/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>zh_cn</language><copyright>Contents © 2017 &lt;a href="mailto:lbl52001@gmail.com"&gt;Baolong Lin&lt;/a&gt; </copyright><lastBuildDate>Sun, 31 Dec 2017 07:42:31 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Blogging with emacs org, nikola on android</title><link>https://baolonglin.github.io/zh_cn/posts/blogging-with-emacs-org-nikola-on-android/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
 It's useful to write blog on mobile which reachable
 any spare time. I use &lt;a href="https://termux.com"&gt;Termux&lt;/a&gt; as a Linux environment.
 &lt;/p&gt;
@@ -150,4 +150,287 @@ The solution is not perfect enough, it has duplicate shell code under each test 
 The report is quit simple, when test cases number becomes large, require better solution to show the test result.
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><guid>https://baolonglin.github.io/zh_cn/posts/maintain-test-cases-with-org-mode/</guid><pubDate>Fri, 29 Dec 2017 13:26:15 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;</description><guid>https://baolonglin.github.io/zh_cn/posts/maintain-test-cases-with-org-mode/</guid><pubDate>Fri, 29 Dec 2017 13:26:15 GMT</pubDate></item><item><title>My first emacs package</title><link>https://baolonglin.github.io/zh_cn/posts/2017/5/18/my-first-emacs-package/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;div&gt;&lt;p&gt;After using emacs for serval monthes, come out my first emacs package. It may not such useful, but it solves my daily work problem.&lt;/p&gt;
+&lt;p&gt;The package is stored at &lt;a href="https://github.com/baolonglin/switch-process-environment"&gt;switch-process-environment&lt;/a&gt;. It's quiet simple, just manages the emacs process environment, enables user switch the process environments.&lt;/p&gt;
+&lt;p&gt;In my daily work, I need to switch between different shell environments in one project. Different shell environments provides different toolset, and those environment variables are conflict with each other. Restart emacs and recover the desktop session cost time, different git commit can have different environment variables.&lt;/p&gt;
+&lt;p&gt;With that package, I can keep one emacs as daemon, don't need to restart the emacs to switch the different environment.&lt;/p&gt;&lt;/div&gt;</description><guid>https://baolonglin.github.io/zh_cn/posts/2017/5/18/my-first-emacs-package/</guid><pubDate>Wed, 17 May 2017 22:00:00 GMT</pubDate></item><item><title>Emacs org-drill org-capture org-protocol with firefox</title><link>https://baolonglin.github.io/zh_cn/posts/2017/3/7/emacs-org-drill-org-capture-firefox/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;div&gt;&lt;p&gt;Emacs can be used as flash card tool, I fallowed the page of &lt;a href="http://orgmode.org/worg/org-contrib/org-drill.html"&gt;org-drill&lt;/a&gt;.
+In emacs 25.1, need to install &lt;code&gt;org-plus-contrib&lt;/code&gt; first. While installing &lt;code&gt;org-plus-conrib&lt;/code&gt;, may get error &lt;code&gt;Invalid function: org-babel-header-args-safe-fn&lt;/code&gt;, I use cpaulik's solution: &lt;a href="https://github.com/syl20bnr/spacemacs/issues/4618"&gt;remove the ob_R.elc&lt;/a&gt;. And I find one emacs plugin &lt;a href="https://github.com/Malabarba/paradox"&gt;paradox&lt;/a&gt;, which can be used to manage the installed plugins.
+In &lt;code&gt;Incremental reading&lt;/code&gt;, it shows how to integrate &lt;code&gt;org-drill&lt;/code&gt; with external browser. It's good to integrate &lt;code&gt;firefox&lt;/code&gt; which is my default browser. I'm running &lt;code&gt;Arch&lt;/code&gt; linux with windows manager &lt;code&gt;fluxbox&lt;/code&gt;, it take me some time to make it working. At begining, i follow the &lt;a href="http://orgmode.org/worg/org-contrib/org-protocol.html"&gt;org-protocol&lt;/a&gt;, but the &lt;code&gt;gconftool-2&lt;/code&gt; did not work, even i have &lt;code&gt;gconftool&lt;/code&gt; installed, and have those configuration in my ~/.config, &lt;code&gt;firefox&lt;/code&gt; always get error &lt;code&gt;(org-protocol) isn’t associated with any program&lt;/code&gt;. I just wondered how can i configure the firefox, use application I specified. Then i tried use &lt;code&gt;network.protocol-handler.app.org-protocol&lt;/code&gt;, got the same error. Then I tried to figure out which application controls the default application in my environment. Then I found &lt;a href="https://wiki.archlinux.org/index.php/Default_applications"&gt;Arch default applications&lt;/a&gt;, but I don't have normal desktop environment, I have &lt;code&gt;xdg&lt;/code&gt; installed. How to let my installed application use &lt;code&gt;xdg-open&lt;/code&gt; to open default application for specified mime type? I still don't know when I write is post. At least I tried to add desktop file into &lt;code&gt;xdg&lt;/code&gt;, and configure the default application for that desktop file, luckly it works. Below is the configuration in my environment:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;emacs configuration&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;require-package&lt;/span&gt; &lt;span class="ss"&gt;'org-plus-contrib&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;after-load&lt;/span&gt; &lt;span class="ss"&gt;'org&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="ss"&gt;'org-drill&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="ss"&gt;'org-protocol&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;)&lt;/span&gt;
+
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;setq&lt;/span&gt; &lt;span class="nv"&gt;org-capture-templates&lt;/span&gt;
+      &lt;span class="o"&gt;`&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="s"&gt;"w"&lt;/span&gt;
+         &lt;span class="s"&gt;"Capture web snippet"&lt;/span&gt;
+         &lt;span class="nv"&gt;entry&lt;/span&gt;
+         &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;file+headline&lt;/span&gt; &lt;span class="s"&gt;"~/test-drill.org"&lt;/span&gt; &lt;span class="s"&gt;"Notes"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+         &lt;span class="o"&gt;,&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;concat&lt;/span&gt; &lt;span class="s"&gt;"* Fact: '%:description'        :"&lt;/span&gt;
+                  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;format&lt;/span&gt; &lt;span class="s"&gt;"%s"&lt;/span&gt; &lt;span class="nv"&gt;org-drill-question-tag&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                  &lt;span class="s"&gt;":\n:PROPERTIES:\n:DATE_ADDED: %u\n:SOURCE_URL: %c\n:END:\n\n%i\n%?\n"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+         &lt;span class="nb"&gt;:empty-lines&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+         &lt;span class="nb"&gt;:immediate-finish&lt;/span&gt; &lt;span class="no"&gt;t&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;firefox configuration&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;add &lt;code&gt;network.protocol-handler.expose.org-protocol:false&lt;/code&gt; into about:config, details can be found &lt;a href="http://kb.mozillazine.org/Register_protocol"&gt;Register protocol&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;add one bookmark with url:&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nx"&gt;javascript&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="nx"&gt;location&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;'org-protocol://capture://w/'&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nb"&gt;encodeURIComponent&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;location&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;href&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="s1"&gt;'/'&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nb"&gt;encodeURIComponent&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;title&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="s1"&gt;'/'&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nb"&gt;encodeURIComponent&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;window&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getSelection&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;xdg configuration&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;add file &lt;code&gt;emacsclient.desktop&lt;/code&gt; in folder &lt;code&gt;~/.local/share/applications&lt;/code&gt; with content:&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;[Desktop Entry]&lt;/span&gt;
+&lt;span class="na"&gt;Name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;Emacs Client&lt;/span&gt;
+&lt;span class="na"&gt;Exec&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;emacsclient %u&lt;/span&gt;
+&lt;span class="na"&gt;Icon&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;emacs-icon&lt;/span&gt;
+&lt;span class="na"&gt;Type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;Application&lt;/span&gt;
+&lt;span class="na"&gt;Terminal&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;false&lt;/span&gt;
+&lt;span class="na"&gt;MimeType&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;x-scheme-handler/org-protocol;&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;add &lt;code&gt;x-scheme-handler/org-protocol=emacsclient.desktop&lt;/code&gt; in file &lt;code&gt;~/.local/share/applications/mimeapps.list&lt;/code&gt;, under the section &lt;code&gt;[Default Applications]&lt;/code&gt;&lt;/p&gt;&lt;/div&gt;</description><guid>https://baolonglin.github.io/zh_cn/posts/2017/3/7/emacs-org-drill-org-capture-firefox/</guid><pubDate>Mon, 06 Mar 2017 23:00:00 GMT</pubDate></item><item><title>Learn some elisp [1]</title><link>https://baolonglin.github.io/zh_cn/posts/2017/3/4/learn-some-elisp-1/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;div&gt;&lt;p&gt;&lt;code&gt;directory-file-name&lt;/code&gt;: Remove the file slash in Unix-syntax&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;file-name-directory&lt;/code&gt;: Get the directory of file&lt;/p&gt;
+&lt;p&gt;In emacs, directory is also handled like file.
+The way to get parent directory:&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;defun&lt;/span&gt; &lt;span class="nv"&gt;parent-directory&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;dir&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;unless&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;equal&lt;/span&gt; &lt;span class="s"&gt;"/"&lt;/span&gt; &lt;span class="nv"&gt;dir&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;file-name-directory&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;directory-file-name&lt;/span&gt; &lt;span class="nv"&gt;dir&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+  &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;&lt;code&gt;with-temp-buffer&lt;/code&gt;: Create a temporary buffer&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;insert-file-contents&lt;/code&gt;: Insert contents of file after point&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;split-string&lt;/code&gt;: split string into substrings&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;thing-at-point&lt;/code&gt;: return the ting at point&lt;/p&gt;
+&lt;p&gt;Below function get value of specified attribute name from file.
+The structure in the file like
+attributeName: attributeValue&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;defun&lt;/span&gt; &lt;span class="nv"&gt;get-attribute-from-mi-file&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;mi-file&lt;/span&gt; &lt;span class="nv"&gt;attrName&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;with-temp-buffer&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;insert-file-contents&lt;/span&gt; &lt;span class="nv"&gt;mi-file&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nv"&gt;moreLines&lt;/span&gt; &lt;span class="no"&gt;t&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+          &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;attrFound&lt;/span&gt; &lt;span class="no"&gt;nil&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+          &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;lineToken&lt;/span&gt; &lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;()))&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;and&lt;/span&gt; &lt;span class="nv"&gt;moreLines&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;not&lt;/span&gt; &lt;span class="nv"&gt;attrFound&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;setq&lt;/span&gt; &lt;span class="nv"&gt;lineToken&lt;/span&gt;
+              &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;split-string&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;thing-at-point&lt;/span&gt; &lt;span class="ss"&gt;'line&lt;/span&gt; &lt;span class="no"&gt;t&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="s"&gt;":"&lt;/span&gt; &lt;span class="no"&gt;t&lt;/span&gt; &lt;span class="nv"&gt;split-string-default-separators&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;when&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;and&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;length&lt;/span&gt; &lt;span class="nv"&gt;lineToken&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;equal&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;car&lt;/span&gt; &lt;span class="nv"&gt;lineToken&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;attrName&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+          &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;setq&lt;/span&gt; &lt;span class="nv"&gt;attrFound&lt;/span&gt; &lt;span class="no"&gt;t&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+          &lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;setq&lt;/span&gt; &lt;span class="nv"&gt;moreLines&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;forward-line&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+        &lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;when&lt;/span&gt; &lt;span class="nv"&gt;attrFound&lt;/span&gt;
+        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;car&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;last&lt;/span&gt; &lt;span class="nv"&gt;lineToken&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+    &lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;&lt;code&gt;save-excursion&lt;/code&gt;: Save point, and current buffer&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;search-backward&lt;/code&gt;: Search backward from point for string&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;backward-char&lt;/code&gt;: Move point backword&lt;/p&gt;
+&lt;p&gt;Below function try to fetch the class name of toString method in C++ style.
+This function only expect that the implementation of toString is out of class
+declaration.&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;defun&lt;/span&gt; &lt;span class="nv"&gt;fetch-tostring-classname&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;pos&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;save-excursion&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;when&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;search-backward&lt;/span&gt; &lt;span class="s"&gt;"::toString()"&lt;/span&gt; &lt;span class="no"&gt;nil&lt;/span&gt; &lt;span class="no"&gt;t&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;backward-char&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;thing-at-point&lt;/span&gt; &lt;span class="ss"&gt;'symbol&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;&lt;code&gt;file-name-as-directory&lt;/code&gt;: Just appends a slash for a Uix-syntas file name&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;concat&lt;/code&gt;: concatenate strings&lt;/p&gt;
+&lt;p&gt;Below function concat one directory with several directory or file names.
+(concat-path '/opt/apps/' 'a' 'b' 'c') returns /opt/apps/a/b/c&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;defun&lt;/span&gt; &lt;span class="nv"&gt;concat-path&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;directoryName&lt;/span&gt; &lt;span class="nv"&gt;fileName&lt;/span&gt; &lt;span class="kp"&gt;&amp;amp;rest&lt;/span&gt; &lt;span class="nv"&gt;otherFileNames&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nv"&gt;concatPath&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;concat&lt;/span&gt; &lt;span class="nv"&gt;directoryName&lt;/span&gt; &lt;span class="nv"&gt;fileName&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="nv"&gt;otherFileNames&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;setq&lt;/span&gt; &lt;span class="nv"&gt;concatPath&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;concat&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;file-name-as-directory&lt;/span&gt; &lt;span class="nv"&gt;concatPath&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;car&lt;/span&gt; &lt;span class="nv"&gt;otherFileNames&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+      &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;setq&lt;/span&gt; &lt;span class="nv"&gt;otherFileNames&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;cdr&lt;/span&gt; &lt;span class="nv"&gt;otherFileNames&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+    &lt;span class="nv"&gt;concatPath&lt;/span&gt;
+    &lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;&lt;code&gt;string-match&lt;/code&gt;: Get the index of start of first match, or nil&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;match-string&lt;/code&gt;: Get the string of text matched by last search.&lt;/p&gt;
+&lt;p&gt;Below function extract one string from another string, and assume that the original string has the defined format. the input string like foo/barCT, the return string is bar.&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;defun&lt;/span&gt; &lt;span class="nv"&gt;get-ct-component&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;ctIdentity&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;string-match&lt;/span&gt; &lt;span class="s"&gt;"\\w+/\\(\\w+\\)CT"&lt;/span&gt; &lt;span class="nv"&gt;ctIdentity&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;match-string&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="nv"&gt;ctIdentity&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;&lt;code&gt;with-current-buffer&lt;/code&gt;: Keep current buffer, execute on other buffer&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;start-process&lt;/code&gt;: start a programm in a subprocess.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;pop-to-buffer&lt;/code&gt;: Select buffer in some window, perferably a different one.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;erase-buffer&lt;/code&gt;: Delete the entire contents of the current buffer.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;get-buffer-create&lt;/code&gt;: Get the buffer specified by buffer name, createing a new one if needed.&lt;/p&gt;
+&lt;p&gt;Below function create one buffer &lt;code&gt;ct-run&lt;/code&gt; if not exist, clear the buffer. Execute program ct_run output to that buffer, then switch to that buffer.&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;defun&lt;/span&gt; &lt;span class="nv"&gt;mi-ct-run&lt;/span&gt; &lt;span class="p"&gt;()&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;interactive&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;with-current-buffer&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;get-buffer-create&lt;/span&gt; &lt;span class="s"&gt;"*ct-run*"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;erase-buffer&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;start-process&lt;/span&gt; &lt;span class="s"&gt;"ct-run"&lt;/span&gt; &lt;span class="s"&gt;"*ct-run*"&lt;/span&gt; &lt;span class="s"&gt;"ct_run"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;pop-to-buffer&lt;/span&gt; &lt;span class="s"&gt;"*ct-run*"&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</description><guid>https://baolonglin.github.io/zh_cn/posts/2017/3/4/learn-some-elisp-1/</guid><pubDate>Fri, 03 Mar 2017 23:00:00 GMT</pubDate></item><item><title>Restore workspace</title><link>https://baolonglin.github.io/zh_cn/posts/2017/3/2/restore-work-space/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;div&gt;&lt;p&gt;Recently, I tried to setup my working environment. The product I worked on mostly using C++, and the application is running on one OS similar as BSD enabled multi-processes programming style. I owned one dedicate Linux machine to code, run function test, etc. but I don't have the root permission. That machine provide nx server, it works quit well, but the nx server is too old that sometimes met annoying issue, only terminate session can solve the problem. Terminate session causes the working environment disappear. Another problem is the machine may reboot by administrator to do maintain work. Here is the current solution, it's quit ok now.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://tmux.github.io/"&gt;tmux&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Tmux is used to keep the application without window, and also easy to manage different work area. And use &lt;a href="https://github.com/tmux-plugins/tmux-resurrect"&gt;tmux-resurrect&lt;/a&gt; to store the information incase OS is restarted.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ssh + shell script&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To get rid of nx server, use ssh directly. Tmux could not keep the X window's session, here use shell script to restart the X11 application.&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;ssh -YXC -c blowfish-cbc,arcfour user@host -t &lt;span class="se"&gt;\"&lt;/span&gt;tmux attach -t work &lt;span class="se"&gt;\\\\&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; split-window ~/bin/restore.sh&lt;span class="se"&gt;\"&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;Below is the &lt;code&gt;restore.sh&lt;/code&gt;&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/bin/sh&lt;/span&gt;
+
+&lt;span class="nv"&gt;PROMPT_START&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"\[&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;hostname&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="s2"&gt;\]"&lt;/span&gt;
+&lt;span class="nv"&gt;ORIG_WINDOW_INDEX&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;tmux display-message -p &lt;span class="s1"&gt;'#I'&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;
+&lt;span class="nv"&gt;ORIG_PANE_INDEX&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;tmux display-message -p &lt;span class="s1"&gt;'#P'&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;
+
+&lt;span class="nv"&gt;TMUX_DISPLAY_ENV&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;tmux show-environment DISPLAY &lt;span class="p"&gt;|&lt;/span&gt; cut -d&lt;span class="o"&gt;=&lt;/span&gt; -f2&lt;span class="sb"&gt;`&lt;/span&gt;
+&lt;span class="nv"&gt;UPDATE_DISPLAY&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"setenv DISPLAY &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;TMUX_DISPLAY_ENV&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+
+&lt;span class="k"&gt;for&lt;/span&gt; window in &lt;span class="sb"&gt;`&lt;/span&gt;tmux list-windows -F &lt;span class="s1"&gt;'#I'&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+    tmux &lt;span class="k"&gt;select&lt;/span&gt;-window -t &lt;span class="nv"&gt;$window&lt;/span&gt;
+
+    &lt;span class="k"&gt;for&lt;/span&gt; pane in &lt;span class="k"&gt;$(&lt;/span&gt;tmux list-panes -F &lt;span class="s1"&gt;'#P'&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+        &lt;span class="c1"&gt;#tmux send-keys -t ${pane} ""&lt;/span&gt;
+        &lt;span class="nv"&gt;outputLines&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;tmux capture-pane -p -t &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;pane&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; tac&lt;span class="k"&gt;)&lt;/span&gt;
+        &lt;span class="nv"&gt;prompt_skipped&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;false&lt;/span&gt;
+        &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="nb"&gt;read&lt;/span&gt; -r line&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$prompt_skipped&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;true&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+                &lt;span class="nv"&gt;lastStopApp&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$line&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; perl -lne &lt;span class="s1"&gt;'/\[\d+\]\s+(Abort|Done|Exit\s+\d+)\s+(.*)$/ &amp;amp;&amp;amp; print $2'&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;
+                &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; ! -z &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$lastStopApp&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+                    &lt;span class="c1"&gt;#echo "$lastStopApp Runs on pane $pane window $window" &amp;gt;&amp;gt; ~/start.log&lt;/span&gt;
+                    &lt;span class="c1"&gt;#TODO do more checks on APP&lt;/span&gt;
+                    tmux send-keys -t &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;pane&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;UPDATE_DISPLAY&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt; Enter
+                    tmux send-keys -t &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;pane&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;lastStopApp&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;amp;"&lt;/span&gt; Enter
+                &lt;span class="k"&gt;fi&lt;/span&gt;
+                &lt;span class="nb"&gt;break&lt;/span&gt;
+            &lt;span class="k"&gt;fi&lt;/span&gt;
+
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$line&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;~ ^&lt;span class="nv"&gt;$PROMPT_START&lt;/span&gt;.* &lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+                &lt;span class="nv"&gt;prompt_skipped&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;true&lt;/span&gt;
+            &lt;span class="k"&gt;fi&lt;/span&gt;
+
+        &lt;span class="k"&gt;done&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$outputLines&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+    &lt;span class="k"&gt;done&lt;/span&gt;
+&lt;span class="k"&gt;done&lt;/span&gt;
+
+tmux &lt;span class="k"&gt;select&lt;/span&gt;-window -t &lt;span class="nv"&gt;$ORIG_WINDOW_INDEX&lt;/span&gt;
+tmux &lt;span class="k"&gt;select&lt;/span&gt;-pane -t &lt;span class="nv"&gt;$ORIG_PANE_INDEX&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;This script tries to restart the application which executed background and interrupt by the X11 display. Have limitation, this script only handle the last one in pane.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;emacs + rtags&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Emacs's desktop can keep the session quit good, rtags manages the C++ AST database.&lt;/p&gt;&lt;/div&gt;</description><guid>https://baolonglin.github.io/zh_cn/posts/2017/3/2/restore-work-space/</guid><pubDate>Wed, 01 Mar 2017 23:00:00 GMT</pubDate></item><item><title>Throw exception in C++ destructor</title><link>https://baolonglin.github.io/zh_cn/posts/2016/12/7/throw-exception-in-destructor/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;div&gt;&lt;p&gt;We should &lt;code&gt;Prevent exceptions from leaving destructors&lt;/code&gt; as &lt;strong&gt;Effective C++&lt;/strong&gt; suggeust, and in that book, it also explains the reason: &lt;code&gt;Now there are two simulataneously active exceptions, and that's one too many for C++&lt;/code&gt;. Is not that program interupt when throw one exception? Why two exceptions will be throw out? Let's use one example to make those clear.&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;vector&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Exception&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="k"&gt;public&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;Exception&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;_i&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="n"&gt;Exception&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="k"&gt;throw&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;cout&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="s"&gt;"Throw : "&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;_i&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;endl&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="k"&gt;throw&lt;/span&gt; &lt;span class="n"&gt;_i&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;        &lt;span class="c1"&gt;// &amp;lt;-- 1&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="k"&gt;private&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;_i&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;OtherObject&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="k"&gt;public&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+    &lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="n"&gt;OtherObject&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;cout&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="s"&gt;"~OtherObject"&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;endl&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;
+
+&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;try&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;OtherObject&lt;/span&gt; &lt;span class="n"&gt;o&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// &amp;lt;-- 2&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="n"&gt;Exception&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;  &lt;span class="c1"&gt;// &amp;lt;-- 3&lt;/span&gt;
+            &lt;span class="c1"&gt;//throw 3; // &amp;lt;-- 4&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="c1"&gt;// &amp;lt;-- 4&lt;/span&gt;
+        &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;cout&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="s"&gt;"after throw"&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;endl&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// &amp;lt;-- 5&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="k"&gt;catch&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;cout&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="s"&gt;"Catch : "&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;endl&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// &amp;lt;-- 6&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
+    &lt;span class="k"&gt;try&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;Exception&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="c1"&gt;// &amp;lt;-- 7&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="k"&gt;catch&lt;/span&gt; &lt;span class="p"&gt;(...)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;cout&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="s"&gt;"Catch something"&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;endl&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// &amp;lt;-- 8&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;In the example above, use g++ 4.3.4, output looks like:&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;Throw&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;
+&lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="n"&gt;OtherObject&lt;/span&gt;
+&lt;span class="n"&gt;Catch&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;
+&lt;span class="n"&gt;Throw&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;span class="n"&gt;Throw&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;span class="n"&gt;terminate&lt;/span&gt; &lt;span class="n"&gt;called&lt;/span&gt; &lt;span class="n"&gt;after&lt;/span&gt; &lt;span class="n"&gt;throwing&lt;/span&gt; &lt;span class="n"&gt;an&lt;/span&gt; &lt;span class="n"&gt;instance&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="s1"&gt;'int'&lt;/span&gt;
+&lt;span class="n"&gt;Aborted&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;core&lt;/span&gt; &lt;span class="n"&gt;dumped&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; in g++ 6.2.1, it only get one &lt;code&gt;Throw : 0&lt;/code&gt;. Because the STL vector's destructor default is noexcept, it terminate the program met the first exception.&lt;/p&gt;
+&lt;p&gt;What happends? The program is interrupt when object &lt;code&gt;e&lt;/code&gt; throws exception in destructor, that's why position 5 is not executed.
+But C++ doing a little bit more, it tries to release the object inside the try block, that's why &lt;code&gt;~OtherObject&lt;/code&gt; is printed out.
+The exception throw by the destructor is caught successfully, position 6 is executed.
+What happends at position 7, why position 8 is not executed?
+Do another test, if we try to open the position 3, throw exception before object &lt;code&gt;e&lt;/code&gt; to be destruct, what will happen? In that case two exceptions are going to be throw out. Now the console output looks like:&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;Throw&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;
+&lt;span class="n"&gt;terminate&lt;/span&gt; &lt;span class="n"&gt;called&lt;/span&gt; &lt;span class="n"&gt;after&lt;/span&gt; &lt;span class="n"&gt;throwing&lt;/span&gt; &lt;span class="n"&gt;an&lt;/span&gt; &lt;span class="n"&gt;instance&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="s1"&gt;'int'&lt;/span&gt;
+&lt;span class="n"&gt;Aborted&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;core&lt;/span&gt; &lt;span class="n"&gt;dumped&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;Haaa, that's &lt;code&gt;too many exceptions for C++&lt;/code&gt;, C++ could not handle more than one exception properly, call terminate directly.
+Now go back to position 7, it creates 4 instance of &lt;code&gt;Exception&lt;/code&gt; and store it in &lt;code&gt;vector&lt;/code&gt;, from my understanding, &lt;code&gt;vector&lt;/code&gt; just destroy the objects inside it, call destructor of each object.
+Here C++ compiler don't interupt the program met the first throw, continue call the destructor of the second object.&lt;/p&gt;
+&lt;p&gt;It's really bad idea to throw exception from destructor incase C++ need to safely release the temporary object and don't support multiple exceptions could be thrown in one try catch block.
+That's why noexcept is the default added in C++11. You'll see warnings like:&lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;test.cc: In destructor ‘Exception::~Exception()’:
+test.cc:12:9: warning: throw will always call terminate() [-Wterminate]
+   throw _i;
+         ^~
+test.cc:12:9: note: in C++11 destructors default to noexcept
+&lt;/pre&gt;&lt;/div&gt;</description><guid>https://baolonglin.github.io/zh_cn/posts/2016/12/7/throw-exception-in-destructor/</guid><pubDate>Tue, 06 Dec 2016 23:00:00 GMT</pubDate></item><item><title>Baolong Launches Site</title><link>https://baolonglin.github.io/zh_cn/posts/2016/10/22/baolong-site-launched/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;My first post to test the framework.&lt;/p&gt;</description><guid>https://baolonglin.github.io/zh_cn/posts/2016/10/22/baolong-site-launched/</guid><pubDate>Fri, 21 Oct 2016 22:00:00 GMT</pubDate></item></channel></rss>

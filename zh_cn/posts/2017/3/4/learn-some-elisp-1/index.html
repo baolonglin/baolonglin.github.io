@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="zh_cn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Learn some elisp [1] | BaoLong</title>
+<link href="../../../../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../../../../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (zh_cn)" href="../../../../../rss.xml">
+<link rel="canonical" href="https://baolonglin.github.io/zh_cn/posts/2017/3/4/learn-some-elisp-1/">
+<!--[if lt IE 9]><script src="../../../../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baolong Lin">
+<link rel="prev" href="../../2/restore-work-space/" title="Restore workspace" type="text/html">
+<link rel="next" href="../../7/emacs-org-drill-org-capture-firefox/" title="Emacs org-drill org-capture org-protocol with firefox" type="text/html">
+<meta property="og:site_name" content="BaoLong">
+<meta property="og:title" content="Learn some elisp [1]">
+<meta property="og:url" content="https://baolonglin.github.io/zh_cn/posts/2017/3/4/learn-some-elisp-1/">
+<meta property="og:description" content="directory-file-name: Remove the file slash in Unix-syntax
+file-name-directory: Get the directory of file
+In emacs, directory is also handled like file.
+The way to get parent directory:
+(defun parent-d">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-03-04T00:00:00+01:00">
+<link rel="alternate" hreflang="en" href="../../../../../../posts/2017/3/4/learn-some-elisp-1/">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">跳到主内容</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://baolonglin.github.io/zh_cn/">
+
+                <span id="blog-title">BaoLong</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../../../../../archive.html">文章存档</a>
+                </li>
+<li>
+<a href="../../../../../categories/">标签</a>
+                </li>
+<li>
+<a href="../../../../../rss.xml">RSS 源</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+            </li>
+<li><a href="https://baolonglin.github.io/" rel="alternate" hreflang="en">English</a></li>
+
+                
+                    
+    <li>
+    <a href="index.md" id="sourcelink">源代码</a>
+    </li>
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Learn some elisp [1]</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                    Baolong Lin
+            </span></p>
+            <p class="dateline"><a href="." rel="bookmark"><time class="published dt-published" datetime="2017-03-04T00:00:00+01:00" itemprop="datePublished" title="2017-03-04 00:00">2017-03-04 00:00</time></a></p>
+                <p class="commentline">
+        
+    <a href="#disqus_thread" data-disqus-identifier="cache/posts/2017/3/4/learn-some-elisp-1.html">Comments</a>
+
+
+            
+        </p>
+<p class="sourceline"><a href="index.md" class="sourcelink">源代码</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div>
+<p><code>directory-file-name</code>: Remove the file slash in Unix-syntax</p>
+<p><code>file-name-directory</code>: Get the directory of file</p>
+<p>In emacs, directory is also handled like file.
+The way to get parent directory:</p>
+<pre class="code literal-block"><span></span><span class="p">(</span><span class="nb">defun</span> <span class="nv">parent-directory</span> <span class="p">(</span><span class="nv">dir</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">unless</span> <span class="p">(</span><span class="nf">equal</span> <span class="s">"/"</span> <span class="nv">dir</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">file-name-directory</span> <span class="p">(</span><span class="nf">directory-file-name</span> <span class="nv">dir</span><span class="p">)))</span>
+  <span class="p">)</span>
+</pre>
+
+
+<p><code>with-temp-buffer</code>: Create a temporary buffer</p>
+<p><code>insert-file-contents</code>: Insert contents of file after point</p>
+<p><code>split-string</code>: split string into substrings</p>
+<p><code>thing-at-point</code>: return the ting at point</p>
+<p>Below function get value of specified attribute name from file.
+The structure in the file like
+attributeName: attributeValue</p>
+<pre class="code literal-block"><span></span><span class="p">(</span><span class="nb">defun</span> <span class="nv">get-attribute-from-mi-file</span> <span class="p">(</span><span class="nv">mi-file</span> <span class="nv">attrName</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">with-temp-buffer</span>
+    <span class="p">(</span><span class="nf">insert-file-contents</span> <span class="nv">mi-file</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nv">moreLines</span> <span class="no">t</span><span class="p">)</span>
+          <span class="p">(</span><span class="nv">attrFound</span> <span class="no">nil</span><span class="p">)</span>
+          <span class="p">(</span><span class="nv">lineToken</span> <span class="o">'</span><span class="p">()))</span>
+      <span class="p">(</span><span class="k">while</span> <span class="p">(</span><span class="k">and</span> <span class="nv">moreLines</span> <span class="p">(</span><span class="nv">not</span> <span class="nv">attrFound</span><span class="p">))</span>
+        <span class="p">(</span><span class="k">setq</span> <span class="nv">lineToken</span>
+              <span class="p">(</span><span class="nv">split-string</span> <span class="p">(</span><span class="nv">thing-at-point</span> <span class="ss">'line</span> <span class="no">t</span><span class="p">)</span> <span class="s">":"</span> <span class="no">t</span> <span class="nv">split-string-default-separators</span><span class="p">))</span>
+        <span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="k">and</span> <span class="p">(</span><span class="nf">&gt;=</span> <span class="p">(</span><span class="nf">length</span> <span class="nv">lineToken</span><span class="p">)</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nf">equal</span> <span class="p">(</span><span class="nf">car</span> <span class="nv">lineToken</span><span class="p">)</span> <span class="nv">attrName</span><span class="p">))</span>
+          <span class="p">(</span><span class="k">setq</span> <span class="nv">attrFound</span> <span class="no">t</span><span class="p">)</span>
+          <span class="p">)</span>
+        <span class="p">(</span><span class="k">setq</span> <span class="nv">moreLines</span> <span class="p">(</span><span class="nf">=</span> <span class="mi">0</span> <span class="p">(</span><span class="nf">forward-line</span> <span class="mi">1</span><span class="p">)))</span>
+        <span class="p">)</span>
+      <span class="p">(</span><span class="nb">when</span> <span class="nv">attrFound</span>
+        <span class="p">(</span><span class="nf">car</span> <span class="p">(</span><span class="nv">last</span> <span class="nv">lineToken</span><span class="p">))))</span>
+    <span class="p">)</span>
+  <span class="p">)</span>
+</pre>
+
+
+<p><code>save-excursion</code>: Save point, and current buffer</p>
+<p><code>search-backward</code>: Search backward from point for string</p>
+<p><code>backward-char</code>: Move point backword</p>
+<p>Below function try to fetch the class name of toString method in C++ style.
+This function only expect that the implementation of toString is out of class
+declaration.</p>
+<pre class="code literal-block"><span></span><span class="p">(</span><span class="nb">defun</span> <span class="nv">fetch-tostring-classname</span> <span class="p">(</span><span class="nv">pos</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">save-excursion</span>
+    <span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nf">search-backward</span> <span class="s">"::toString()"</span> <span class="no">nil</span> <span class="no">t</span><span class="p">)</span>
+      <span class="p">(</span><span class="nf">backward-char</span> <span class="mi">2</span><span class="p">)</span>
+      <span class="p">(</span><span class="nv">thing-at-point</span> <span class="ss">'symbol</span><span class="p">))</span>
+    <span class="p">)</span>
+  <span class="p">)</span>
+</pre>
+
+
+<p><code>file-name-as-directory</code>: Just appends a slash for a Uix-syntas file name</p>
+<p><code>concat</code>: concatenate strings</p>
+<p>Below function concat one directory with several directory or file names.
+(concat-path '/opt/apps/' 'a' 'b' 'c') returns /opt/apps/a/b/c</p>
+<pre class="code literal-block"><span></span><span class="p">(</span><span class="nb">defun</span> <span class="nv">concat-path</span> <span class="p">(</span><span class="nv">directoryName</span> <span class="nv">fileName</span> <span class="kp">&amp;rest</span> <span class="nv">otherFileNames</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nv">concatPath</span> <span class="p">(</span><span class="nf">concat</span> <span class="nv">directoryName</span> <span class="nv">fileName</span><span class="p">)))</span>
+    <span class="p">(</span><span class="k">while</span> <span class="nv">otherFileNames</span>
+      <span class="p">(</span><span class="k">setq</span> <span class="nv">concatPath</span> <span class="p">(</span><span class="nf">concat</span> <span class="p">(</span><span class="nf">file-name-as-directory</span> <span class="nv">concatPath</span><span class="p">)</span> <span class="p">(</span><span class="nf">car</span> <span class="nv">otherFileNames</span><span class="p">)))</span>
+      <span class="p">(</span><span class="k">setq</span> <span class="nv">otherFileNames</span> <span class="p">(</span><span class="nf">cdr</span> <span class="nv">otherFileNames</span><span class="p">)))</span>
+    <span class="nv">concatPath</span>
+    <span class="p">)</span>
+  <span class="p">)</span>
+</pre>
+
+
+<p><code>string-match</code>: Get the index of start of first match, or nil</p>
+<p><code>match-string</code>: Get the string of text matched by last search.</p>
+<p>Below function extract one string from another string, and assume that the original string has the defined format. the input string like foo/barCT, the return string is bar.</p>
+<pre class="code literal-block"><span></span><span class="p">(</span><span class="nb">defun</span> <span class="nv">get-ct-component</span> <span class="p">(</span><span class="nv">ctIdentity</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">string-match</span> <span class="s">"\\w+/\\(\\w+\\)CT"</span> <span class="nv">ctIdentity</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">match-string</span> <span class="mi">1</span> <span class="nv">ctIdentity</span><span class="p">)</span>
+  <span class="p">)</span>
+</pre>
+
+
+<p><code>with-current-buffer</code>: Keep current buffer, execute on other buffer</p>
+<p><code>start-process</code>: start a programm in a subprocess.</p>
+<p><code>pop-to-buffer</code>: Select buffer in some window, perferably a different one.</p>
+<p><code>erase-buffer</code>: Delete the entire contents of the current buffer.</p>
+<p><code>get-buffer-create</code>: Get the buffer specified by buffer name, createing a new one if needed.</p>
+<p>Below function create one buffer <code>ct-run</code> if not exist, clear the buffer. Execute program ct_run output to that buffer, then switch to that buffer.</p>
+<pre class="code literal-block"><span></span><span class="p">(</span><span class="nb">defun</span> <span class="nv">mi-ct-run</span> <span class="p">()</span>
+  <span class="p">(</span><span class="k">interactive</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">with-current-buffer</span> <span class="p">(</span><span class="nf">get-buffer-create</span> <span class="s">"*ct-run*"</span><span class="p">)</span> <span class="p">(</span><span class="nf">erase-buffer</span><span class="p">))</span>
+  <span class="p">(</span><span class="nf">start-process</span> <span class="s">"ct-run"</span> <span class="s">"*ct-run*"</span> <span class="s">"ct_run"</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">pop-to-buffer</span> <span class="s">"*ct-run*"</span><span class="p">))</span>
+</pre>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul class="pager hidden-print">
+<li class="previous">
+                <a href="../../2/restore-work-space/" rel="prev" title="Restore workspace">前一篇</a>
+            </li>
+            <li class="next">
+                <a href="../../7/emacs-org-drill-org-capture-firefox/" rel="next" title="Emacs org-drill org-capture org-protocol with firefox">后一篇</a>
+            </li>
+        </ul></nav></aside><section class="comments hidden-print"><h2>注释</h2>
+        
+        
+        <div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="baolonglin",
+            disqus_url="https://baolonglin.github.io/zh_cn/posts/2017/3/4/learn-some-elisp-1/",
+        disqus_title="Learn some elisp [1]",
+        disqus_identifier="cache/posts/2017/3/4/learn-some-elisp-1.html",
+        disqus_config = function () {
+            this.language = "zh_cn";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        </section></article><script>var disqus_shortname="baolonglin";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2017         <a href="mailto:lbl52001@gmail.com">Baolong Lin</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../../../../../../assets/js/all-nocdn.js"></script><script src="../../../../../../assets/js/colorbox-i18n/jquery.colorbox-zh-CN.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("zh-cn");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>

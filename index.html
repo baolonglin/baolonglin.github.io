@@ -266,6 +266,395 @@ The report is quit simple, when test cases number becomes large, require better 
 </div>
 </div>
     </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/2017/5/18/my-first-emacs-package/" class="u-url">My first emacs package</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Baolong Lin
+            </span></p>
+            <p class="dateline"><a href="posts/2017/5/18/my-first-emacs-package/" rel="bookmark"><time class="published dt-published" datetime="2017-05-18T00:00:00+02:00" title="2017-05-18 00:00">2017-05-18 00:00</time></a></p>
+                <p class="commentline">
+        
+    <a href="posts/2017/5/18/my-first-emacs-package/#disqus_thread" data-disqus-identifier="cache/posts/2017/5/18/my-first-emacs-package.html">Comments</a>
+
+
+        </p>
+</div>
+    </header><div class="e-content entry-content">
+    <div>
+<p>After using emacs for serval monthes, come out my first emacs package. It may not such useful, but it solves my daily work problem.</p>
+<p>The package is stored at <a href="https://github.com/baolonglin/switch-process-environment">switch-process-environment</a>. It's quiet simple, just manages the emacs process environment, enables user switch the process environments.</p>
+<p>In my daily work, I need to switch between different shell environments in one project. Different shell environments provides different toolset, and those environment variables are conflict with each other. Restart emacs and recover the desktop session cost time, different git commit can have different environment variables.</p>
+<p>With that package, I can keep one emacs as daemon, don't need to restart the emacs to switch the different environment.</p>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/2017/3/7/emacs-org-drill-org-capture-firefox/" class="u-url">Emacs org-drill org-capture org-protocol with firefox</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Baolong Lin
+            </span></p>
+            <p class="dateline"><a href="posts/2017/3/7/emacs-org-drill-org-capture-firefox/" rel="bookmark"><time class="published dt-published" datetime="2017-03-07T00:00:00+01:00" title="2017-03-07 00:00">2017-03-07 00:00</time></a></p>
+                <p class="commentline">
+        
+    <a href="posts/2017/3/7/emacs-org-drill-org-capture-firefox/#disqus_thread" data-disqus-identifier="cache/posts/2017/3/7/emacs-org-drill-org-capture-firefox.html">Comments</a>
+
+
+        </p>
+</div>
+    </header><div class="e-content entry-content">
+    <div>
+<p>Emacs can be used as flash card tool, I fallowed the page of <a href="http://orgmode.org/worg/org-contrib/org-drill.html">org-drill</a>.
+In emacs 25.1, need to install <code>org-plus-contrib</code> first. While installing <code>org-plus-conrib</code>, may get error <code>Invalid function: org-babel-header-args-safe-fn</code>, I use cpaulik's solution: <a href="https://github.com/syl20bnr/spacemacs/issues/4618">remove the ob_R.elc</a>. And I find one emacs plugin <a href="https://github.com/Malabarba/paradox">paradox</a>, which can be used to manage the installed plugins.
+In <code>Incremental reading</code>, it shows how to integrate <code>org-drill</code> with external browser. It's good to integrate <code>firefox</code> which is my default browser. I'm running <code>Arch</code> linux with windows manager <code>fluxbox</code>, it take me some time to make it working. At begining, i follow the <a href="http://orgmode.org/worg/org-contrib/org-protocol.html">org-protocol</a>, but the <code>gconftool-2</code> did not work, even i have <code>gconftool</code> installed, and have those configuration in my ~/.config, <code>firefox</code> always get error <code>(org-protocol) isn’t associated with any program</code>. I just wondered how can i configure the firefox, use application I specified. Then i tried use <code>network.protocol-handler.app.org-protocol</code>, got the same error. Then I tried to figure out which application controls the default application in my environment. Then I found <a href="https://wiki.archlinux.org/index.php/Default_applications">Arch default applications</a>, but I don't have normal desktop environment, I have <code>xdg</code> installed. How to let my installed application use <code>xdg-open</code> to open default application for specified mime type? I still don't know when I write is post. At least I tried to add desktop file into <code>xdg</code>, and configure the default application for that desktop file, luckly it works. Below is the configuration in my environment:</p>
+<ul>
+<li>emacs configuration</li>
+</ul>
+<pre class="code literal-block"><span></span><span class="p">(</span><span class="nv">require-package</span> <span class="ss">'org-plus-contrib</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">after-load</span> <span class="ss">'org</span>
+  <span class="p">(</span><span class="nb">require</span> <span class="ss">'org-drill</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">require</span> <span class="ss">'org-protocol</span><span class="p">)</span>
+  <span class="p">)</span>
+
+  <span class="p">(</span><span class="k">setq</span> <span class="nv">org-capture-templates</span>
+      <span class="o">`</span><span class="p">((</span><span class="s">"w"</span>
+         <span class="s">"Capture web snippet"</span>
+         <span class="nv">entry</span>
+         <span class="p">(</span><span class="nv">file+headline</span> <span class="s">"~/test-drill.org"</span> <span class="s">"Notes"</span><span class="p">)</span>
+         <span class="o">,</span><span class="p">(</span><span class="nf">concat</span> <span class="s">"* Fact: '%:description'        :"</span>
+                  <span class="p">(</span><span class="nf">format</span> <span class="s">"%s"</span> <span class="nv">org-drill-question-tag</span><span class="p">)</span>
+                  <span class="s">":\n:PROPERTIES:\n:DATE_ADDED: %u\n:SOURCE_URL: %c\n:END:\n\n%i\n%?\n"</span><span class="p">)</span>
+         <span class="nb">:empty-lines</span> <span class="mi">1</span>
+         <span class="nb">:immediate-finish</span> <span class="no">t</span><span class="p">)</span>
+        <span class="p">))</span>
+</pre>
+
+
+<ul>
+<li>firefox configuration</li>
+</ul>
+<p>add <code>network.protocol-handler.expose.org-protocol:false</code> into about:config, details can be found <a href="http://kb.mozillazine.org/Register_protocol">Register protocol</a></p>
+<p>add one bookmark with url:</p>
+<pre class="code literal-block"><span></span><span class="nx">javascript</span><span class="o">:</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="o">=</span><span class="s1">'org-protocol://capture://w/'</span><span class="o">+</span><span class="nb">encodeURIComponent</span><span class="p">(</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="p">)</span><span class="o">+</span><span class="s1">'/'</span><span class="o">+</span><span class="nb">encodeURIComponent</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">title</span><span class="p">)</span><span class="o">+</span><span class="s1">'/'</span><span class="o">+</span><span class="nb">encodeURIComponent</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">getSelection</span><span class="p">())</span>
+</pre>
+
+
+<ul>
+<li>xdg configuration</li>
+</ul>
+<p>add file <code>emacsclient.desktop</code> in folder <code>~/.local/share/applications</code> with content:</p>
+<pre class="code literal-block"><span></span><span class="k">[Desktop Entry]</span>
+<span class="na">Name</span><span class="o">=</span><span class="s">Emacs Client</span>
+<span class="na">Exec</span><span class="o">=</span><span class="s">emacsclient %u</span>
+<span class="na">Icon</span><span class="o">=</span><span class="s">emacs-icon</span>
+<span class="na">Type</span><span class="o">=</span><span class="s">Application</span>
+<span class="na">Terminal</span><span class="o">=</span><span class="s">false</span>
+<span class="na">MimeType</span><span class="o">=</span><span class="s">x-scheme-handler/org-protocol;</span>
+</pre>
+
+
+<p>add <code>x-scheme-handler/org-protocol=emacsclient.desktop</code> in file <code>~/.local/share/applications/mimeapps.list</code>, under the section <code>[Default Applications]</code></p>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/2017/3/4/learn-some-elisp-1/" class="u-url">Learn some elisp [1]</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Baolong Lin
+            </span></p>
+            <p class="dateline"><a href="posts/2017/3/4/learn-some-elisp-1/" rel="bookmark"><time class="published dt-published" datetime="2017-03-04T00:00:00+01:00" title="2017-03-04 00:00">2017-03-04 00:00</time></a></p>
+                <p class="commentline">
+        
+    <a href="posts/2017/3/4/learn-some-elisp-1/#disqus_thread" data-disqus-identifier="cache/posts/2017/3/4/learn-some-elisp-1.html">Comments</a>
+
+
+        </p>
+</div>
+    </header><div class="e-content entry-content">
+    <div>
+<p><code>directory-file-name</code>: Remove the file slash in Unix-syntax</p>
+<p><code>file-name-directory</code>: Get the directory of file</p>
+<p>In emacs, directory is also handled like file.
+The way to get parent directory:</p>
+<pre class="code literal-block"><span></span><span class="p">(</span><span class="nb">defun</span> <span class="nv">parent-directory</span> <span class="p">(</span><span class="nv">dir</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">unless</span> <span class="p">(</span><span class="nf">equal</span> <span class="s">"/"</span> <span class="nv">dir</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">file-name-directory</span> <span class="p">(</span><span class="nf">directory-file-name</span> <span class="nv">dir</span><span class="p">)))</span>
+  <span class="p">)</span>
+</pre>
+
+
+<p><code>with-temp-buffer</code>: Create a temporary buffer</p>
+<p><code>insert-file-contents</code>: Insert contents of file after point</p>
+<p><code>split-string</code>: split string into substrings</p>
+<p><code>thing-at-point</code>: return the ting at point</p>
+<p>Below function get value of specified attribute name from file.
+The structure in the file like
+attributeName: attributeValue</p>
+<pre class="code literal-block"><span></span><span class="p">(</span><span class="nb">defun</span> <span class="nv">get-attribute-from-mi-file</span> <span class="p">(</span><span class="nv">mi-file</span> <span class="nv">attrName</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">with-temp-buffer</span>
+    <span class="p">(</span><span class="nf">insert-file-contents</span> <span class="nv">mi-file</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nv">moreLines</span> <span class="no">t</span><span class="p">)</span>
+          <span class="p">(</span><span class="nv">attrFound</span> <span class="no">nil</span><span class="p">)</span>
+          <span class="p">(</span><span class="nv">lineToken</span> <span class="o">'</span><span class="p">()))</span>
+      <span class="p">(</span><span class="k">while</span> <span class="p">(</span><span class="k">and</span> <span class="nv">moreLines</span> <span class="p">(</span><span class="nv">not</span> <span class="nv">attrFound</span><span class="p">))</span>
+        <span class="p">(</span><span class="k">setq</span> <span class="nv">lineToken</span>
+              <span class="p">(</span><span class="nv">split-string</span> <span class="p">(</span><span class="nv">thing-at-point</span> <span class="ss">'line</span> <span class="no">t</span><span class="p">)</span> <span class="s">":"</span> <span class="no">t</span> <span class="nv">split-string-default-separators</span><span class="p">))</span>
+        <span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="k">and</span> <span class="p">(</span><span class="nf">&gt;=</span> <span class="p">(</span><span class="nf">length</span> <span class="nv">lineToken</span><span class="p">)</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nf">equal</span> <span class="p">(</span><span class="nf">car</span> <span class="nv">lineToken</span><span class="p">)</span> <span class="nv">attrName</span><span class="p">))</span>
+          <span class="p">(</span><span class="k">setq</span> <span class="nv">attrFound</span> <span class="no">t</span><span class="p">)</span>
+          <span class="p">)</span>
+        <span class="p">(</span><span class="k">setq</span> <span class="nv">moreLines</span> <span class="p">(</span><span class="nf">=</span> <span class="mi">0</span> <span class="p">(</span><span class="nf">forward-line</span> <span class="mi">1</span><span class="p">)))</span>
+        <span class="p">)</span>
+      <span class="p">(</span><span class="nb">when</span> <span class="nv">attrFound</span>
+        <span class="p">(</span><span class="nf">car</span> <span class="p">(</span><span class="nv">last</span> <span class="nv">lineToken</span><span class="p">))))</span>
+    <span class="p">)</span>
+  <span class="p">)</span>
+</pre>
+
+
+<p><code>save-excursion</code>: Save point, and current buffer</p>
+<p><code>search-backward</code>: Search backward from point for string</p>
+<p><code>backward-char</code>: Move point backword</p>
+<p>Below function try to fetch the class name of toString method in C++ style.
+This function only expect that the implementation of toString is out of class
+declaration.</p>
+<pre class="code literal-block"><span></span><span class="p">(</span><span class="nb">defun</span> <span class="nv">fetch-tostring-classname</span> <span class="p">(</span><span class="nv">pos</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">save-excursion</span>
+    <span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nf">search-backward</span> <span class="s">"::toString()"</span> <span class="no">nil</span> <span class="no">t</span><span class="p">)</span>
+      <span class="p">(</span><span class="nf">backward-char</span> <span class="mi">2</span><span class="p">)</span>
+      <span class="p">(</span><span class="nv">thing-at-point</span> <span class="ss">'symbol</span><span class="p">))</span>
+    <span class="p">)</span>
+  <span class="p">)</span>
+</pre>
+
+
+<p><code>file-name-as-directory</code>: Just appends a slash for a Uix-syntas file name</p>
+<p><code>concat</code>: concatenate strings</p>
+<p>Below function concat one directory with several directory or file names.
+(concat-path '/opt/apps/' 'a' 'b' 'c') returns /opt/apps/a/b/c</p>
+<pre class="code literal-block"><span></span><span class="p">(</span><span class="nb">defun</span> <span class="nv">concat-path</span> <span class="p">(</span><span class="nv">directoryName</span> <span class="nv">fileName</span> <span class="kp">&amp;rest</span> <span class="nv">otherFileNames</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nv">concatPath</span> <span class="p">(</span><span class="nf">concat</span> <span class="nv">directoryName</span> <span class="nv">fileName</span><span class="p">)))</span>
+    <span class="p">(</span><span class="k">while</span> <span class="nv">otherFileNames</span>
+      <span class="p">(</span><span class="k">setq</span> <span class="nv">concatPath</span> <span class="p">(</span><span class="nf">concat</span> <span class="p">(</span><span class="nf">file-name-as-directory</span> <span class="nv">concatPath</span><span class="p">)</span> <span class="p">(</span><span class="nf">car</span> <span class="nv">otherFileNames</span><span class="p">)))</span>
+      <span class="p">(</span><span class="k">setq</span> <span class="nv">otherFileNames</span> <span class="p">(</span><span class="nf">cdr</span> <span class="nv">otherFileNames</span><span class="p">)))</span>
+    <span class="nv">concatPath</span>
+    <span class="p">)</span>
+  <span class="p">)</span>
+</pre>
+
+
+<p><code>string-match</code>: Get the index of start of first match, or nil</p>
+<p><code>match-string</code>: Get the string of text matched by last search.</p>
+<p>Below function extract one string from another string, and assume that the original string has the defined format. the input string like foo/barCT, the return string is bar.</p>
+<pre class="code literal-block"><span></span><span class="p">(</span><span class="nb">defun</span> <span class="nv">get-ct-component</span> <span class="p">(</span><span class="nv">ctIdentity</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">string-match</span> <span class="s">"\\w+/\\(\\w+\\)CT"</span> <span class="nv">ctIdentity</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">match-string</span> <span class="mi">1</span> <span class="nv">ctIdentity</span><span class="p">)</span>
+  <span class="p">)</span>
+</pre>
+
+
+<p><code>with-current-buffer</code>: Keep current buffer, execute on other buffer</p>
+<p><code>start-process</code>: start a programm in a subprocess.</p>
+<p><code>pop-to-buffer</code>: Select buffer in some window, perferably a different one.</p>
+<p><code>erase-buffer</code>: Delete the entire contents of the current buffer.</p>
+<p><code>get-buffer-create</code>: Get the buffer specified by buffer name, createing a new one if needed.</p>
+<p>Below function create one buffer <code>ct-run</code> if not exist, clear the buffer. Execute program ct_run output to that buffer, then switch to that buffer.</p>
+<pre class="code literal-block"><span></span><span class="p">(</span><span class="nb">defun</span> <span class="nv">mi-ct-run</span> <span class="p">()</span>
+  <span class="p">(</span><span class="k">interactive</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">with-current-buffer</span> <span class="p">(</span><span class="nf">get-buffer-create</span> <span class="s">"*ct-run*"</span><span class="p">)</span> <span class="p">(</span><span class="nf">erase-buffer</span><span class="p">))</span>
+  <span class="p">(</span><span class="nf">start-process</span> <span class="s">"ct-run"</span> <span class="s">"*ct-run*"</span> <span class="s">"ct_run"</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">pop-to-buffer</span> <span class="s">"*ct-run*"</span><span class="p">))</span>
+</pre>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/2017/3/2/restore-work-space/" class="u-url">Restore workspace</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Baolong Lin
+            </span></p>
+            <p class="dateline"><a href="posts/2017/3/2/restore-work-space/" rel="bookmark"><time class="published dt-published" datetime="2017-03-02T00:00:00+01:00" title="2017-03-02 00:00">2017-03-02 00:00</time></a></p>
+                <p class="commentline">
+        
+    <a href="posts/2017/3/2/restore-work-space/#disqus_thread" data-disqus-identifier="cache/posts/2017/3/2/restore-work-space.html">Comments</a>
+
+
+        </p>
+</div>
+    </header><div class="e-content entry-content">
+    <div>
+<p>Recently, I tried to setup my working environment. The product I worked on mostly using C++, and the application is running on one OS similar as BSD enabled multi-processes programming style. I owned one dedicate Linux machine to code, run function test, etc. but I don't have the root permission. That machine provide nx server, it works quit well, but the nx server is too old that sometimes met annoying issue, only terminate session can solve the problem. Terminate session causes the working environment disappear. Another problem is the machine may reboot by administrator to do maintain work. Here is the current solution, it's quit ok now.</p>
+<ul>
+<li><a href="https://tmux.github.io/">tmux</a></li>
+</ul>
+<p>Tmux is used to keep the application without window, and also easy to manage different work area. And use <a href="https://github.com/tmux-plugins/tmux-resurrect">tmux-resurrect</a> to store the information incase OS is restarted.</p>
+<ul>
+<li>ssh + shell script</li>
+</ul>
+<p>To get rid of nx server, use ssh directly. Tmux could not keep the X window's session, here use shell script to restart the X11 application.</p>
+<pre class="code literal-block"><span></span>ssh -YXC -c blowfish-cbc,arcfour user@host -t <span class="se">\"</span>tmux attach -t work <span class="se">\\\\</span><span class="p">;</span> split-window ~/bin/restore.sh<span class="se">\"</span><span class="s2">"</span>
+</pre>
+
+
+<p>Below is the <code>restore.sh</code></p>
+<pre class="code literal-block"><span></span><span class="ch">#!/bin/sh</span>
+
+<span class="nv">PROMPT_START</span><span class="o">=</span><span class="s2">"\[</span><span class="k">$(</span>hostname<span class="k">)</span><span class="s2">\]"</span>
+<span class="nv">ORIG_WINDOW_INDEX</span><span class="o">=</span><span class="sb">`</span>tmux display-message -p <span class="s1">'#I'</span><span class="sb">`</span>
+<span class="nv">ORIG_PANE_INDEX</span><span class="o">=</span><span class="sb">`</span>tmux display-message -p <span class="s1">'#P'</span><span class="sb">`</span>
+
+<span class="nv">TMUX_DISPLAY_ENV</span><span class="o">=</span><span class="sb">`</span>tmux show-environment DISPLAY <span class="p">|</span> cut -d<span class="o">=</span> -f2<span class="sb">`</span>
+<span class="nv">UPDATE_DISPLAY</span><span class="o">=</span><span class="s2">"setenv DISPLAY </span><span class="si">${</span><span class="nv">TMUX_DISPLAY_ENV</span><span class="si">}</span><span class="s2">"</span>
+
+<span class="k">for</span> window in <span class="sb">`</span>tmux list-windows -F <span class="s1">'#I'</span><span class="sb">`</span><span class="p">;</span> <span class="k">do</span>
+    tmux <span class="k">select</span>-window -t <span class="nv">$window</span>
+
+    <span class="k">for</span> pane in <span class="k">$(</span>tmux list-panes -F <span class="s1">'#P'</span><span class="k">)</span><span class="p">;</span> <span class="k">do</span>
+        <span class="c1">#tmux send-keys -t ${pane} ""</span>
+        <span class="nv">outputLines</span><span class="o">=</span><span class="k">$(</span>tmux capture-pane -p -t <span class="si">${</span><span class="nv">pane</span><span class="si">}</span> <span class="p">|</span> tac<span class="k">)</span>
+        <span class="nv">prompt_skipped</span><span class="o">=</span><span class="nb">false</span>
+        <span class="k">while</span> <span class="nb">read</span> -r line<span class="p">;</span> <span class="k">do</span>
+            <span class="k">if</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$prompt_skipped</span><span class="s2">"</span> <span class="o">=</span> <span class="nb">true</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+                <span class="nv">lastStopApp</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="s2">"</span><span class="nv">$line</span><span class="s2">"</span> <span class="p">|</span> perl -lne <span class="s1">'/\[\d+\]\s+(Abort|Done|Exit\s+\d+)\s+(.*)$/ &amp;&amp; print $2'</span><span class="k">)</span>
+                <span class="k">if</span> <span class="o">[</span> ! -z <span class="s2">"</span><span class="nv">$lastStopApp</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+                    <span class="c1">#echo "$lastStopApp Runs on pane $pane window $window" &gt;&gt; ~/start.log</span>
+                    <span class="c1">#TODO do more checks on APP</span>
+                    tmux send-keys -t <span class="si">${</span><span class="nv">pane</span><span class="si">}</span> <span class="s2">"</span><span class="si">${</span><span class="nv">UPDATE_DISPLAY</span><span class="si">}</span><span class="s2">"</span> Enter
+                    tmux send-keys -t <span class="si">${</span><span class="nv">pane</span><span class="si">}</span> <span class="s2">"</span><span class="si">${</span><span class="nv">lastStopApp</span><span class="si">}</span><span class="s2">&amp;"</span> Enter
+                <span class="k">fi</span>
+                <span class="nb">break</span>
+            <span class="k">fi</span>
+
+            <span class="k">if</span> <span class="o">[[</span> <span class="s2">"</span><span class="nv">$line</span><span class="s2">"</span> <span class="o">=</span>~ ^<span class="nv">$PROMPT_START</span>.* <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+                <span class="nv">prompt_skipped</span><span class="o">=</span><span class="nb">true</span>
+            <span class="k">fi</span>
+
+        <span class="k">done</span> <span class="o">&lt;&lt;&lt;</span> <span class="s2">"</span><span class="nv">$outputLines</span><span class="s2">"</span>
+    <span class="k">done</span>
+<span class="k">done</span>
+
+tmux <span class="k">select</span>-window -t <span class="nv">$ORIG_WINDOW_INDEX</span>
+tmux <span class="k">select</span>-pane -t <span class="nv">$ORIG_PANE_INDEX</span>
+</pre>
+
+
+<p>This script tries to restart the application which executed background and interrupt by the X11 display. Have limitation, this script only handle the last one in pane.</p>
+<ul>
+<li>emacs + rtags</li>
+</ul>
+<p>Emacs's desktop can keep the session quit good, rtags manages the C++ AST database.</p>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/2016/12/7/throw-exception-in-destructor/" class="u-url">Throw exception in C++ destructor</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Baolong Lin
+            </span></p>
+            <p class="dateline"><a href="posts/2016/12/7/throw-exception-in-destructor/" rel="bookmark"><time class="published dt-published" datetime="2016-12-07T00:00:00+01:00" title="2016-12-07 00:00">2016-12-07 00:00</time></a></p>
+                <p class="commentline">
+        
+    <a href="posts/2016/12/7/throw-exception-in-destructor/#disqus_thread" data-disqus-identifier="cache/posts/2016/12/7/throw-exception-in-destructor.html">Comments</a>
+
+
+        </p>
+</div>
+    </header><div class="e-content entry-content">
+    <div>
+<p>We should <code>Prevent exceptions from leaving destructors</code> as <strong>Effective C++</strong> suggeust, and in that book, it also explains the reason: <code>Now there are two simulataneously active exceptions, and that's one too many for C++</code>. Is not that program interupt when throw one exception? Why two exceptions will be throw out? Let's use one example to make those clear.</p>
+<pre class="code literal-block"><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp"></span>
+
+<span class="k">class</span> <span class="nc">Exception</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">Exception</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">:</span> <span class="n">_i</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">}</span>
+    <span class="o">~</span><span class="n">Exception</span><span class="p">()</span> <span class="k">throw</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Throw : "</span> <span class="o">&lt;&lt;</span> <span class="n">_i</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="k">throw</span> <span class="n">_i</span><span class="p">;</span>        <span class="c1">// &lt;-- 1</span>
+    <span class="p">}</span>
+<span class="k">private</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">_i</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">class</span> <span class="nc">OtherObject</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="o">~</span><span class="n">OtherObject</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"~OtherObject"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="n">OtherObject</span> <span class="n">o</span><span class="p">;</span> <span class="c1">// &lt;-- 2</span>
+        <span class="p">{</span>
+            <span class="n">Exception</span> <span class="n">e</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>  <span class="c1">// &lt;-- 3</span>
+            <span class="c1">//throw 3; // &lt;-- 4</span>
+        <span class="p">}</span> <span class="c1">// &lt;-- 4</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"after throw"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> <span class="c1">// &lt;-- 5</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Catch : "</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> <span class="c1">// &lt;-- 6</span>
+    <span class="p">}</span>
+
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Exception</span><span class="o">&gt;</span> <span class="n">v</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span> <span class="c1">// &lt;-- 7</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">(...)</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Catch something"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> <span class="c1">// &lt;-- 8</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+
+
+<p>In the example above, use g++ 4.3.4, output looks like:</p>
+<pre class="code literal-block"><span></span><span class="n">Throw</span> <span class="o">:</span> <span class="mi">10</span>
+<span class="o">~</span><span class="n">OtherObject</span>
+<span class="n">Catch</span> <span class="o">:</span> <span class="mi">10</span>
+<span class="n">Throw</span> <span class="o">:</span> <span class="mi">0</span>
+<span class="n">Throw</span> <span class="o">:</span> <span class="mi">0</span>
+<span class="n">terminate</span> <span class="n">called</span> <span class="n">after</span> <span class="n">throwing</span> <span class="n">an</span> <span class="n">instance</span> <span class="n">of</span> <span class="s1">'int'</span>
+<span class="n">Aborted</span> <span class="o">(</span><span class="n">core</span> <span class="n">dumped</span><span class="o">)</span>
+</pre>
+
+
+<p><strong>NOTE:</strong> in g++ 6.2.1, it only get one <code>Throw : 0</code>. Because the STL vector's destructor default is noexcept, it terminate the program met the first exception.</p>
+<p>What happends? The program is interrupt when object <code>e</code> throws exception in destructor, that's why position 5 is not executed.
+But C++ doing a little bit more, it tries to release the object inside the try block, that's why <code>~OtherObject</code> is printed out.
+The exception throw by the destructor is caught successfully, position 6 is executed.
+What happends at position 7, why position 8 is not executed?
+Do another test, if we try to open the position 3, throw exception before object <code>e</code> to be destruct, what will happen? In that case two exceptions are going to be throw out. Now the console output looks like:</p>
+<pre class="code literal-block"><span></span><span class="n">Throw</span> <span class="o">:</span> <span class="mi">10</span>
+<span class="n">terminate</span> <span class="n">called</span> <span class="n">after</span> <span class="n">throwing</span> <span class="n">an</span> <span class="n">instance</span> <span class="n">of</span> <span class="s1">'int'</span>
+<span class="n">Aborted</span> <span class="o">(</span><span class="n">core</span> <span class="n">dumped</span><span class="o">)</span>
+</pre>
+
+
+<p>Haaa, that's <code>too many exceptions for C++</code>, C++ could not handle more than one exception properly, call terminate directly.
+Now go back to position 7, it creates 4 instance of <code>Exception</code> and store it in <code>vector</code>, from my understanding, <code>vector</code> just destroy the objects inside it, call destructor of each object.
+Here C++ compiler don't interupt the program met the first throw, continue call the destructor of the second object.</p>
+<p>It's really bad idea to throw exception from destructor incase C++ need to safely release the temporary object and don't support multiple exceptions could be thrown in one try catch block.
+That's why noexcept is the default added in C++11. You'll see warnings like:</p>
+<pre class="code literal-block"><span></span>test.cc: In destructor ‘Exception::~Exception()’:
+test.cc:12:9: warning: throw will always call terminate() [-Wterminate]
+   throw _i;
+         ^~
+test.cc:12:9: note: in C++11 destructors default to noexcept
+</pre>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/2016/10/22/baolong-site-launched/" class="u-url">Baolong Launches Site</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Baolong Lin
+            </span></p>
+            <p class="dateline"><a href="posts/2016/10/22/baolong-site-launched/" rel="bookmark"><time class="published dt-published" datetime="2016-10-22T00:00:00+02:00" title="2016-10-22 00:00">2016-10-22 00:00</time></a></p>
+                <p class="commentline">
+        
+    <a href="posts/2016/10/22/baolong-site-launched/#disqus_thread" data-disqus-identifier="cache/posts/2016/10/22/baolong-site-launched.html">Comments</a>
+
+
+        </p>
+</div>
+    </header><div class="e-content entry-content">
+    <p>My first post to test the framework.</p>
+    </div>
     </article>
 </div>
 

@@ -7,7 +7,11 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <url>
   <loc>https://baolonglin.github.io/</loc>
-  <lastmod>2017-12-29T22:26:00Z</lastmod>
+  <lastmod>2017-12-31T07:42:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://baolonglin.github.io/2016/</loc>
+  <lastmod>2017-12-31T07:42:00Z</lastmod>
  </url>
  <url>
   <loc>https://baolonglin.github.io/2017/</loc>
@@ -15,7 +19,7 @@
  </url>
  <url>
   <loc>https://baolonglin.github.io/archive.html</loc>
-  <lastmod>2017-12-30T20:50:00Z</lastmod>
+  <lastmod>2017-12-31T07:42:00Z</lastmod>
  </url>
  <url>
   <loc>https://baolonglin.github.io/categories/</loc>
@@ -24,6 +28,30 @@
  <url>
   <loc>https://baolonglin.github.io/categories/org-mode/</loc>
   <lastmod>2017-12-29T22:26:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://baolonglin.github.io/posts/2016/10/22/baolong-site-launched/</loc>
+  <lastmod>2017-12-31T07:42:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://baolonglin.github.io/posts/2016/12/7/throw-exception-in-destructor/</loc>
+  <lastmod>2017-12-31T07:42:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://baolonglin.github.io/posts/2017/3/2/restore-work-space/</loc>
+  <lastmod>2017-12-31T07:42:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://baolonglin.github.io/posts/2017/3/4/learn-some-elisp-1/</loc>
+  <lastmod>2017-12-31T07:42:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://baolonglin.github.io/posts/2017/3/7/emacs-org-drill-org-capture-firefox/</loc>
+  <lastmod>2017-12-31T07:42:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://baolonglin.github.io/posts/2017/5/18/my-first-emacs-package/</loc>
+  <lastmod>2017-12-31T07:42:00Z</lastmod>
  </url>
  <url>
   <loc>https://baolonglin.github.io/posts/blogging-with-emacs-org-nikola-on-android/</loc>
@@ -39,7 +67,11 @@
  </url>
  <url>
   <loc>https://baolonglin.github.io/zh_cn/</loc>
-  <lastmod>2017-12-29T22:26:00Z</lastmod>
+  <lastmod>2017-12-31T07:42:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://baolonglin.github.io/zh_cn/2016/</loc>
+  <lastmod>2017-12-31T07:42:00Z</lastmod>
  </url>
  <url>
   <loc>https://baolonglin.github.io/zh_cn/2017/</loc>
@@ -47,7 +79,7 @@
  </url>
  <url>
   <loc>https://baolonglin.github.io/zh_cn/archive.html</loc>
-  <lastmod>2017-12-30T20:50:00Z</lastmod>
+  <lastmod>2017-12-31T07:42:00Z</lastmod>
  </url>
  <url>
   <loc>https://baolonglin.github.io/zh_cn/categories/</loc>
@@ -56,6 +88,36 @@
  <url>
   <loc>https://baolonglin.github.io/zh_cn/categories/org-mode/</loc>
   <lastmod>2017-12-29T22:26:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://baolonglin.github.io/zh_cn/posts/2016/10/22/baolong-site-launched/</loc>
+  <lastmod>2017-12-31T07:42:00Z</lastmod>
+  <xhtml:link rel="alternate" hreflang="en" href="https://baolonglin.github.io/posts/2016/10/22/baolong-site-launched/" />
+ </url>
+ <url>
+  <loc>https://baolonglin.github.io/zh_cn/posts/2016/12/7/throw-exception-in-destructor/</loc>
+  <lastmod>2017-12-31T07:42:00Z</lastmod>
+  <xhtml:link rel="alternate" hreflang="en" href="https://baolonglin.github.io/posts/2016/12/7/throw-exception-in-destructor/" />
+ </url>
+ <url>
+  <loc>https://baolonglin.github.io/zh_cn/posts/2017/3/2/restore-work-space/</loc>
+  <lastmod>2017-12-31T07:42:00Z</lastmod>
+  <xhtml:link rel="alternate" hreflang="en" href="https://baolonglin.github.io/posts/2017/3/2/restore-work-space/" />
+ </url>
+ <url>
+  <loc>https://baolonglin.github.io/zh_cn/posts/2017/3/4/learn-some-elisp-1/</loc>
+  <lastmod>2017-12-31T07:42:00Z</lastmod>
+  <xhtml:link rel="alternate" hreflang="en" href="https://baolonglin.github.io/posts/2017/3/4/learn-some-elisp-1/" />
+ </url>
+ <url>
+  <loc>https://baolonglin.github.io/zh_cn/posts/2017/3/7/emacs-org-drill-org-capture-firefox/</loc>
+  <lastmod>2017-12-31T07:42:00Z</lastmod>
+  <xhtml:link rel="alternate" hreflang="en" href="https://baolonglin.github.io/posts/2017/3/7/emacs-org-drill-org-capture-firefox/" />
+ </url>
+ <url>
+  <loc>https://baolonglin.github.io/zh_cn/posts/2017/5/18/my-first-emacs-package/</loc>
+  <lastmod>2017-12-31T07:42:00Z</lastmod>
+  <xhtml:link rel="alternate" hreflang="en" href="https://baolonglin.github.io/posts/2017/5/18/my-first-emacs-package/" />
  </url>
  <url>
   <loc>https://baolonglin.github.io/zh_cn/posts/blogging-with-emacs-org-nikola-on-android/</loc>
