@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>BaoLong (Posts about c++)</title><link>https://baolonglin.github.io/</link><description></description><atom:link href="https://baolonglin.github.io/categories/c%2B%2B.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2018 &lt;a href="mailto:lbl52001@gmail.com"&gt;Baolong Lin&lt;/a&gt; </copyright><lastBuildDate>Wed, 03 Jan 2018 12:41:50 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>include_next stdlib.h failed</title><link>https://baolonglin.github.io/posts/include_next-stdlibh-failed/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>BaoLong (Posts about c++)</title><link>https://baolonglin.github.io/</link><description></description><atom:link href="https://baolonglin.github.io/categories/c%2B%2B.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2018 &lt;a href="mailto:lbl52001@gmail.com"&gt;Baolong Lin&lt;/a&gt; </copyright><lastBuildDate>Wed, 03 Jan 2018 12:57:10 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>include_next stdlib.h failed</title><link>https://baolonglin.github.io/posts/include_next-stdlibh-failed/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
 Recently I met below error while using &lt;a href="https://github.com/Andersbakken/rtags"&gt;rtags&lt;/a&gt; to parse my code:
 &lt;/p&gt;
-&lt;p class="verse"&gt;
-handleInclude failed (nil) inclusion directive include stdlib.h /opt/gcc/6.2.0/include/c++/6.2.0/cstdlib:75:1&lt;br&gt;
-&lt;/p&gt;
+&lt;pre class="example"&gt;
+handleInclude failed (nil) inclusion directive include stdlib.h /opt/gcc/6.2.0/include/c++/6.2.0/cstdlib:75:1
+&lt;/pre&gt;
 
 &lt;p&gt;
 But the source file was compiled success with the specified GCC(6.2.0), the 75 line of cstlib is:
@@ -15,54 +15,54 @@ But the source file was compiled success with the specified GCC(6.2.0), the 75 l
 &lt;p&gt;
 I tried to find the stdlib.h under gcc 6.2.0, there are two files:
 &lt;/p&gt;
-&lt;p class="verse"&gt;
-/opt/gcc/6.2.0/include/c++/6.2.0/tr1/stdlib.h&lt;br&gt;
-/opt/gcc/6.2.0/include/c++/6.2.0/stdlib.h&lt;br&gt;
-&lt;/p&gt;
+&lt;pre class="example"&gt;
+/opt/gcc/6.2.0/include/c++/6.2.0/tr1/stdlib.h
+/opt/gcc/6.2.0/include/c++/6.2.0/stdlib.h
+&lt;/pre&gt;
 &lt;p&gt;
 check the stdlib.h under /usr/include, there are six files:
 &lt;/p&gt;
-&lt;p class="verse"&gt;
-/usr/include/c++/4.7/tr1/stdlib.h&lt;br&gt;
-/usr/include/c++/4.3/tr1/stdlib.h&lt;br&gt;
-/usr/include/stdlib.h&lt;br&gt;
-/usr/include/bind/isc/stdlib.h&lt;br&gt;
-/usr/include/dhcp/isc/stdlib.h&lt;br&gt;
-/usr/include/bits/stdlib.h&lt;br&gt;
-&lt;/p&gt;
+&lt;pre class="example"&gt;
+/usr/include/c++/4.7/tr1/stdlib.h
+/usr/include/c++/4.3/tr1/stdlib.h
+/usr/include/stdlib.h
+/usr/include/bind/isc/stdlib.h
+/usr/include/dhcp/isc/stdlib.h
+/usr/include/bits/stdlib.h
+&lt;/pre&gt;
 
 &lt;p&gt;
-Checked the default include directories of compiler with `/opt/gcc/6.2.0/bin/g++ -xc++ -v -E -dM -`, there is no tr1 related directory, but we find that `/usr/include` is the last one in the include directories.
+Checked the default include directories of compiler with &lt;b&gt;/opt/gcc/6.2.0/bin/g++ -xc++ -v -E -dM -&lt;/b&gt;, there is no tr1 related directory, but we find that &lt;code&gt;/usr/include&lt;/code&gt; is the last one in the include directories.
 &lt;/p&gt;
-&lt;p class="verse"&gt;
-Using built-in specs.&lt;br&gt;
-COLLECT&lt;sub&gt;GCC&lt;/sub&gt;=/opt/gcc/6.2.0/bin/g++&lt;br&gt;
-Target: x86&lt;sub&gt;64&lt;/sub&gt;-pc-linux-gnu&lt;br&gt;
-Configured with: /local/working/gcc-6.2.0/configure –prefix=/opt/gcc/6.2.0 –enable-languages=c,c++,fortran –enable-libmpx –with-as=/opt/binutils/2.25/bin/as –with-gnu-as&lt;br&gt;
-Thread model: posix&lt;br&gt;
-gcc version 6.2.0 (GCC)&lt;br&gt;
-COLLECT&lt;sub&gt;GCC&lt;/sub&gt;&lt;sub&gt;OPTIONS&lt;/sub&gt;='-v' '-E' '-dM' '-shared-libgcc' '-mtune=generic' '-march=x86-64'&lt;br&gt;
- &lt;i&gt;opt/gcc/6.2.0/bin&lt;/i&gt;../libexec/gcc/x86&lt;sub&gt;64&lt;/sub&gt;-pc-linux-gnu/6.2.0/cc1plus -E -quiet -v -iprefix &lt;i&gt;opt/gcc/6.2.0/bin&lt;/i&gt;../lib/gcc/x86&lt;sub&gt;64&lt;/sub&gt;-pc-linux-gnu/&lt;br&gt;
-6.2.0/ -D&lt;sub&gt;GNU&lt;/sub&gt;&lt;sub&gt;SOURCE&lt;/sub&gt; - -mtune=generic -march=x86-64 -dM&lt;br&gt;
-ignoring nonexistent directory "&lt;i&gt;opt/gcc/6.2.0/bin&lt;/i&gt;../lib/gcc/x86&lt;sub&gt;64&lt;/sub&gt;-pc-linux-gnu/6.2.0/../../../../x86&lt;sub&gt;64&lt;/sub&gt;-pc-linux-gnu/include"&lt;br&gt;
-ignoring duplicate directory "&lt;i&gt;opt/gcc/6.2.0/bin&lt;/i&gt;../lib/gcc/../../lib/gcc/x86&lt;sub&gt;64&lt;/sub&gt;-pc-linux-gnu/6.2.0/../../../../include/c++/6.2.0"&lt;br&gt;
-ignoring duplicate directory "&lt;i&gt;opt/gcc/6.2.0/bin&lt;/i&gt;../lib/gcc/../../lib/gcc/x86&lt;sub&gt;64&lt;/sub&gt;-pc-linux-gnu/6.2.0/../../../../include/c++/6.2.0/x86&lt;sub&gt;64&lt;/sub&gt;-pc-linux-gnu"&lt;br&gt;
-ignoring duplicate directory "&lt;i&gt;opt/gcc/6.2.0/bin&lt;/i&gt;../lib/gcc/../../lib/gcc/x86&lt;sub&gt;64&lt;/sub&gt;-pc-linux-gnu/6.2.0/../../../../include/c++/6.2.0/backward"&lt;br&gt;
-ignoring duplicate directory "&lt;i&gt;opt/gcc/6.2.0/bin&lt;/i&gt;../lib/gcc/../../lib/gcc/x86&lt;sub&gt;64&lt;/sub&gt;-pc-linux-gnu/6.2.0/include"&lt;br&gt;
-ignoring duplicate directory "&lt;i&gt;opt/gcc/6.2.0/bin&lt;/i&gt;../lib/gcc/../../lib/gcc/x86&lt;sub&gt;64&lt;/sub&gt;-pc-linux-gnu/6.2.0/include-fixed"&lt;br&gt;
-ignoring nonexistent directory "&lt;i&gt;opt/gcc/6.2.0/bin&lt;/i&gt;../lib/gcc/../../lib/gcc/x86&lt;sub&gt;64&lt;/sub&gt;-pc-linux-gnu/6.2.0/../../../../x86&lt;sub&gt;64&lt;/sub&gt;-pc-linux-gnu/include"&lt;br&gt;
-#include "…" search starts here:&lt;br&gt;
-#include &amp;lt;…&amp;gt; search starts here:&lt;br&gt;
- &lt;i&gt;opt/gcc/6.2.0/bin&lt;/i&gt;../lib/gcc/x86&lt;sub&gt;64&lt;/sub&gt;-pc-linux-gnu/6.2.0/../../../../include/c++/6.2.0&lt;br&gt;
- &lt;i&gt;opt/gcc/6.2.0/bin&lt;/i&gt;../lib/gcc/x86&lt;sub&gt;64&lt;/sub&gt;-pc-linux-gnu/6.2.0/../../../../include/c++/6.2.0/x86&lt;sub&gt;64&lt;/sub&gt;-pc-linux-gnu&lt;br&gt;
- &lt;i&gt;opt/gcc/6.2.0/bin&lt;/i&gt;../lib/gcc/x86&lt;sub&gt;64&lt;/sub&gt;-pc-linux-gnu/6.2.0/../../../../include/c++/6.2.0/backward&lt;br&gt;
- &lt;i&gt;opt/gcc/6.2.0/bin&lt;/i&gt;../lib/gcc/x86&lt;sub&gt;64&lt;/sub&gt;-pc-linux-gnu/6.2.0/include&lt;br&gt;
- &lt;i&gt;opt/gcc/6.2.0/bin&lt;/i&gt;../lib/gcc/x86&lt;sub&gt;64&lt;/sub&gt;-pc-linux-gnu/6.2.0/include-fixed&lt;br&gt;
- &lt;i&gt;usr/local/include&lt;br&gt;
- /opt/gcc/6.2.0/bin&lt;/i&gt;../lib/gcc/../../include&lt;br&gt;
- /usr/include&lt;br&gt;
-End of search list.&lt;br&gt;
-&lt;/p&gt;
+&lt;pre class="example"&gt;
+Using built-in specs.
+COLLECT_GCC=/opt/gcc/6.2.0/bin/g++
+Target: x86_64-pc-linux-gnu
+Configured with: /local/working/gcc-6.2.0/configure --prefix=/opt/gcc/6.2.0 --enable-languages=c,c++,fortran --enable-libmpx --with-as=/opt/binutils/2.25/bin/as --with-gnu-as
+Thread model: posix
+gcc version 6.2.0 (GCC)
+COLLECT_GCC_OPTIONS='-v' '-E' '-dM' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+ /opt/gcc/6.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/6.2.0/cc1plus -E -quiet -v -iprefix /opt/gcc/6.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/
+6.2.0/ -D_GNU_SOURCE - -mtune=generic -march=x86-64 -dM
+ignoring nonexistent directory "/opt/gcc/6.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/6.2.0/../../../../x86_64-pc-linux-gnu/include"
+ignoring duplicate directory "/opt/gcc/6.2.0/bin/../lib/gcc/../../lib/gcc/x86_64-pc-linux-gnu/6.2.0/../../../../include/c++/6.2.0"
+ignoring duplicate directory "/opt/gcc/6.2.0/bin/../lib/gcc/../../lib/gcc/x86_64-pc-linux-gnu/6.2.0/../../../../include/c++/6.2.0/x86_64-pc-linux-gnu"
+ignoring duplicate directory "/opt/gcc/6.2.0/bin/../lib/gcc/../../lib/gcc/x86_64-pc-linux-gnu/6.2.0/../../../../include/c++/6.2.0/backward"
+ignoring duplicate directory "/opt/gcc/6.2.0/bin/../lib/gcc/../../lib/gcc/x86_64-pc-linux-gnu/6.2.0/include"
+ignoring duplicate directory "/opt/gcc/6.2.0/bin/../lib/gcc/../../lib/gcc/x86_64-pc-linux-gnu/6.2.0/include-fixed"
+ignoring nonexistent directory "/opt/gcc/6.2.0/bin/../lib/gcc/../../lib/gcc/x86_64-pc-linux-gnu/6.2.0/../../../../x86_64-pc-linux-gnu/include"
+#include "..." search starts here:
+#include &amp;lt;...&amp;gt; search starts here:
+ /opt/gcc/6.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/6.2.0/../../../../include/c++/6.2.0
+ /opt/gcc/6.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/6.2.0/../../../../include/c++/6.2.0/x86_64-pc-linux-gnu
+ /opt/gcc/6.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/6.2.0/../../../../include/c++/6.2.0/backward
+ /opt/gcc/6.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/6.2.0/include
+ /opt/gcc/6.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/6.2.0/include-fixed
+ /usr/local/include
+ /opt/gcc/6.2.0/bin/../lib/gcc/../../include
+ /usr/include
+End of search list.
+&lt;/pre&gt;
 
 &lt;p&gt;
 Which stdlib.h is the compiler required?
@@ -71,21 +71,21 @@ Which stdlib.h is the compiler required?
 &lt;p&gt;
 First we need to know the meaning of include&lt;sub&gt;next&lt;/sub&gt;, according GCC &lt;a href="https://gcc.gnu.org/onlinedocs/cpp/Wrapper-Headers.html"&gt;Wrapper Header&lt;/a&gt;:
 &lt;/p&gt;
-&lt;p class="verse"&gt;
-Include the next file with this name. This directive works like #include except in searching for the specified file: it starts searching the list of header file directories after the directory in which the current file was found.&lt;br&gt;
-&lt;/p&gt;
+&lt;pre class="example"&gt;
+Include the next file with this name. This directive works like #include except in searching for the specified file: it starts searching the list of header file directories after the directory in which the current file was found.
+&lt;/pre&gt;
 &lt;p&gt;
 #include&lt;sub&gt;next&lt;/sub&gt; is used for add stuff to the header file without replace it entirely in C++ header files.
 &lt;/p&gt;
 
 &lt;p&gt;
-Then we can use `/opt/gcc/6.2.0/bin/g++ -M` to show the include files:
+Then we can use &lt;code&gt;/opt/gcc/6.2.0/bin/g++ -M&lt;/code&gt; to show the include files:
 &lt;/p&gt;
-&lt;p class="verse"&gt;
-/opt/gcc/6.2.0/include/c++/6.2.0/cstdlib&lt;br&gt;
-/usr/include/stdlib.h&lt;br&gt;
-&lt;/p&gt;
+&lt;pre class="example"&gt;
+/opt/gcc/6.2.0/include/c++/6.2.0/cstdlib
+/usr/include/stdlib.h
+&lt;/pre&gt;
 
 &lt;p&gt;
-Then the left thing is make the correct order of include pathes. The `/user/include` path must behind the `/opt/gcc/6.2.0/include/c++/6.2.0`.
+Then the left thing is make the correct order of include pathes. The &lt;code&gt;/user/include&lt;/code&gt; path must behind the &lt;code&gt;/opt/gcc/6.2.0/include/c++/6.2.0&lt;/code&gt;.
 &lt;/p&gt;</description><category>c++</category><guid>https://baolonglin.github.io/posts/include_next-stdlibh-failed/</guid><pubDate>Wed, 03 Jan 2018 12:00:18 GMT</pubDate></item></channel></rss>
