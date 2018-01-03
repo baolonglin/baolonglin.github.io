@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>BaoLong</title><link>https://baolonglin.github.io/</link><description>This is a site for Baolong.</description><atom:link href="https://baolonglin.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2018 &lt;a href="mailto:lbl52001@gmail.com"&gt;Baolong Lin&lt;/a&gt; </copyright><lastBuildDate>Wed, 03 Jan 2018 13:06:21 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>include_next stdlib.h failed</title><link>https://baolonglin.github.io/posts/include_next-stdlibh-failed/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
-Recently I met below error while using &lt;a href="https://github.com/Andersbakken/rtags"&gt;rtags&lt;/a&gt; to parse my code:
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>BaoLong</title><link>https://baolonglin.github.io/</link><description>This is a site for Baolong.</description><atom:link href="https://baolonglin.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2018 &lt;a href="mailto:lbl52001@gmail.com"&gt;Baolong Lin&lt;/a&gt; </copyright><lastBuildDate>Wed, 03 Jan 2018 13:11:04 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>include_next stdlib.h failed</title><link>https://baolonglin.github.io/posts/include_next-stdlibh-failed/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
+Recently met below error while using &lt;a href="https://github.com/Andersbakken/rtags"&gt;rtags&lt;/a&gt; to parse my code:
 &lt;/p&gt;
 &lt;pre class="example"&gt;
 handleInclude failed (nil) inclusion directive include stdlib.h /opt/gcc/6.2.0/include/c++/6.2.0/cstdlib:75:1
 &lt;/pre&gt;
 
 &lt;p&gt;
-But the source file was compiled success with the specified GCC(6.2.0), the 75 line of cstlib is:
+But the source file was compiled success with the specified GCC(6.2.0), that error line of cstlib is:
 &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="cpf"&gt;_next &amp;lt;stdlib.h&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;
-I tried to find the stdlib.h under gcc 6.2.0, there are two files:
+Tried to find the stdlib.h under gcc 6.2.0, there are two files:
 &lt;/p&gt;
 &lt;pre class="example"&gt;
 /opt/gcc/6.2.0/include/c++/6.2.0/tr1/stdlib.h
@@ -32,7 +32,7 @@ check the stdlib.h under &lt;code&gt;/usr/include&lt;/code&gt;, there are six fi
 &lt;/pre&gt;
 
 &lt;p&gt;
-Checked the default include directories of compiler with &lt;code&gt;/opt/gcc/6.2.0/bin/g++ -xc++ -v -E -dM -&lt;/code&gt; , there is no &lt;b&gt;tr1&lt;/b&gt; related directory, but we find that &lt;code&gt;/usr/include&lt;/code&gt; is the last one in the include directories.
+Checked the default include directories of compiler with &lt;code&gt;/opt/gcc/6.2.0/bin/g++ -xc++ -v -E -dM -&lt;/code&gt; , there is no &lt;b&gt;tr1&lt;/b&gt; related directory, but find that &lt;code&gt;/usr/include&lt;/code&gt; is the last one in the include directories.
 &lt;/p&gt;
 &lt;pre class="example"&gt;
 Using built-in specs.
@@ -69,7 +69,7 @@ Which stdlib.h is the compiler required?
 &lt;/p&gt;
 
 &lt;p&gt;
-First we need to know the meaning of &lt;code&gt;#include_next&lt;/code&gt;, according GCC &lt;a href="https://gcc.gnu.org/onlinedocs/cpp/Wrapper-Headers.html"&gt;Wrapper Header&lt;/a&gt;:
+First need to know the meaning of &lt;code&gt;#include_next&lt;/code&gt;, according GCC &lt;a href="https://gcc.gnu.org/onlinedocs/cpp/Wrapper-Headers.html"&gt;Wrapper Header&lt;/a&gt;:
 &lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;
@@ -81,7 +81,7 @@ Include the next file with this name. This directive works like #include except 
 &lt;/p&gt;
 
 &lt;p&gt;
-Then we can use &lt;code&gt;/opt/gcc/6.2.0/bin/g++ -M&lt;/code&gt; to show the include files:
+Find the include files using &lt;code&gt;/opt/gcc/6.2.0/bin/g++ -M&lt;/code&gt; :
 &lt;/p&gt;
 &lt;pre class="example"&gt;
 /opt/gcc/6.2.0/include/c++/6.2.0/cstdlib

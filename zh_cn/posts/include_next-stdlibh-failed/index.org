@@ -9,17 +9,17 @@
 .. type: text
 #+END_COMMENT
 
-Recently I met below error while using [[https://github.com/Andersbakken/rtags][rtags]] to parse my code:
+Recently met below error while using [[https://github.com/Andersbakken/rtags][rtags]] to parse my code:
 #+BEGIN_EXAMPLE
 handleInclude failed (nil) inclusion directive include stdlib.h /opt/gcc/6.2.0/include/c++/6.2.0/cstdlib:75:1
 #+END_EXAMPLE
 
-But the source file was compiled success with the specified GCC(6.2.0), the 75 line of cstlib is:
+But the source file was compiled success with the specified GCC(6.2.0), that error line of cstlib is:
 #+BEGIN_SRC cpp
 #include_next <stdlib.h>
 #+END_SRC
 
-I tried to find the stdlib.h under gcc 6.2.0, there are two files:
+Tried to find the stdlib.h under gcc 6.2.0, there are two files:
 #+BEGIN_EXAMPLE
 /opt/gcc/6.2.0/include/c++/6.2.0/tr1/stdlib.h
 /opt/gcc/6.2.0/include/c++/6.2.0/stdlib.h
@@ -34,7 +34,7 @@ check the stdlib.h under ~/usr/include~, there are six files:
 /usr/include/bits/stdlib.h
 #+END_EXAMPLE
 
-Checked the default include directories of compiler with ~/opt/gcc/6.2.0/bin/g++ -xc++ -v -E -dM -~ , there is no *tr1* related directory, but we find that ~/usr/include~ is the last one in the include directories.
+Checked the default include directories of compiler with ~/opt/gcc/6.2.0/bin/g++ -xc++ -v -E -dM -~ , there is no *tr1* related directory, but find that ~/usr/include~ is the last one in the include directories.
 #+BEGIN_EXAMPLE
 Using built-in specs.
 COLLECT_GCC=/opt/gcc/6.2.0/bin/g++
@@ -67,13 +67,13 @@ End of search list.
 
 Which stdlib.h is the compiler required?
 
-First we need to know the meaning of ~#include_next~, according GCC [[https://gcc.gnu.org/onlinedocs/cpp/Wrapper-Headers.html][Wrapper Header]]:
+First need to know the meaning of ~#include_next~, according GCC [[https://gcc.gnu.org/onlinedocs/cpp/Wrapper-Headers.html][Wrapper Header]]:
 #+BEGIN_QUOTE
 Include the next file with this name. This directive works like #include except in searching for the specified file: it starts searching the list of header file directories after the directory in which the current file was found.
 #+END_QUOTE
 ~#include_next~ is used for add stuff to the header file without replace it entirely in C++ header files.
 
-Then we can use ~/opt/gcc/6.2.0/bin/g++ -M~ to show the include files:
+Find the include files using ~/opt/gcc/6.2.0/bin/g++ -M~ :
 #+BEGIN_EXAMPLE
 /opt/gcc/6.2.0/include/c++/6.2.0/cstdlib
 /usr/include/stdlib.h
