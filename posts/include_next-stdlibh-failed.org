@@ -1,0 +1,82 @@
+#+BEGIN_COMMENT
+.. title: include_next stdlib.h failed
+.. slug: include_next-stdlibh-failed
+.. date: 2018-01-03 13:00:18 UTC+01:00
+.. tags: c++
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+#+END_COMMENT
+
+Recently I met below error while using [[https://github.com/Andersbakken/rtags][rtags]] to parse my code:
+#+BEGIN_QUOTE
+handleInclude failed (nil) inclusion directive include stdlib.h /opt/gcc/6.2.0/include/c++/6.2.0/cstdlib:75:1
+#+END_QUOTE
+
+But the source file was compiled success with the specified GCC(6.2.0), the 75 line of cstlib is:
+#+BEGIN_SRC cpp
+#include_next <stdlib.h>
+#+END_SRC
+
+I tried to find the stdlib.h under gcc 6.2.0, there are two files:
+#+BEGIN_QUOTE
+/opt/gcc/6.2.0/include/c++/6.2.0/tr1/stdlib.h
+/opt/gcc/6.2.0/include/c++/6.2.0/stdlib.h
+#+END_QUOTE
+check the stdlib.h under /usr/include, there are six files:
+#+BEGIN_QUOTE
+/usr/include/c++/4.7/tr1/stdlib.h
+/usr/include/c++/4.3/tr1/stdlib.h
+/usr/include/stdlib.h
+/usr/include/bind/isc/stdlib.h
+/usr/include/dhcp/isc/stdlib.h
+/usr/include/bits/stdlib.h
+#+END_QUOTE
+
+Checked the default include directories of compiler with `/opt/gcc/6.2.0/bin/g++ -xc++ -v -E -dM -`, there is no tr1 related directory, but we find that `/usr/include` is the last one in the include directories.
+#+BEGIN_QUOTE
+Using built-in specs.
+COLLECT_GCC=/opt/gcc/6.2.0/bin/g++
+Target: x86_64-pc-linux-gnu
+Configured with: /local/working/gcc-6.2.0/configure --prefix=/opt/gcc/6.2.0 --enable-languages=c,c++,fortran --enable-libmpx --with-as=/opt/binutils/2.25/bin/as --with-gnu-as
+Thread model: posix
+gcc version 6.2.0 (GCC)
+COLLECT_GCC_OPTIONS='-v' '-E' '-dM' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+ /opt/gcc/6.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/6.2.0/cc1plus -E -quiet -v -iprefix /opt/gcc/6.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/
+6.2.0/ -D_GNU_SOURCE - -mtune=generic -march=x86-64 -dM
+ignoring nonexistent directory "/opt/gcc/6.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/6.2.0/../../../../x86_64-pc-linux-gnu/include"
+ignoring duplicate directory "/opt/gcc/6.2.0/bin/../lib/gcc/../../lib/gcc/x86_64-pc-linux-gnu/6.2.0/../../../../include/c++/6.2.0"
+ignoring duplicate directory "/opt/gcc/6.2.0/bin/../lib/gcc/../../lib/gcc/x86_64-pc-linux-gnu/6.2.0/../../../../include/c++/6.2.0/x86_64-pc-linux-gnu"
+ignoring duplicate directory "/opt/gcc/6.2.0/bin/../lib/gcc/../../lib/gcc/x86_64-pc-linux-gnu/6.2.0/../../../../include/c++/6.2.0/backward"
+ignoring duplicate directory "/opt/gcc/6.2.0/bin/../lib/gcc/../../lib/gcc/x86_64-pc-linux-gnu/6.2.0/include"
+ignoring duplicate directory "/opt/gcc/6.2.0/bin/../lib/gcc/../../lib/gcc/x86_64-pc-linux-gnu/6.2.0/include-fixed"
+ignoring nonexistent directory "/opt/gcc/6.2.0/bin/../lib/gcc/../../lib/gcc/x86_64-pc-linux-gnu/6.2.0/../../../../x86_64-pc-linux-gnu/include"
+#include "..." search starts here:
+#include <...> search starts here:
+ /opt/gcc/6.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/6.2.0/../../../../include/c++/6.2.0
+ /opt/gcc/6.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/6.2.0/../../../../include/c++/6.2.0/x86_64-pc-linux-gnu
+ /opt/gcc/6.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/6.2.0/../../../../include/c++/6.2.0/backward
+ /opt/gcc/6.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/6.2.0/include
+ /opt/gcc/6.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/6.2.0/include-fixed
+ /usr/local/include
+ /opt/gcc/6.2.0/bin/../lib/gcc/../../include
+ /usr/include
+End of search list.
+#+END_QUOTE
+
+Which stdlib.h is the compiler required?
+
+First we need to know the meaning of include_next, according GCC [[https://gcc.gnu.org/onlinedocs/cpp/Wrapper-Headers.html][Wrapper Header]]:
+#+BEGIN_QUOTE
+Include the next file with this name. This directive works like #include except in searching for the specified file: it starts searching the list of header file directories after the directory in which the current file was found.
+#+END_QUOTE
+#include_next is used for add stuff to the header file without replace it entirely in C++ header files.
+
+Then we can use `/opt/gcc/6.2.0/bin/g++ -M` to show the include files:
+#+BEGIN_QUOTE
+/opt/gcc/6.2.0/include/c++/6.2.0/cstdlib
+/usr/include/stdlib.h
+#+END_QUOTE
+
+Then the left thing is make the correct order of include pathes. The `/user/include` path must behind the `/opt/gcc/6.2.0/include/c++/6.2.0`.
