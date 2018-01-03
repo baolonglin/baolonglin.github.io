@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="zh_cn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>include_next stdlib.h failed | BaoLong</title>
+<link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (zh_cn)" href="../../rss.xml">
+<link rel="canonical" href="https://baolonglin.github.io/zh_cn/posts/include_next-stdlibh-failed/">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baolong Lin">
+<link rel="prev" href="../blogging-with-emacs-org-nikola-on-android/" title="Blogging with emacs org, nikola on android" type="text/html">
+<meta property="og:site_name" content="BaoLong">
+<meta property="og:title" content="include_next stdlib.h failed">
+<meta property="og:url" content="https://baolonglin.github.io/zh_cn/posts/include_next-stdlibh-failed/">
+<meta property="og:description" content="Recently I met below error while using rtags to parse my code:
+
+
+
+handleInclude failed (nil) inclusion directive include stdlib.h /opt/gcc/6.2.0/include/c++/6.2.0/cstdlib:75:1
+
+
+
+
+But the source file ">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2018-01-03T13:00:18+01:00">
+<meta property="article:tag" content="c++">
+<link rel="alternate" hreflang="en" href="../../../posts/include_next-stdlibh-failed/">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">跳到主内容</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://baolonglin.github.io/zh_cn/">
+
+                <span id="blog-title">BaoLong</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../../archive.html">文章存档</a>
+                </li>
+<li>
+<a href="../../categories/">标签</a>
+                </li>
+<li>
+<a href="../../rss.xml">RSS 源</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+            </li>
+<li><a href="https://baolonglin.github.io/" rel="alternate" hreflang="en">English</a></li>
+
+                
+                    
+    <li>
+    <a href="index.org" id="sourcelink">源代码</a>
+    </li>
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">include_next stdlib.h failed</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                    Baolong Lin
+            </span></p>
+            <p class="dateline"><a href="." rel="bookmark"><time class="published dt-published" datetime="2018-01-03T13:00:18+01:00" itemprop="datePublished" title="2018-01-03 13:00">2018-01-03 13:00</time></a></p>
+                <p class="commentline">
+        
+    <a href="#disqus_thread" data-disqus-identifier="cache/posts/include_next-stdlibh-failed.html">Comments</a>
+
+
+            
+        </p>
+<p class="sourceline"><a href="index.org" class="sourcelink">源代码</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <p>
+Recently I met below error while using <a href="https://github.com/Andersbakken/rtags">rtags</a> to parse my code:
+</p>
+<blockquote>
+<p>
+handleInclude failed (nil) inclusion directive include stdlib.h /opt/gcc/6.2.0/include/c++/6.2.0/cstdlib:75:1
+</p>
+</blockquote>
+
+<p>
+But the source file was compiled success with the specified GCC(6.2.0), the 75 line of cstlib is:
+</p>
+<div class="highlight"><pre><span></span><span class="cp">#include</span><span class="cpf">_next &lt;stdlib.h&gt;</span><span class="cp"></span>
+</pre></div>
+
+<p>
+I tried to find the stdlib.h under gcc 6.2.0, there are two files:
+</p>
+<blockquote>
+<p>
+/opt/gcc/6.2.0/include/c++/6.2.0/tr1/stdlib.h
+/opt/gcc/6.2.0/include/c++/6.2.0/stdlib.h
+</p>
+</blockquote>
+<p>
+check the stdlib.h under /usr/include, there are six files:
+</p>
+<blockquote>
+<p>
+/usr/include/c++/4.7/tr1/stdlib.h
+/usr/include/c++/4.3/tr1/stdlib.h
+/usr/include/stdlib.h
+/usr/include/bind/isc/stdlib.h
+/usr/include/dhcp/isc/stdlib.h
+/usr/include/bits/stdlib.h
+</p>
+</blockquote>
+
+<p>
+Checked the default include directories of compiler with `/opt/gcc/6.2.0/bin/g++ -xc++ -v -E -dM -`, there is no tr1 related directory, but we find that `/usr/include` is the last one in the include directories.
+</p>
+<blockquote>
+<p>
+Using built-in specs.
+COLLECT<sub>GCC</sub>=/opt/gcc/6.2.0/bin/g++
+Target: x86<sub>64</sub>-pc-linux-gnu
+Configured with: /local/working/gcc-6.2.0/configure –prefix=/opt/gcc/6.2.0 –enable-languages=c,c++,fortran –enable-libmpx –with-as=/opt/binutils/2.25/bin/as –with-gnu-as
+Thread model: posix
+gcc version 6.2.0 (GCC)
+COLLECT<sub>GCC</sub><sub>OPTIONS</sub>='-v' '-E' '-dM' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+ <i>opt/gcc/6.2.0/bin</i>../libexec/gcc/x86<sub>64</sub>-pc-linux-gnu/6.2.0/cc1plus -E -quiet -v -iprefix <i>opt/gcc/6.2.0/bin</i>../lib/gcc/x86<sub>64</sub>-pc-linux-gnu/
+6.2.0/ -D<sub>GNU</sub><sub>SOURCE</sub> - -mtune=generic -march=x86-64 -dM
+ignoring nonexistent directory "<i>opt/gcc/6.2.0/bin</i>../lib/gcc/x86<sub>64</sub>-pc-linux-gnu/6.2.0/../../../../x86<sub>64</sub>-pc-linux-gnu/include"
+ignoring duplicate directory "<i>opt/gcc/6.2.0/bin</i>../lib/gcc/../../lib/gcc/x86<sub>64</sub>-pc-linux-gnu/6.2.0/../../../../include/c++/6.2.0"
+ignoring duplicate directory "<i>opt/gcc/6.2.0/bin</i>../lib/gcc/../../lib/gcc/x86<sub>64</sub>-pc-linux-gnu/6.2.0/../../../../include/c++/6.2.0/x86<sub>64</sub>-pc-linux-gnu"
+ignoring duplicate directory "<i>opt/gcc/6.2.0/bin</i>../lib/gcc/../../lib/gcc/x86<sub>64</sub>-pc-linux-gnu/6.2.0/../../../../include/c++/6.2.0/backward"
+ignoring duplicate directory "<i>opt/gcc/6.2.0/bin</i>../lib/gcc/../../lib/gcc/x86<sub>64</sub>-pc-linux-gnu/6.2.0/include"
+ignoring duplicate directory "<i>opt/gcc/6.2.0/bin</i>../lib/gcc/../../lib/gcc/x86<sub>64</sub>-pc-linux-gnu/6.2.0/include-fixed"
+ignoring nonexistent directory "<i>opt/gcc/6.2.0/bin</i>../lib/gcc/../../lib/gcc/x86<sub>64</sub>-pc-linux-gnu/6.2.0/../../../../x86<sub>64</sub>-pc-linux-gnu/include"
+#include "…" search starts here:
+#include &lt;…&gt; search starts here:
+ <i>opt/gcc/6.2.0/bin</i>../lib/gcc/x86<sub>64</sub>-pc-linux-gnu/6.2.0/../../../../include/c++/6.2.0
+ <i>opt/gcc/6.2.0/bin</i>../lib/gcc/x86<sub>64</sub>-pc-linux-gnu/6.2.0/../../../../include/c++/6.2.0/x86<sub>64</sub>-pc-linux-gnu
+ <i>opt/gcc/6.2.0/bin</i>../lib/gcc/x86<sub>64</sub>-pc-linux-gnu/6.2.0/../../../../include/c++/6.2.0/backward
+ <i>opt/gcc/6.2.0/bin</i>../lib/gcc/x86<sub>64</sub>-pc-linux-gnu/6.2.0/include
+ <i>opt/gcc/6.2.0/bin</i>../lib/gcc/x86<sub>64</sub>-pc-linux-gnu/6.2.0/include-fixed
+ <i>usr/local/include
+ /opt/gcc/6.2.0/bin</i>../lib/gcc/../../include
+ /usr/include
+End of search list.
+</p>
+</blockquote>
+
+<p>
+Which stdlib.h is the compiler required?
+</p>
+
+<p>
+First we need to know the meaning of include<sub>next</sub>, according GCC <a href="https://gcc.gnu.org/onlinedocs/cpp/Wrapper-Headers.html">Wrapper Header</a>:
+</p>
+<blockquote>
+<p>
+Include the next file with this name. This directive works like #include except in searching for the specified file: it starts searching the list of header file directories after the directory in which the current file was found.
+</p>
+</blockquote>
+<p>
+#include<sub>next</sub> is used for add stuff to the header file without replace it entirely in C++ header files.
+</p>
+
+<p>
+Then we can use `/opt/gcc/6.2.0/bin/g++ -M` to show the include files:
+</p>
+<blockquote>
+<p>
+/opt/gcc/6.2.0/include/c++/6.2.0/cstdlib
+/usr/include/stdlib.h
+</p>
+</blockquote>
+
+<p>
+Then the left thing is make the correct order of include pathes. The `/user/include` path must behind the `/opt/gcc/6.2.0/include/c++/6.2.0`.
+</p>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/c%2B%2B/" rel="tag">c++</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../blogging-with-emacs-org-nikola-on-android/" rel="prev" title="Blogging with emacs org, nikola on android">前一篇</a>
+            </li>
+        </ul></nav></aside><section class="comments hidden-print"><h2>注释</h2>
+        
+        
+        <div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="baolonglin",
+            disqus_url="https://baolonglin.github.io/zh_cn/posts/include_next-stdlibh-failed/",
+        disqus_title="include_next stdlib.h failed",
+        disqus_identifier="cache/posts/include_next-stdlibh-failed.html",
+        disqus_config = function () {
+            this.language = "zh_cn";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        </section></article><script>var disqus_shortname="baolonglin";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2018         <a href="mailto:lbl52001@gmail.com">Baolong Lin</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../../../assets/js/all-nocdn.js"></script><script src="../../../assets/js/colorbox-i18n/jquery.colorbox-zh-CN.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("zh-cn");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>
