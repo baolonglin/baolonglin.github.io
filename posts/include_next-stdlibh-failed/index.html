@@ -126,7 +126,7 @@ I tried to find the stdlib.h under gcc 6.2.0, there are two files:
 /opt/gcc/6.2.0/include/c++/6.2.0/stdlib.h
 </pre>
 <p>
-check the stdlib.h under /usr/include, there are six files:
+check the stdlib.h under <code>/usr/include</code>, there are six files:
 </p>
 <pre class="example">
 /usr/include/c++/4.7/tr1/stdlib.h
@@ -138,7 +138,7 @@ check the stdlib.h under /usr/include, there are six files:
 </pre>
 
 <p>
-Checked the default include directories of compiler with <b>/opt/gcc/6.2.0/bin/g++ -xc++ -v -E -dM -</b>, there is no tr1 related directory, but we find that <code>/usr/include</code> is the last one in the include directories.
+Checked the default include directories of compiler with <code>/opt/gcc/6.2.0/bin/g++ -xc++ -v -E -dM -</code> , there is no <b>tr1</b> related directory, but we find that <code>/usr/include</code> is the last one in the include directories.
 </p>
 <pre class="example">
 Using built-in specs.
@@ -175,13 +175,15 @@ Which stdlib.h is the compiler required?
 </p>
 
 <p>
-First we need to know the meaning of include<sub>next</sub>, according GCC <a href="https://gcc.gnu.org/onlinedocs/cpp/Wrapper-Headers.html">Wrapper Header</a>:
+First we need to know the meaning of <code>#include_next</code>, according GCC <a href="https://gcc.gnu.org/onlinedocs/cpp/Wrapper-Headers.html">Wrapper Header</a>:
 </p>
-<pre class="example">
-Include the next file with this name. This directive works like #include except in searching for the specified file: it starts searching the list of header file directories after the directory in which the current file was found.
-</pre>
+<blockquote>
 <p>
-#include<sub>next</sub> is used for add stuff to the header file without replace it entirely in C++ header files.
+Include the next file with this name. This directive works like #include except in searching for the specified file: it starts searching the list of header file directories after the directory in which the current file was found.
+</p>
+</blockquote>
+<p>
+<code>#include_next</code> is used for add stuff to the header file without replace it entirely in C++ header files.
 </p>
 
 <p>
@@ -193,7 +195,7 @@ Then we can use <code>/opt/gcc/6.2.0/bin/g++ -M</code> to show the include files
 </pre>
 
 <p>
-Then the left thing is make the correct order of include pathes. The <code>/user/include</code> path must behind the <code>/opt/gcc/6.2.0/include/c++/6.2.0</code>.
+The left thing is make the correct order of include pathes. The <code>/user/include</code> path must behind the <code>/opt/gcc/6.2.0/include/c++/6.2.0</code>.
 </p>
     </div>
     <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
