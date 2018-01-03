@@ -10,9 +10,9 @@
 #+END_COMMENT
 
 Recently I met below error while using [[https://github.com/Andersbakken/rtags][rtags]] to parse my code:
-#+BEGIN_QUOTE
+#+BEGIN_VERSE
 handleInclude failed (nil) inclusion directive include stdlib.h /opt/gcc/6.2.0/include/c++/6.2.0/cstdlib:75:1
-#+END_QUOTE
+#+END_VERSE
 
 But the source file was compiled success with the specified GCC(6.2.0), the 75 line of cstlib is:
 #+BEGIN_SRC cpp
@@ -20,22 +20,22 @@ But the source file was compiled success with the specified GCC(6.2.0), the 75 l
 #+END_SRC
 
 I tried to find the stdlib.h under gcc 6.2.0, there are two files:
-#+BEGIN_QUOTE
+#+BEGIN_VERSE
 /opt/gcc/6.2.0/include/c++/6.2.0/tr1/stdlib.h
 /opt/gcc/6.2.0/include/c++/6.2.0/stdlib.h
-#+END_QUOTE
+#+END_VERSE
 check the stdlib.h under /usr/include, there are six files:
-#+BEGIN_QUOTE
+#+BEGIN_VERSE
 /usr/include/c++/4.7/tr1/stdlib.h
 /usr/include/c++/4.3/tr1/stdlib.h
 /usr/include/stdlib.h
 /usr/include/bind/isc/stdlib.h
 /usr/include/dhcp/isc/stdlib.h
 /usr/include/bits/stdlib.h
-#+END_QUOTE
+#+END_VERSE
 
 Checked the default include directories of compiler with `/opt/gcc/6.2.0/bin/g++ -xc++ -v -E -dM -`, there is no tr1 related directory, but we find that `/usr/include` is the last one in the include directories.
-#+BEGIN_QUOTE
+#+BEGIN_VERSE
 Using built-in specs.
 COLLECT_GCC=/opt/gcc/6.2.0/bin/g++
 Target: x86_64-pc-linux-gnu
@@ -63,20 +63,20 @@ ignoring nonexistent directory "/opt/gcc/6.2.0/bin/../lib/gcc/../../lib/gcc/x86_
  /opt/gcc/6.2.0/bin/../lib/gcc/../../include
  /usr/include
 End of search list.
-#+END_QUOTE
+#+END_VERSE
 
 Which stdlib.h is the compiler required?
 
 First we need to know the meaning of include_next, according GCC [[https://gcc.gnu.org/onlinedocs/cpp/Wrapper-Headers.html][Wrapper Header]]:
-#+BEGIN_QUOTE
+#+BEGIN_VERSE
 Include the next file with this name. This directive works like #include except in searching for the specified file: it starts searching the list of header file directories after the directory in which the current file was found.
-#+END_QUOTE
+#+END_VERSE
 #include_next is used for add stuff to the header file without replace it entirely in C++ header files.
 
 Then we can use `/opt/gcc/6.2.0/bin/g++ -M` to show the include files:
-#+BEGIN_QUOTE
+#+BEGIN_VERSE
 /opt/gcc/6.2.0/include/c++/6.2.0/cstdlib
 /usr/include/stdlib.h
-#+END_QUOTE
+#+END_VERSE
 
 Then the left thing is make the correct order of include pathes. The `/user/include` path must behind the `/opt/gcc/6.2.0/include/c++/6.2.0`.
