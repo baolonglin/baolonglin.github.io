@@ -1,0 +1,43 @@
+#+BEGIN_COMMENT
+.. title: First book in 2018
+.. slug: first-book-in-2018
+.. date: 2018-01-10 14:13:28 UTC+01:00
+.. tags: 
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+#+END_COMMENT
+
+Heard about <The Pragmatic Programmer> long time ago, recently I use the spare time to go through this book.
+It's a fantastic book, everyone start progrmming should take a look at it. I should read it 10 years ago :(.
+If don't have time, just go through the Tips, jump to the tip which feel interest.
+
+Recall the passed 10 years' career, I met so many progrmmers that forgot to care about their craft.
+"Care About" is the most important, then "Think", those are the first two tips in the book.
+
+"Don't Live with Broken Windows", it's really hard to follow in realistic, even you want to repair the window,
+there will be many "guru" popup with differnt words: "Don't touch anything if it works", "Don't touch my code", etc.
+Some famous words are not working in every scenario. "Critically analyze what you read and hear", That's important.
+
+Tips in Chapter 2, I can't agree more, those are all important in daily works. DRY(Don't repeat yourself), it means
+less duplication, decouple the code, make code reusable, then testable, this rule is really importatant while programming.
+
+Each programmer should have one toolbox, there are editor, programming language, script language, debuging tool, always keep
+in mind, automatic everything can be automatic. Working with readable text file instand of writing code. Generate the code
+if needed.
+
+Don't expect perfect software, what we can do is make it better. It's real life. Design by contract is a good habit when programming,
+but I didn't meet any project use this way, unit test sounds like a programming way to apply design by contract. Assert is
+a good way to make application crash early.
+
+There are many ways to do decoupling, one method it mentions in the book "Blackboard" sounds interest to me.
+The blackboard system can decouple each other compoletely, provide a place to share knowledge with each other.
+
+While coding, always keep the code easy to be tested.
+
+Organization sounds like out of the scope of programmer, but team atmosphere is really important for daily work.
+
+
+
+

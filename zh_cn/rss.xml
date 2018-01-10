@@ -1,5 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>BaoLong</title><link>https://baolonglin.github.io/</link><description>This is a site for Baolong.</description><atom:link href="https://baolonglin.github.io/zh_cn/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>zh_cn</language><copyright>Contents © 2018 &lt;a href="mailto:lbl52001@gmail.com"&gt;Baolong Lin&lt;/a&gt; </copyright><lastBuildDate>Wed, 03 Jan 2018 13:11:04 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>include_next stdlib.h failed</title><link>https://baolonglin.github.io/zh_cn/posts/include_next-stdlibh-failed/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>BaoLong</title><link>https://baolonglin.github.io/</link><description>This is a site for Baolong.</description><atom:link href="https://baolonglin.github.io/zh_cn/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>zh_cn</language><copyright>Contents © 2018 &lt;a href="mailto:lbl52001@gmail.com"&gt;Baolong Lin&lt;/a&gt; </copyright><lastBuildDate>Wed, 10 Jan 2018 14:33:10 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>First book in 2018</title><link>https://baolonglin.github.io/zh_cn/posts/first-book-in-2018/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
+Heard about &amp;lt;The Pragmatic Programmer&amp;gt; long time ago, recently I use the spare time to go through this book.
+It's a fantastic book, everyone start progrmming should take a look at it. I should read it 10 years ago :(.
+If don't have time, just go through the Tips, jump to the tip which feel interest.
+&lt;/p&gt;
+
+&lt;p&gt;
+Recall the passed 10 years' career, I met so many progrmmers that forgot to care about their craft.
+"Care About" is the most important, then "Think", those are the first two tips in the book.
+&lt;/p&gt;
+
+&lt;p&gt;
+"Don't Live with Broken Windows", it's really hard to follow in realistic, even you want to repair the window,
+there will be many "guru" popup with differnt words: "Don't touch anything if it works", "Don't touch my code", etc.
+Some famous words are not working in every scenario. "Critically analyze what you read and hear", That's important.
+&lt;/p&gt;
+
+&lt;p&gt;
+Tips in Chapter 2, I can't agree more, those are all important in daily works. DRY(Don't repeat yourself), it means
+less duplication, decouple the code, make code reusable, then testable, this rule is really importatant while programming.
+&lt;/p&gt;
+
+&lt;p&gt;
+Each programmer should have one toolbox, there are editor, programming language, script language, debuging tool, always keep
+in mind, automatic everything can be automatic. Working with readable text file instand of writing code. Generate the code
+if needed.
+&lt;/p&gt;
+
+&lt;p&gt;
+Don't expect perfect software, what we can do is make it better. It's real life. Design by contract is a good habit when programming,
+but I didn't meet any project use this way, unit test sounds like a programming way to apply design by contract. Assert is
+a good way to make application crash early.
+&lt;/p&gt;
+
+&lt;p&gt;
+There are many ways to do decoupling, one method it mentions in the book "Blackboard" sounds interest to me.
+The blackboard system can decouple each other compoletely, provide a place to share knowledge with each other.
+&lt;/p&gt;
+
+&lt;p&gt;
+While coding, always keep the code easy to be tested.
+&lt;/p&gt;
+
+&lt;p&gt;
+Organization sounds like out of the scope of programmer, but team atmosphere is really important for daily work.
+&lt;/p&gt;</description><guid>https://baolonglin.github.io/zh_cn/posts/first-book-in-2018/</guid><pubDate>Wed, 10 Jan 2018 13:13:28 GMT</pubDate></item><item><title>include_next stdlib.h failed</title><link>https://baolonglin.github.io/zh_cn/posts/include_next-stdlibh-failed/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
 Recently met below error while using &lt;a href="https://github.com/Andersbakken/rtags"&gt;rtags&lt;/a&gt; to parse my code:
 &lt;/p&gt;
 &lt;pre class="example"&gt;
