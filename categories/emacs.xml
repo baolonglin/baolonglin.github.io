@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>BaoLong (Posts about emacs)</title><link>https://baolonglin.github.io/</link><description></description><atom:link href="https://baolonglin.github.io/categories/emacs.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2018 &lt;a href="mailto:lbl52001@gmail.com"&gt;Baolong Lin&lt;/a&gt; </copyright><lastBuildDate>Sat, 13 Jan 2018 22:49:45 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Manage email by mu4e</title><link>https://baolonglin.github.io/posts/manage-email-by-mu4e/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
+There are a lot of posts mentioned m4u solution to manage mail
+under mu4e, do everything in emacs becomes my hobby when
+I jump into the emacs hole.
+&lt;/p&gt;
+
+&lt;p&gt;
+I found one nice post to start with
+&lt;a href="http://cachestocaches.com/2017/3/complete-guide-email-emacs-using-mu-and-/"&gt;A COMPLETE GUIDE TO EMAIL IN EMACS USING MU AND MU4E&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+only extra information I can provide is the configuration
+for office365, below is part of offlineimap configuration,
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;[Repository Remote]
+auth_mechanisms = GSSAPI, CRAM-MD5, PLAIN, LOGIN
+type = IMAP
+maxconnections = 2
+remotehost = outlook.office365.com
+remoteuser = &amp;lt;mail address&amp;gt;
+remotepass = &amp;lt;mail password&amp;gt;
+folderfilter = lambda folder: folder in [ 'INBOX', 'Sent Items' ]
+# The file is copy from Arch linux, different linux distribution has different location
+sslcacertfile = ~/tls-ca-bundle.pem
+&lt;/pre&gt;&lt;/div&gt;</description><category>emacs</category><guid>https://baolonglin.github.io/posts/manage-email-by-mu4e/</guid><pubDate>Fri, 12 Jan 2018 15:48:31 GMT</pubDate></item></channel></rss>

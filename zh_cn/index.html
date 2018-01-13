@@ -11,6 +11,7 @@
 <link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../rss.xml">
 <link rel="alternate" type="application/rss+xml" title="RSS (zh_cn)" href="rss.xml">
 <link rel="canonical" href="https://baolonglin.github.io/zh_cn/">
+<link rel="next" href="index-1.html" type="text/html">
 <!--[if lt IE 9]><script src="../assets/js/html5.js"></script><![endif]-->
 </head>
 <body>
@@ -72,7 +73,48 @@
 
     
 <div class="postindex">
-    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/first-book-in-2018/" class="u-url">First book in 2018</a></h1>
+    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/manage-email-by-mu4e/" class="u-url">Manage email by mu4e</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Baolong Lin
+            </span></p>
+            <p class="dateline"><a href="posts/manage-email-by-mu4e/" rel="bookmark"><time class="published dt-published" datetime="2018-01-12T16:48:31+01:00" title="2018-01-12 16:48">2018-01-12 16:48</time></a></p>
+                <p class="commentline">
+        
+    <a href="posts/manage-email-by-mu4e/#disqus_thread" data-disqus-identifier="cache/posts/manage-email-by-mu4e.html">Comments</a>
+
+
+        </p>
+</div>
+    </header><div class="e-content entry-content">
+    <p>
+There are a lot of posts mentioned m4u solution to manage mail
+under mu4e, do everything in emacs becomes my hobby when
+I jump into the emacs hole.
+</p>
+
+<p>
+I found one nice post to start with
+<a href="http://cachestocaches.com/2017/3/complete-guide-email-emacs-using-mu-and-/">A COMPLETE GUIDE TO EMAIL IN EMACS USING MU AND MU4E</a>
+</p>
+
+<p>
+only extra information I can provide is the configuration
+for office365, below is part of offlineimap configuration,
+</p>
+<div class="highlight"><pre><span></span>[Repository Remote]
+auth_mechanisms = GSSAPI, CRAM-MD5, PLAIN, LOGIN
+type = IMAP
+maxconnections = 2
+remotehost = outlook.office365.com
+remoteuser = &lt;mail address&gt;
+remotepass = &lt;mail password&gt;
+folderfilter = lambda folder: folder in [ 'INBOX', 'Sent Items' ]
+# The file is copy from Arch linux, different linux distribution has different location
+sslcacertfile = ~/tls-ca-bundle.pem
+</pre></div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/first-book-in-2018/" class="u-url">First book in 2018</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 Baolong Lin
@@ -704,112 +746,14 @@ tmux <span class="k">select</span>-pane -t <span class="nv">$ORIG_PANE_INDEX</sp
 <p>Emacs's desktop can keep the session quit good, rtags manages the C++ AST database.</p>
 </div>
     </div>
-    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/2016/12/7/throw-exception-in-destructor/" class="u-url">Throw exception in C++ destructor</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                Baolong Lin
-            </span></p>
-            <p class="dateline"><a href="posts/2016/12/7/throw-exception-in-destructor/" rel="bookmark"><time class="published dt-published" datetime="2016-12-07T00:00:00+01:00" title="2016-12-07 00:00">2016-12-07 00:00</time></a></p>
-                <p class="commentline">
-        
-    <a href="posts/2016/12/7/throw-exception-in-destructor/#disqus_thread" data-disqus-identifier="cache/posts/2016/12/7/throw-exception-in-destructor.html">Comments</a>
-
-
-        </p>
-</div>
-    </header><div class="e-content entry-content">
-    <div>
-<p>We should <code>Prevent exceptions from leaving destructors</code> as <strong>Effective C++</strong> suggeust, and in that book, it also explains the reason: <code>Now there are two simulataneously active exceptions, and that's one too many for C++</code>. Is not that program interupt when throw one exception? Why two exceptions will be throw out? Let's use one example to make those clear.</p>
-<pre class="code literal-block"><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
-<span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp"></span>
-
-<span class="k">class</span> <span class="nc">Exception</span>
-<span class="p">{</span>
-<span class="k">public</span><span class="o">:</span>
-    <span class="n">Exception</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">:</span> <span class="n">_i</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-    <span class="p">}</span>
-    <span class="o">~</span><span class="n">Exception</span><span class="p">()</span> <span class="k">throw</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Throw : "</span> <span class="o">&lt;&lt;</span> <span class="n">_i</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-        <span class="k">throw</span> <span class="n">_i</span><span class="p">;</span>        <span class="c1">// &lt;-- 1</span>
-    <span class="p">}</span>
-<span class="k">private</span><span class="o">:</span>
-    <span class="kt">int</span> <span class="n">_i</span><span class="p">;</span>
-<span class="p">};</span>
-
-<span class="k">class</span> <span class="nc">OtherObject</span>
-<span class="p">{</span>
-<span class="k">public</span><span class="o">:</span>
-    <span class="o">~</span><span class="n">OtherObject</span><span class="p">()</span> <span class="p">{</span>
-        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"~OtherObject"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">};</span>
-
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="k">try</span> <span class="p">{</span>
-        <span class="n">OtherObject</span> <span class="n">o</span><span class="p">;</span> <span class="c1">// &lt;-- 2</span>
-        <span class="p">{</span>
-            <span class="n">Exception</span> <span class="n">e</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>  <span class="c1">// &lt;-- 3</span>
-            <span class="c1">//throw 3; // &lt;-- 4</span>
-        <span class="p">}</span> <span class="c1">// &lt;-- 4</span>
-        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"after throw"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> <span class="c1">// &lt;-- 5</span>
-    <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Catch : "</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> <span class="c1">// &lt;-- 6</span>
-    <span class="p">}</span>
-
-    <span class="k">try</span> <span class="p">{</span>
-        <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Exception</span><span class="o">&gt;</span> <span class="n">v</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span> <span class="c1">// &lt;-- 7</span>
-    <span class="p">}</span> <span class="k">catch</span> <span class="p">(...)</span> <span class="p">{</span>
-        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Catch something"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> <span class="c1">// &lt;-- 8</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</pre>
-
-
-<p>In the example above, use g++ 4.3.4, output looks like:</p>
-<pre class="code literal-block"><span></span><span class="n">Throw</span> <span class="o">:</span> <span class="mi">10</span>
-<span class="o">~</span><span class="n">OtherObject</span>
-<span class="n">Catch</span> <span class="o">:</span> <span class="mi">10</span>
-<span class="n">Throw</span> <span class="o">:</span> <span class="mi">0</span>
-<span class="n">Throw</span> <span class="o">:</span> <span class="mi">0</span>
-<span class="n">terminate</span> <span class="n">called</span> <span class="n">after</span> <span class="n">throwing</span> <span class="n">an</span> <span class="n">instance</span> <span class="n">of</span> <span class="s1">'int'</span>
-<span class="n">Aborted</span> <span class="o">(</span><span class="n">core</span> <span class="n">dumped</span><span class="o">)</span>
-</pre>
-
-
-<p><strong>NOTE:</strong> in g++ 6.2.1, it only get one <code>Throw : 0</code>. Because the STL vector's destructor default is noexcept, it terminate the program met the first exception.</p>
-<p>What happends? The program is interrupt when object <code>e</code> throws exception in destructor, that's why position 5 is not executed.
-But C++ doing a little bit more, it tries to release the object inside the try block, that's why <code>~OtherObject</code> is printed out.
-The exception throw by the destructor is caught successfully, position 6 is executed.
-What happends at position 7, why position 8 is not executed?
-Do another test, if we try to open the position 3, throw exception before object <code>e</code> to be destruct, what will happen? In that case two exceptions are going to be throw out. Now the console output looks like:</p>
-<pre class="code literal-block"><span></span><span class="n">Throw</span> <span class="o">:</span> <span class="mi">10</span>
-<span class="n">terminate</span> <span class="n">called</span> <span class="n">after</span> <span class="n">throwing</span> <span class="n">an</span> <span class="n">instance</span> <span class="n">of</span> <span class="s1">'int'</span>
-<span class="n">Aborted</span> <span class="o">(</span><span class="n">core</span> <span class="n">dumped</span><span class="o">)</span>
-</pre>
-
-
-<p>Haaa, that's <code>too many exceptions for C++</code>, C++ could not handle more than one exception properly, call terminate directly.
-Now go back to position 7, it creates 4 instance of <code>Exception</code> and store it in <code>vector</code>, from my understanding, <code>vector</code> just destroy the objects inside it, call destructor of each object.
-Here C++ compiler don't interupt the program met the first throw, continue call the destructor of the second object.</p>
-<p>It's really bad idea to throw exception from destructor incase C++ need to safely release the temporary object and don't support multiple exceptions could be thrown in one try catch block.
-That's why noexcept is the default added in C++11. You'll see warnings like:</p>
-<pre class="code literal-block"><span></span>test.cc: In destructor ‘Exception::~Exception()’:
-test.cc:12:9: warning: throw will always call terminate() [-Wterminate]
-   throw _i;
-         ^~
-test.cc:12:9: note: in C++11 destructors default to noexcept
-</pre>
-</div>
-    </div>
     </article>
 </div>
 
-
-
-        
-       <script>var disqus_shortname="baolonglin";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+        <nav class="postindexpager"><ul class="pager">
+<li class="next">
+                <a href="index-1.html" rel="next">旧一篇</a>
+            </li>
+        </ul></nav><script>var disqus_shortname="baolonglin";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
 </div>
         <!--End of body content-->
 

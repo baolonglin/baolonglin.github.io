@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="This is a site for Baolong.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BaoLong (old posts, page 1) | BaoLong</title>
+<link href="assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS (en)" href="rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (zh_cn)" href="zh_cn/rss.xml">
+<link rel="canonical" href="https://baolonglin.github.io/index-1.html">
+<link rel="prev" href="." type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]-->
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://baolonglin.github.io/">
+
+                <span id="blog-title">BaoLong</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="archive.html">Archive</a>
+                </li>
+<li>
+<a href="categories/">Tags</a>
+                </li>
+<li>
+<a href="rss.xml">RSS feed</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+            </li>
+<li><a href="https://baolonglin.github.io/zh_cn/" rel="alternate" hreflang="zh_cn">简体中文</a></li>
+
+                
+                    
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+
+    
+
+
+    
+<div class="postindex">
+    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/2016/12/7/throw-exception-in-destructor/" class="u-url">Throw exception in C++ destructor</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Baolong Lin
+            </span></p>
+            <p class="dateline"><a href="posts/2016/12/7/throw-exception-in-destructor/" rel="bookmark"><time class="published dt-published" datetime="2016-12-07T00:00:00+01:00" title="2016-12-07 00:00">2016-12-07 00:00</time></a></p>
+                <p class="commentline">
+        
+    <a href="posts/2016/12/7/throw-exception-in-destructor/#disqus_thread" data-disqus-identifier="cache/posts/2016/12/7/throw-exception-in-destructor.html">Comments</a>
+
+
+        </p>
+</div>
+    </header><div class="e-content entry-content">
+    <div>
+<p>We should <code>Prevent exceptions from leaving destructors</code> as <strong>Effective C++</strong> suggeust, and in that book, it also explains the reason: <code>Now there are two simulataneously active exceptions, and that's one too many for C++</code>. Is not that program interupt when throw one exception? Why two exceptions will be throw out? Let's use one example to make those clear.</p>
+<pre class="code literal-block"><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp"></span>
+
+<span class="k">class</span> <span class="nc">Exception</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">Exception</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">:</span> <span class="n">_i</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">}</span>
+    <span class="o">~</span><span class="n">Exception</span><span class="p">()</span> <span class="k">throw</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Throw : "</span> <span class="o">&lt;&lt;</span> <span class="n">_i</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="k">throw</span> <span class="n">_i</span><span class="p">;</span>        <span class="c1">// &lt;-- 1</span>
+    <span class="p">}</span>
+<span class="k">private</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">_i</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">class</span> <span class="nc">OtherObject</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="o">~</span><span class="n">OtherObject</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"~OtherObject"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="n">OtherObject</span> <span class="n">o</span><span class="p">;</span> <span class="c1">// &lt;-- 2</span>
+        <span class="p">{</span>
+            <span class="n">Exception</span> <span class="n">e</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>  <span class="c1">// &lt;-- 3</span>
+            <span class="c1">//throw 3; // &lt;-- 4</span>
+        <span class="p">}</span> <span class="c1">// &lt;-- 4</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"after throw"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> <span class="c1">// &lt;-- 5</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Catch : "</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> <span class="c1">// &lt;-- 6</span>
+    <span class="p">}</span>
+
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Exception</span><span class="o">&gt;</span> <span class="n">v</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span> <span class="c1">// &lt;-- 7</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">(...)</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Catch something"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> <span class="c1">// &lt;-- 8</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+
+
+<p>In the example above, use g++ 4.3.4, output looks like:</p>
+<pre class="code literal-block"><span></span><span class="n">Throw</span> <span class="o">:</span> <span class="mi">10</span>
+<span class="o">~</span><span class="n">OtherObject</span>
+<span class="n">Catch</span> <span class="o">:</span> <span class="mi">10</span>
+<span class="n">Throw</span> <span class="o">:</span> <span class="mi">0</span>
+<span class="n">Throw</span> <span class="o">:</span> <span class="mi">0</span>
+<span class="n">terminate</span> <span class="n">called</span> <span class="n">after</span> <span class="n">throwing</span> <span class="n">an</span> <span class="n">instance</span> <span class="n">of</span> <span class="s1">'int'</span>
+<span class="n">Aborted</span> <span class="o">(</span><span class="n">core</span> <span class="n">dumped</span><span class="o">)</span>
+</pre>
+
+
+<p><strong>NOTE:</strong> in g++ 6.2.1, it only get one <code>Throw : 0</code>. Because the STL vector's destructor default is noexcept, it terminate the program met the first exception.</p>
+<p>What happends? The program is interrupt when object <code>e</code> throws exception in destructor, that's why position 5 is not executed.
+But C++ doing a little bit more, it tries to release the object inside the try block, that's why <code>~OtherObject</code> is printed out.
+The exception throw by the destructor is caught successfully, position 6 is executed.
+What happends at position 7, why position 8 is not executed?
+Do another test, if we try to open the position 3, throw exception before object <code>e</code> to be destruct, what will happen? In that case two exceptions are going to be throw out. Now the console output looks like:</p>
+<pre class="code literal-block"><span></span><span class="n">Throw</span> <span class="o">:</span> <span class="mi">10</span>
+<span class="n">terminate</span> <span class="n">called</span> <span class="n">after</span> <span class="n">throwing</span> <span class="n">an</span> <span class="n">instance</span> <span class="n">of</span> <span class="s1">'int'</span>
+<span class="n">Aborted</span> <span class="o">(</span><span class="n">core</span> <span class="n">dumped</span><span class="o">)</span>
+</pre>
+
+
+<p>Haaa, that's <code>too many exceptions for C++</code>, C++ could not handle more than one exception properly, call terminate directly.
+Now go back to position 7, it creates 4 instance of <code>Exception</code> and store it in <code>vector</code>, from my understanding, <code>vector</code> just destroy the objects inside it, call destructor of each object.
+Here C++ compiler don't interupt the program met the first throw, continue call the destructor of the second object.</p>
+<p>It's really bad idea to throw exception from destructor incase C++ need to safely release the temporary object and don't support multiple exceptions could be thrown in one try catch block.
+That's why noexcept is the default added in C++11. You'll see warnings like:</p>
+<pre class="code literal-block"><span></span>test.cc: In destructor ‘Exception::~Exception()’:
+test.cc:12:9: warning: throw will always call terminate() [-Wterminate]
+   throw _i;
+         ^~
+test.cc:12:9: note: in C++11 destructors default to noexcept
+</pre>
+</div>
+    </div>
+    </article>
+</div>
+
+        <nav class="postindexpager"><ul class="pager">
+<li class="previous">
+                <a href="." rel="prev">Newer posts</a>
+            </li>
+        </ul></nav><script>var disqus_shortname="baolonglin";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2018         <a href="mailto:lbl52001@gmail.com">Baolong Lin</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>

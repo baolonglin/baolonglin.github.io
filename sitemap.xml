@@ -7,7 +7,7 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <url>
   <loc>https://baolonglin.github.io/</loc>
-  <lastmod>2018-01-03T12:37:00Z</lastmod>
+  <lastmod>2018-01-13T22:49:00Z</lastmod>
  </url>
  <url>
   <loc>https://baolonglin.github.io/2016/</loc>
@@ -23,15 +23,19 @@
  </url>
  <url>
   <loc>https://baolonglin.github.io/archive.html</loc>
-  <lastmod>2018-01-10T14:33:00Z</lastmod>
+  <lastmod>2018-01-13T22:49:00Z</lastmod>
  </url>
  <url>
   <loc>https://baolonglin.github.io/categories/</loc>
-  <lastmod>2018-01-03T12:36:00Z</lastmod>
+  <lastmod>2018-01-13T22:49:00Z</lastmod>
  </url>
  <url>
   <loc>https://baolonglin.github.io/categories/c%2B%2B/</loc>
   <lastmod>2018-01-03T12:36:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://baolonglin.github.io/categories/emacs/</loc>
+  <lastmod>2018-01-13T22:49:00Z</lastmod>
  </url>
  <url>
   <loc>https://baolonglin.github.io/categories/org-mode/</loc>
@@ -40,6 +44,10 @@
  <url>
   <loc>https://baolonglin.github.io/galleries/</loc>
   <lastmod>2017-12-29T13:18:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://baolonglin.github.io/index-1.html</loc>
+  <lastmod>2018-01-13T22:49:00Z</lastmod>
  </url>
  <url>
   <loc>https://baolonglin.github.io/listings/</loc>
@@ -82,12 +90,16 @@
   <lastmod>2017-12-29T13:34:00Z</lastmod>
  </url>
  <url>
+  <loc>https://baolonglin.github.io/posts/manage-email-by-mu4e/</loc>
+  <lastmod>2018-01-13T22:49:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://baolonglin.github.io/posts/quite-nice-to-write-blog-with-emacs-org-nikola/</loc>
   <lastmod>2017-12-29T14:47:00Z</lastmod>
  </url>
  <url>
   <loc>https://baolonglin.github.io/zh_cn/</loc>
-  <lastmod>2018-01-03T12:37:00Z</lastmod>
+  <lastmod>2018-01-13T22:49:00Z</lastmod>
  </url>
  <url>
   <loc>https://baolonglin.github.io/zh_cn/2016/</loc>
@@ -103,15 +115,19 @@
  </url>
  <url>
   <loc>https://baolonglin.github.io/zh_cn/archive.html</loc>
-  <lastmod>2018-01-10T14:33:00Z</lastmod>
+  <lastmod>2018-01-13T22:49:00Z</lastmod>
  </url>
  <url>
   <loc>https://baolonglin.github.io/zh_cn/categories/</loc>
-  <lastmod>2018-01-03T12:36:00Z</lastmod>
+  <lastmod>2018-01-13T22:49:00Z</lastmod>
  </url>
  <url>
   <loc>https://baolonglin.github.io/zh_cn/categories/c%2B%2B/</loc>
   <lastmod>2018-01-03T12:36:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://baolonglin.github.io/zh_cn/categories/emacs/</loc>
+  <lastmod>2018-01-13T22:49:00Z</lastmod>
  </url>
  <url>
   <loc>https://baolonglin.github.io/zh_cn/categories/org-mode/</loc>
@@ -120,6 +136,10 @@
  <url>
   <loc>https://baolonglin.github.io/zh_cn/galleries/</loc>
   <lastmod>2017-12-29T13:18:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://baolonglin.github.io/zh_cn/index-1.html</loc>
+  <lastmod>2018-01-13T22:49:00Z</lastmod>
  </url>
  <url>
   <loc>https://baolonglin.github.io/zh_cn/posts/2016/12/7/throw-exception-in-destructor/</loc>
@@ -165,6 +185,11 @@
   <loc>https://baolonglin.github.io/zh_cn/posts/maintain-test-cases-with-org-mode/</loc>
   <lastmod>2017-12-29T13:34:00Z</lastmod>
   <xhtml:link rel="alternate" hreflang="en" href="https://baolonglin.github.io/posts/maintain-test-cases-with-org-mode/" />
+ </url>
+ <url>
+  <loc>https://baolonglin.github.io/zh_cn/posts/manage-email-by-mu4e/</loc>
+  <lastmod>2018-01-13T22:49:00Z</lastmod>
+  <xhtml:link rel="alternate" hreflang="en" href="https://baolonglin.github.io/posts/manage-email-by-mu4e/" />
  </url>
  <url>
   <loc>https://baolonglin.github.io/zh_cn/posts/quite-nice-to-write-blog-with-emacs-org-nikola/</loc>

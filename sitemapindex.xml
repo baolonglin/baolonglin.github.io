@@ -10,6 +10,10 @@
   <lastmod>2018-01-03T13:11:00Z</lastmod>
  </sitemap>
  <sitemap>
+  <loc>https://baolonglin.github.io/categories/emacs.xml</loc>
+  <lastmod>2018-01-13T22:49:00Z</lastmod>
+ </sitemap>
+ <sitemap>
   <loc>https://baolonglin.github.io/categories/org-mode.xml</loc>
   <lastmod>2018-01-03T12:37:00Z</lastmod>
  </sitemap>
@@ -19,15 +23,19 @@
  </sitemap>
  <sitemap>
   <loc>https://baolonglin.github.io/rss.xml</loc>
-  <lastmod>2018-01-10T14:33:00Z</lastmod>
+  <lastmod>2018-01-13T22:49:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://baolonglin.github.io/sitemap.xml</loc>
-  <lastmod>2018-01-10T14:33:00Z</lastmod>
+  <lastmod>2018-01-13T22:49:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://baolonglin.github.io/zh_cn/categories/c%2B%2B.xml</loc>
   <lastmod>2018-01-03T13:11:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://baolonglin.github.io/zh_cn/categories/emacs.xml</loc>
+  <lastmod>2018-01-13T22:49:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://baolonglin.github.io/zh_cn/categories/org-mode.xml</loc>
@@ -39,6 +47,6 @@
  </sitemap>
  <sitemap>
   <loc>https://baolonglin.github.io/zh_cn/rss.xml</loc>
-  <lastmod>2018-01-10T14:33:00Z</lastmod>
+  <lastmod>2018-01-13T22:49:00Z</lastmod>
  </sitemap>
 </sitemapindex>

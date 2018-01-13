@@ -1,0 +1,33 @@
+#+BEGIN_COMMENT
+.. title: Manage email by mu4e
+.. slug: manage-email-by-mu4e
+.. date: 2018-01-12 16:48:31 UTC+01:00
+.. tags: emacs
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+#+END_COMMENT
+
+There are a lot of posts mentioned m4u solution to manage mail
+under mu4e, do everything in emacs becomes my hobby when
+I jump into the emacs hole.
+
+I found one nice post to start with
+[[http://cachestocaches.com/2017/3/complete-guide-email-emacs-using-mu-and-/][A COMPLETE GUIDE TO EMAIL IN EMACS USING MU AND MU4E]]
+
+only extra information I can provide is the configuration
+for office365, below is part of offlineimap configuration,
+#+BEGIN_SRC conf
+[Repository Remote]
+auth_mechanisms = GSSAPI, CRAM-MD5, PLAIN, LOGIN
+type = IMAP
+maxconnections = 2
+remotehost = outlook.office365.com
+remoteuser = <mail address>
+remotepass = <mail password>
+folderfilter = lambda folder: folder in [ 'INBOX', 'Sent Items' ]
+# The file is copy from Arch linux, different linux distribution has different location
+sslcacertfile = ~/tls-ca-bundle.pem
+#+END_SRC
+
