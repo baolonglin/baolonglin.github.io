@@ -73,7 +73,86 @@
 
     
 <div class="postindex">
-    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/manage-email-by-mu4e/" class="u-url">Manage email by mu4e</a></h1>
+    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/portforward-on-android-phone/" class="u-url">Portforward on android phone</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Baolong Lin
+            </span></p>
+            <p class="dateline"><a href="posts/portforward-on-android-phone/" rel="bookmark"><time class="published dt-published" datetime="2018-01-25T15:13:24+01:00" title="2018-01-25 15:13">2018-01-25 15:13</time></a></p>
+                <p class="commentline">
+        
+    <a href="posts/portforward-on-android-phone/#disqus_thread" data-disqus-identifier="cache/posts/portforward-on-android-phone.html">Comments</a>
+
+
+        </p>
+</div>
+    </header><div class="e-content entry-content">
+    <p>
+Phone reachable by hand most of time, sometime I use phone to do some work (ex, check internal email, code review comments, CI result, etc.).
+I need to login to one jump server (HOST1), then login another working server (HOST2).
+I'm using <a href="https://termux.com/">Termux</a> on android, it's quit easy to access SSH tool. It work fine with <a href="https://github.com/tmux/tmux/wiki">tmux</a>, and I run emacs inside it.
+When I need to access the web (gerrit, jenkins, etc), I need to do port forward.
+It can be achieve by SSH command, refer to <a href="https://superuser.com/questions/96489/an-ssh-tunnel-via-multiple-hops">an-ssh-tunnel-via-multiple-hops</a>.
+On android phone, I don't want to type so many command or create one script to do that.
+I choose another SSH app <a href="https://connectbot.org/">ConnectBot</a>. But need to do following step once.
+</p>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Create Host to HOST1</h2>
+<div class="outline-text-2" id="text-1">
+<div class="highlight"><pre><span></span>username@HOST1:22
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Add local port forward for HOST1</h2>
+<div class="outline-text-2" id="text-2">
+<div class="highlight"><pre><span></span>Type: Local
+Source port: 9999
+Destination: HOST2:22
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Create Host to HOST2</h2>
+<div class="outline-text-2" id="text-3">
+<div class="highlight"><pre><span></span>username@127.0.0.1:9999
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">Add dynamic port forward for HOST2</h2>
+<div class="outline-text-2" id="text-4">
+<div class="highlight"><pre><span></span>Type: Dynamic(SOCKS)
+Source port: 9998
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5">Configure the Firefox proxy</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+Open about:config change the following parameters:
+</p>
+<div class="highlight"><pre><span></span>network.proxy.proxy_over_tls: true
+network.proxy.socks: 127.0.0.1
+network.proxy.socks_port: 9998
+network.proxy.socks_remote_dns: true
+network.proxy.socks_version: 5
+network.proxy.type: 1
+</pre></div>
+
+<p>
+Now login HOST1, HOST2 with ConnectBot, use Firefox visit the internal website with the same way.
+</p>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/manage-email-by-mu4e/" class="u-url">Manage email by mu4e</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 Baolong Lin
@@ -345,9 +424,9 @@ It's quit simple and looks nice, the big thing is I can use org-mode to write bl
         </p>
 </div>
     </header><div class="e-content entry-content">
-    <div id="outline-container-orgde437b4" class="outline-2">
-<h2 id="orgde437b4">Introduction</h2>
-<div class="outline-text-2" id="text-orgde437b4">
+    <div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Introduction</h2>
+<div class="outline-text-2" id="text-1">
 <p>
 Org-mode is known as good tool to do planning/scheduling, but it also used as <a href="http://howardism.org/Technical/Emacs/literate-programming-tutorial.html">literate programming tool</a>. It's quite nice to use <a href="http://orgmode.org/worg/org-contrib/babel/">Babel</a> to execute code inside org-mode, it should be possible to use org-mode write test case.
 Right now I could not find one native way inside org-mode to support this.
@@ -356,24 +435,28 @@ The tool I need to test is quit simple, <a href="https://clang.llvm.org/docs/Cla
 </div>
 </div>
 
-<div id="outline-container-org3797fb3" class="outline-2">
-<h2 id="org3797fb3">Prequirements</h2>
-<div class="outline-text-2" id="text-org3797fb3">
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Prequirements</h2>
+<div class="outline-text-2" id="text-2">
 <p>
 Here list my environment:
 </p>
 <ul class="org-ul">
-<li>Emacs 26</li>
-<li>Org-mode 9.1.4</li>
-<li>Babel load language elisp, bash</li>
-<li>org-element</li>
+<li>Emacs 26
+</li>
+<li>Org-mode 9.1.4
+</li>
+<li>Babel load language elisp, bash
+</li>
+<li>org-element
+</li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgb7c255b" class="outline-2">
-<h2 id="orgb7c255b">Setup</h2>
-<div class="outline-text-2" id="text-orgb7c255b">
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Setup</h2>
+<div class="outline-text-2" id="text-3">
 <p>
 Just create one org file, input content like:
 </p>
@@ -441,30 +524,30 @@ The test result looks like:
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
-<col class="org-left">
-<col class="org-left">
+<col class="left">
+<col class="left">
 </colgroup>
 <tbody>
 <tr>
-<td class="org-left">(test-case-1)</td>
-<td class="org-left">PASS</td>
+<td class="left">(test-case-1)</td>
+<td class="left">PASS</td>
 </tr>
 <tr>
-<td class="org-left">(test-case-2)</td>
-<td class="org-left">PASS</td>
+<td class="left">(test-case-2)</td>
+<td class="left">PASS</td>
 </tr>
 <tr>
-<td class="org-left">(test-case-3)</td>
-<td class="org-left">FAILED</td>
+<td class="left">(test-case-3)</td>
+<td class="left">FAILED</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 
-<div id="outline-container-org023ce91" class="outline-2">
-<h2 id="org023ce91">Conclusion</h2>
-<div class="outline-text-2" id="text-org023ce91">
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">Conclusion</h2>
+<div class="outline-text-2" id="text-4">
 <p>
 The solution is not perfect enough, it has duplicate shell code under each test case, the input/output code could not be highlight.
 The report is quit simple, when test cases number becomes large, require better solution to show the test result.
@@ -667,83 +750,6 @@ declaration.</p>
   <span class="p">(</span><span class="nf">start-process</span> <span class="s">"ct-run"</span> <span class="s">"*ct-run*"</span> <span class="s">"ct_run"</span><span class="p">)</span>
   <span class="p">(</span><span class="nv">pop-to-buffer</span> <span class="s">"*ct-run*"</span><span class="p">))</span>
 </pre>
-</div>
-    </div>
-    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/2017/3/2/restore-work-space/" class="u-url">Restore workspace</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                Baolong Lin
-            </span></p>
-            <p class="dateline"><a href="posts/2017/3/2/restore-work-space/" rel="bookmark"><time class="published dt-published" datetime="2017-03-02T00:00:00+01:00" title="2017-03-02 00:00">2017-03-02 00:00</time></a></p>
-                <p class="commentline">
-        
-    <a href="posts/2017/3/2/restore-work-space/#disqus_thread" data-disqus-identifier="cache/posts/2017/3/2/restore-work-space.html">Comments</a>
-
-
-        </p>
-</div>
-    </header><div class="e-content entry-content">
-    <div>
-<p>Recently, I tried to setup my working environment. The product I worked on mostly using C++, and the application is running on one OS similar as BSD enabled multi-processes programming style. I owned one dedicate Linux machine to code, run function test, etc. but I don't have the root permission. That machine provide nx server, it works quit well, but the nx server is too old that sometimes met annoying issue, only terminate session can solve the problem. Terminate session causes the working environment disappear. Another problem is the machine may reboot by administrator to do maintain work. Here is the current solution, it's quit ok now.</p>
-<ul>
-<li><a href="https://tmux.github.io/">tmux</a></li>
-</ul>
-<p>Tmux is used to keep the application without window, and also easy to manage different work area. And use <a href="https://github.com/tmux-plugins/tmux-resurrect">tmux-resurrect</a> to store the information incase OS is restarted.</p>
-<ul>
-<li>ssh + shell script</li>
-</ul>
-<p>To get rid of nx server, use ssh directly. Tmux could not keep the X window's session, here use shell script to restart the X11 application.</p>
-<pre class="code literal-block"><span></span>ssh -YXC -c blowfish-cbc,arcfour user@host -t <span class="se">\"</span>tmux attach -t work <span class="se">\\\\</span><span class="p">;</span> split-window ~/bin/restore.sh<span class="se">\"</span><span class="s2">"</span>
-</pre>
-
-
-<p>Below is the <code>restore.sh</code></p>
-<pre class="code literal-block"><span></span><span class="ch">#!/bin/sh</span>
-
-<span class="nv">PROMPT_START</span><span class="o">=</span><span class="s2">"\[</span><span class="k">$(</span>hostname<span class="k">)</span><span class="s2">\]"</span>
-<span class="nv">ORIG_WINDOW_INDEX</span><span class="o">=</span><span class="sb">`</span>tmux display-message -p <span class="s1">'#I'</span><span class="sb">`</span>
-<span class="nv">ORIG_PANE_INDEX</span><span class="o">=</span><span class="sb">`</span>tmux display-message -p <span class="s1">'#P'</span><span class="sb">`</span>
-
-<span class="nv">TMUX_DISPLAY_ENV</span><span class="o">=</span><span class="sb">`</span>tmux show-environment DISPLAY <span class="p">|</span> cut -d<span class="o">=</span> -f2<span class="sb">`</span>
-<span class="nv">UPDATE_DISPLAY</span><span class="o">=</span><span class="s2">"setenv DISPLAY </span><span class="si">${</span><span class="nv">TMUX_DISPLAY_ENV</span><span class="si">}</span><span class="s2">"</span>
-
-<span class="k">for</span> window in <span class="sb">`</span>tmux list-windows -F <span class="s1">'#I'</span><span class="sb">`</span><span class="p">;</span> <span class="k">do</span>
-    tmux <span class="k">select</span>-window -t <span class="nv">$window</span>
-
-    <span class="k">for</span> pane in <span class="k">$(</span>tmux list-panes -F <span class="s1">'#P'</span><span class="k">)</span><span class="p">;</span> <span class="k">do</span>
-        <span class="c1">#tmux send-keys -t ${pane} ""</span>
-        <span class="nv">outputLines</span><span class="o">=</span><span class="k">$(</span>tmux capture-pane -p -t <span class="si">${</span><span class="nv">pane</span><span class="si">}</span> <span class="p">|</span> tac<span class="k">)</span>
-        <span class="nv">prompt_skipped</span><span class="o">=</span><span class="nb">false</span>
-        <span class="k">while</span> <span class="nb">read</span> -r line<span class="p">;</span> <span class="k">do</span>
-            <span class="k">if</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$prompt_skipped</span><span class="s2">"</span> <span class="o">=</span> <span class="nb">true</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-                <span class="nv">lastStopApp</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="s2">"</span><span class="nv">$line</span><span class="s2">"</span> <span class="p">|</span> perl -lne <span class="s1">'/\[\d+\]\s+(Abort|Done|Exit\s+\d+)\s+(.*)$/ &amp;&amp; print $2'</span><span class="k">)</span>
-                <span class="k">if</span> <span class="o">[</span> ! -z <span class="s2">"</span><span class="nv">$lastStopApp</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-                    <span class="c1">#echo "$lastStopApp Runs on pane $pane window $window" &gt;&gt; ~/start.log</span>
-                    <span class="c1">#TODO do more checks on APP</span>
-                    tmux send-keys -t <span class="si">${</span><span class="nv">pane</span><span class="si">}</span> <span class="s2">"</span><span class="si">${</span><span class="nv">UPDATE_DISPLAY</span><span class="si">}</span><span class="s2">"</span> Enter
-                    tmux send-keys -t <span class="si">${</span><span class="nv">pane</span><span class="si">}</span> <span class="s2">"</span><span class="si">${</span><span class="nv">lastStopApp</span><span class="si">}</span><span class="s2">&amp;"</span> Enter
-                <span class="k">fi</span>
-                <span class="nb">break</span>
-            <span class="k">fi</span>
-
-            <span class="k">if</span> <span class="o">[[</span> <span class="s2">"</span><span class="nv">$line</span><span class="s2">"</span> <span class="o">=</span>~ ^<span class="nv">$PROMPT_START</span>.* <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
-                <span class="nv">prompt_skipped</span><span class="o">=</span><span class="nb">true</span>
-            <span class="k">fi</span>
-
-        <span class="k">done</span> <span class="o">&lt;&lt;&lt;</span> <span class="s2">"</span><span class="nv">$outputLines</span><span class="s2">"</span>
-    <span class="k">done</span>
-<span class="k">done</span>
-
-tmux <span class="k">select</span>-window -t <span class="nv">$ORIG_WINDOW_INDEX</span>
-tmux <span class="k">select</span>-pane -t <span class="nv">$ORIG_PANE_INDEX</span>
-</pre>
-
-
-<p>This script tries to restart the application which executed background and interrupt by the X11 display. Have limitation, this script only handle the last one in pane.</p>
-<ul>
-<li>emacs + rtags</li>
-</ul>
-<p>Emacs's desktop can keep the session quit good, rtags manages the C++ AST database.</p>
 </div>
     </div>
     </article>
