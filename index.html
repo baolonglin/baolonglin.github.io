@@ -99,32 +99,24 @@ I choose another SSH app <a href="https://connectbot.org/">ConnectBot</a>. But n
 
 <ol class="org-ol">
 <li>Create Host to HOST1
-</li>
-</ol>
 <div class="highlight"><pre><span></span>username@HOST1:22
 </pre></div>
-<ol class="org-ol">
-<li>Add local port forward for HOST1
 </li>
-</ol>
+<li>Add local port forward for HOST1
 <div class="highlight"><pre><span></span>Type: Local
 Source port: 9999
 Destination: HOST2:22
 </pre></div>
-<ol class="org-ol">
-<li>Create Host to HOST2
 </li>
-</ol>
+<li>Create Host to HOST2
 <div class="highlight"><pre><span></span>username@127.0.0.1:9999
 </pre></div>
-<ol class="org-ol">
-<li>Add dynamic port forward for HOST2
 </li>
-</ol>
+<li>Add dynamic port forward for HOST2
 <div class="highlight"><pre><span></span>Type: Dynamic(SOCKS)
 Source port: 9998
 </pre></div>
-<ol class="org-ol">
+</li>
 <li>Configure the Firefox proxy
 </li>
 </ol>
