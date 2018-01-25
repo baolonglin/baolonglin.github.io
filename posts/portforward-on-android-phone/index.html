@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Portforward on android phone | BaoLong</title>
+<title>Port forward on android phone | BaoLong</title>
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
@@ -13,7 +13,7 @@
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baolong Lin">
 <link rel="prev" href="../manage-email-by-mu4e/" title="Manage email by mu4e" type="text/html">
 <meta property="og:site_name" content="BaoLong">
-<meta property="og:title" content="Portforward on android phone">
+<meta property="og:title" content="Port forward on android phone">
 <meta property="og:url" content="https://baolonglin.github.io/posts/portforward-on-android-phone/">
 <meta property="og:description" content="Phone reachable by hand most of time, sometime I use phone to do some work (ex, check internal email, code review comments, CI result, etc.).
 I need to login to one jump server (HOST1), then login ano">
@@ -79,7 +79,7 @@ I need to login to one jump server (HOST1), then login ano">
         <div class="row">
             
             
-<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Portforward on android phone</a></h1>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Port forward on android phone</a></h1>
 
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
@@ -115,7 +115,6 @@ I choose another SSH app <a href="https://connectbot.org/">ConnectBot</a>. But n
 </ol>
 <div class="highlight"><pre><span></span>username@HOST1:22
 </pre></div>
-
 <ol class="org-ol">
 <li>Add local port forward for HOST1
 </li>
@@ -124,14 +123,12 @@ I choose another SSH app <a href="https://connectbot.org/">ConnectBot</a>. But n
 Source port: 9999
 Destination: HOST2:22
 </pre></div>
-
 <ol class="org-ol">
 <li>Create Host to HOST2
 </li>
 </ol>
 <div class="highlight"><pre><span></span>username@127.0.0.1:9999
 </pre></div>
-
 <ol class="org-ol">
 <li>Add dynamic port forward for HOST2
 </li>
@@ -139,7 +136,6 @@ Destination: HOST2:22
 <div class="highlight"><pre><span></span>Type: Dynamic(SOCKS)
 Source port: 9998
 </pre></div>
-
 <ol class="org-ol">
 <li>Configure the Firefox proxy
 </li>
@@ -173,7 +169,7 @@ Now login HOST1, HOST2 with ConnectBot, use Firefox visit the internal website w
         <script>
         var disqus_shortname ="baolonglin",
             disqus_url="https://baolonglin.github.io/posts/portforward-on-android-phone/",
-        disqus_title="Portforward on android phone",
+        disqus_title="Port forward on android phone",
         disqus_identifier="cache/posts/portforward-on-android-phone.html",
         disqus_config = function () {
             this.language = "en";
