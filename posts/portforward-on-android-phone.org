@@ -9,6 +9,7 @@
 .. type: text
 #+END_COMMENT
 
+
 Phone reachable by hand most of time, sometime I use phone to do some work (ex, check internal email, code review comments, CI result, etc.).
 I need to login to one jump server (HOST1), then login another working server (HOST2).
 I'm using [[https://termux.com/][Termux]] on android, it's quit easy to access SSH tool. It work fine with [[https://github.com/tmux/tmux/wiki][tmux]], and I run emacs inside it.
@@ -18,31 +19,31 @@ On android phone, I don't want to type so many command or create one script to d
 I choose another SSH app [[https://connectbot.org/][ConnectBot]]. But need to do following step once.
 
 ** Create Host to HOST1
-#+BEGIN_SRC
+#+BEGIN_SRC conf
 username@HOST1:22
 #+END_SRC
 
 ** Add local port forward for HOST1
-#+BEGIN_SRC 
+#+BEGIN_SRC conf
 Type: Local
 Source port: 9999
 Destination: HOST2:22
 #+END_SRC
 
 ** Create Host to HOST2
-#+BEGIN_SRC 
+#+BEGIN_SRC conf
 username@127.0.0.1:9999
 #+END_SRC
 
 ** Add dynamic port forward for HOST2
-#+BEGIN_SRC 
+#+BEGIN_SRC conf
 Type: Dynamic(SOCKS)
 Source port: 9998
 #+END_SRC
 
 ** Configure the Firefox proxy
 Open about:config change the following parameters:
-#+BEGIN_SRC 
+#+BEGIN_SRC conf
 network.proxy.proxy_over_tls: true
 network.proxy.socks: 127.0.0.1
 network.proxy.socks_port: 9998
