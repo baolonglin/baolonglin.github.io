@@ -1,5 +1,5 @@
 #+BEGIN_COMMENT
-.. title: Portforward on android phone
+.. title: Port forward on android phone
 .. slug: portforward-on-android-phone
 .. date: 2018-01-25 15:13:24 UTC+01:00
 .. tags: ssh
@@ -22,25 +22,21 @@ I choose another SSH app [[https://connectbot.org/][ConnectBot]]. But need to do
 #+BEGIN_SRC conf
 username@HOST1:22
 #+END_SRC
-
 2. Add local port forward for HOST1
 #+BEGIN_SRC conf
 Type: Local
 Source port: 9999
 Destination: HOST2:22
 #+END_SRC
-
 3. Create Host to HOST2
 #+BEGIN_SRC conf
 username@127.0.0.1:9999
 #+END_SRC
-
 4. Add dynamic port forward for HOST2
 #+BEGIN_SRC conf
 Type: Dynamic(SOCKS)
 Source port: 9998
 #+END_SRC
-
 5. Configure the Firefox proxy
 Open about:config change the following parameters:
 #+BEGIN_SRC conf
