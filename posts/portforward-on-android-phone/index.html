@@ -105,38 +105,70 @@ I need to login to one jump server (HOST1), then login another working server (H
 I'm using <a href="https://termux.com/">Termux</a> on android, it's quit easy to access SSH tool. It work fine with <a href="https://github.com/tmux/tmux/wiki">tmux</a>, and I run emacs inside it.
 When I need to access the web (gerrit, jenkins, etc), I need to do port forward.
 It can be achieve by SSH command, refer to <a href="https://superuser.com/questions/96489/an-ssh-tunnel-via-multiple-hops">an-ssh-tunnel-via-multiple-hops</a>.
+Shell script depends on lsof
+</p>
+<div class="highlight"><pre><span></span>LOCAL_PORT_SSH_PORT=9999
+REMOTE_IP=HOST2
+JUMP_HOST=HOST1
+USER_NAME=xxx
+DYNAMIC_SOCK_PORT=9998
+
+if ! lsof -i:$LOCAL_PORT_SSH_PORT; then
+    ssh -AX -f -L $LOCAL_PORT_SSH_PORT:$REMOTE_IP:22 -N $USER_NAME@$JUMP_HOST
+    ssh -f -D $DYNAMIC_SOCK_PORT -N -p $LOCAL_PORT_SSH_PORT $USER_NAME@127.0.0.1
+fi
+
+ssh -AX -p $LOCAL_PORT_SSH_PORT $USER_NAME@127.0.0.1
+</pre></div>
+
+<p>
 On android phone, I don't want to type so many command or create one script to do that.
 I choose another SSH app <a href="https://connectbot.org/">ConnectBot</a>. But need to do following step once.
 </p>
 
 <ol class="org-ol">
-<li>Create Host to HOST1
-<div class="highlight"><pre><span></span>username@HOST1:22
+<li>
+<p>
+Create Host to HOST1
+</p>
+<div class="highlight"><pre><span></span>   username@HOST1:22
 </pre></div>
 </li>
-<li>Add local port forward for HOST1
-<div class="highlight"><pre><span></span>Type: Local
-Source port: 9999
-Destination: HOST2:22
+<li>
+<p>
+Add local port forward for HOST1
+</p>
+<div class="highlight"><pre><span></span>   Type: Local
+   Source port: 9999
+   Destination: HOST2:22
 </pre></div>
 </li>
-<li>Create Host to HOST2
-<div class="highlight"><pre><span></span>username@127.0.0.1:9999
+<li>
+<p>
+Create Host to HOST2
+</p>
+<div class="highlight"><pre><span></span>   username@127.0.0.1:9999
 </pre></div>
 </li>
-<li>Add dynamic port forward for HOST2
-<div class="highlight"><pre><span></span>Type: Dynamic(SOCKS)
-Source port: 9998
+<li>
+<p>
+Add dynamic port forward for HOST2
+</p>
+<div class="highlight"><pre><span></span>   Type: Dynamic(SOCKS)
+   Source port: 9998
 </pre></div>
 </li>
-<li>Configure the Firefox proxy
+<li>
+<p>
+Configure the Firefox proxy
 Open about:config change the following parameters:
-<div class="highlight"><pre><span></span>network.proxy.proxy_over_tls: true
-network.proxy.socks: 127.0.0.1
-network.proxy.socks_port: 9998
-network.proxy.socks_remote_dns: true
-network.proxy.socks_version: 5
-network.proxy.type: 1
+</p>
+<div class="highlight"><pre><span></span>   network.proxy.proxy_over_tls: true
+   network.proxy.socks: 127.0.0.1
+   network.proxy.socks_port: 9998
+   network.proxy.socks_remote_dns: true
+   network.proxy.socks_version: 5
+   network.proxy.type: 1
 </pre></div>
 </li>
 </ol>
