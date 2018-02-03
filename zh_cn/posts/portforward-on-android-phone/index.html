@@ -12,6 +12,7 @@
 <link rel="canonical" href="https://baolonglin.github.io/zh_cn/posts/portforward-on-android-phone/">
 <!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baolong Lin">
 <link rel="prev" href="../manage-email-by-mu4e/" title="Manage email by mu4e" type="text/html">
+<link rel="next" href="../c%2B%2B-inline-funtion-in-source-file/" title="C++ inline funtion in source file" type="text/html">
 <meta property="og:site_name" content="BaoLong">
 <meta property="og:title" content="Port forward on android phone">
 <meta property="og:url" content="https://baolonglin.github.io/zh_cn/posts/portforward-on-android-phone/">
@@ -127,48 +128,33 @@ I choose another SSH app <a href="https://connectbot.org/">ConnectBot</a>. But n
 </p>
 
 <ol class="org-ol">
-<li>
-<p>
-Create Host to HOST1
-</p>
-<div class="highlight"><pre><span></span>   username@HOST1:22
+<li>Create Host to HOST1
+<div class="highlight"><pre><span></span>username@HOST1:22
 </pre></div>
 </li>
-<li>
-<p>
-Add local port forward for HOST1
-</p>
-<div class="highlight"><pre><span></span>   Type: Local
-   Source port: 9999
-   Destination: HOST2:22
+<li>Add local port forward for HOST1
+<div class="highlight"><pre><span></span>Type: Local
+Source port: 9999
+Destination: HOST2:22
 </pre></div>
 </li>
-<li>
-<p>
-Create Host to HOST2
-</p>
-<div class="highlight"><pre><span></span>   username@127.0.0.1:9999
+<li>Create Host to HOST2
+<div class="highlight"><pre><span></span>username@127.0.0.1:9999
 </pre></div>
 </li>
-<li>
-<p>
-Add dynamic port forward for HOST2
-</p>
-<div class="highlight"><pre><span></span>   Type: Dynamic(SOCKS)
-   Source port: 9998
+<li>Add dynamic port forward for HOST2
+<div class="highlight"><pre><span></span>Type: Dynamic(SOCKS)
+Source port: 9998
 </pre></div>
 </li>
-<li>
-<p>
-Configure the Firefox proxy
+<li>Configure the Firefox proxy
 Open about:config change the following parameters:
-</p>
-<div class="highlight"><pre><span></span>   network.proxy.proxy_over_tls: true
-   network.proxy.socks: 127.0.0.1
-   network.proxy.socks_port: 9998
-   network.proxy.socks_remote_dns: true
-   network.proxy.socks_version: 5
-   network.proxy.type: 1
+<div class="highlight"><pre><span></span>network.proxy.proxy_over_tls: true
+network.proxy.socks: 127.0.0.1
+network.proxy.socks_port: 9998
+network.proxy.socks_remote_dns: true
+network.proxy.socks_version: 5
+network.proxy.type: 1
 </pre></div>
 </li>
 </ol>
@@ -182,6 +168,9 @@ Now login HOST1, HOST2 with ConnectBot, use Firefox visit the internal website w
 <ul class="pager hidden-print">
 <li class="previous">
                 <a href="../manage-email-by-mu4e/" rel="prev" title="Manage email by mu4e">前一篇</a>
+            </li>
+            <li class="next">
+                <a href="../c%2B%2B-inline-funtion-in-source-file/" rel="next" title="C++ inline funtion in source file">后一篇</a>
             </li>
         </ul></nav></aside><section class="comments hidden-print"><h2>注释</h2>
         

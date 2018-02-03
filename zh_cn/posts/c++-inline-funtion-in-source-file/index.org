@@ -1,0 +1,161 @@
+#+BEGIN_COMMENT
+.. title: C++ inline funtion in source file
+.. slug: c++-inline-funtion-in-source-file
+.. date: 2018-02-03 21:22:10 UTC+01:00
+.. tags: c++
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+#+END_COMMENT
+
+
+One of my colleague came to me with one link problem,
+there are two static functions in one class, they don't
+have observed difference, but one function was linked
+failed, another looked fine. Those two functions were there
+for long time. Take a look at the implementation, those two
+functions have inline keyword at the beginning in source file.
+"Public function should not put inline implementation at source file"
+, but why it worked before? Now has link problem?
+Let's start with simple example, header file test.hh
+#+BEGIN_SRC cpp
+#pragma once
+
+class T {
+public:
+  static void f1();
+  static void f2();
+};
+#+END_SRC
+source file, test.cc
+#+BEGIN_SRC cpp
+#include "test.hh"
+
+extern void a();
+
+inline void T::f1() { a(); }
+inline void T::f2() { a(); }
+#+END_SRC
+
+Then compile it into object
+#+BEGIN_SRC shell
+g++ -c test.cc
+#+END_SRC
+
+Check the symble inside the object
+#+BEGIN_SRC bash
+nm test.o
+#+END_SRC
+Nothing output , it meets our expectation, no one use those inline
+function, inline means copying the compiled code into the caller.
+No symble needed.
+Chang a little bit
+#+BEGIN_SRC cpp
+#include "test.hh"
+
+extern void a();
+
+namespace {
+void s1() { T::f2(); }
+}
+
+inline void T::f1() { a(); }
+inline void T::f2() { a(); }
+
+void g1() { T::f1(); }
+
+#+END_SRC
+Add anonymouse namespace function a calls f2, global function
+g1 calls f1. Check the symble again
+#+BEGIN_EXAMPLE
+$ nm test.o
+                 U _Z1av
+0000000000000000 T _Z2g1v
+0000000000000000 W _ZN1T2f1Ev
+#+END_EXAMPLE
+Compiler generates a weak symble for f1, but not for f2.
+How about adding optimization during compilation?
+#+BEGIN_SRC bash
+g++ -c -O2 test.cc
+#+END_SRC
+Now the symble table becomes
+#+BEGIN_EXAMPLE
+nm test.o
+                 U _Z1av
+0000000000000000 T _Z2g1v
+#+END_EXAMPLE
+Weak symble is not generated for f1 now.
+Chang a little bit again
+#+BEGIN_SRC cpp
+#include "test.hh"
+#include <iostream>
+
+extern void a();
+
+namespace {
+void s1() { T::f2(); }
+}
+
+inline void T::f1() {
+  a();
+  std::cout << "f1" << std::endl;
+}
+inline void T::f2() { a(); }
+
+void g1() {
+  T::f1();
+  s1();
+}
+#+END_SRC
+global function calls s1, f1 calls cout to ouput something.
+Compile it with O2 again, then check the symble table
+#+BEGIN_EXAMPLE
+nm test.o
+0000000000000000 V DW.ref.__gxx_personality_v0
+0000000000000000 r GCC_except_table1
+0000000000000050 r GCC_except_table2
+0000000000000100 r GCC_except_table3
+000000000000012c r GCC_except_table4
+0000000000000158 r GCC_except_table6
+00000000000001e0 r GCC_except_table7
+                 U _Unwind_Resume
+                 U _Z1av
+0000000000000000 T _Z2g1v
+0000000000000000 W _ZN1T2f1Ev
+                 U _ZNKSt6__ndk16locale9use_facetERNS0_2idE
+                 U _ZNKSt6__ndk18ios_base6getlocEv
+0000000000000000 W _ZNSt6__ndk113basic_ostreamIcNS_11char_traitsIcEEE3putEc
+0000000000000000 W _ZNSt6__ndk113basic_ostreamIcNS_11char_traitsIcEEE5flushEv
+0000000000000000 W _ZNSt6__ndk113basic_ostreamIcNS_11char_traitsIcEEE6sentryD2Ev
+0000000000000000 W _ZNSt6__ndk116__pad_and_outputIcNS_11char_traitsIcEEEENS_19ostreambuf_iteratorIT_T0_EES6_PKS4_S8_S8_RNS_8ios_baseES4_
+0000000000000000 W _ZNSt6__ndk124__put_character_sequenceIcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_PKS4_m
+                 U _ZNSt6__ndk14coutE
+                 U _ZNSt6__ndk15ctypeIcE2idE
+                 U _ZNSt6__ndk16localeD1Ev
+                 U _ZNSt6__ndk18ios_base33__set_badbit_and_consider_rethrowEv
+                 U _ZNSt6__ndk18ios_base5clearEj
+                 U _ZSt18uncaught_exceptionv
+                 U _ZSt9terminatev
+                 U _ZdlPv
+                 U _Znwm
+0000000000000000 W __clang_call_terminate
+                 U __cxa_begin_catch
+                 U __cxa_end_catch
+                 U __gxx_personality_v0
+                 U memset
+#+END_EXAMPLE
+ignore the symbles which are brought by the cout, interest
+thing is the f1 comes back as weak symble again, but not f2.
+I collect those result through clang on my android phone,
+different compiler may have different result.
+The result shows that the behavior of inline depends on the
+compiler, the optimization option, the callers, the
+implementation of the inline function, etc.
+Don't put inline implementation inside the source file to make life tough.
+If consider a lot still need inline code in source file,
+make sure no one will access it outside the source file.
+It's not a big problom, at least we can find it during link,
+if the linker can inline during link stage, you may not notice
+this.
+And more suguestion about inline, check Effective C++.

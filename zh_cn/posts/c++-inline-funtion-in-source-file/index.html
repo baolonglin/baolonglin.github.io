@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="zh_cn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C++ inline funtion in source file | BaoLong</title>
+<link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (zh_cn)" href="../../rss.xml">
+<link rel="canonical" href="https://baolonglin.github.io/zh_cn/posts/c%2B%2B-inline-funtion-in-source-file/">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baolong Lin">
+<link rel="prev" href="../portforward-on-android-phone/" title="Port forward on android phone" type="text/html">
+<meta property="og:site_name" content="BaoLong">
+<meta property="og:title" content="C++ inline funtion in source file">
+<meta property="og:url" content="https://baolonglin.github.io/zh_cn/posts/c%2B%2B-inline-funtion-in-source-file/">
+<meta property="og:description" content="One of my colleague came to me with one link problem,
+there are two static functions in one class, they don't
+have observed difference, but one function was linked
+failed, another looked fine. Those t">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2018-02-03T21:22:10+01:00">
+<meta property="article:tag" content="c++">
+<link rel="alternate" hreflang="en" href="../../../posts/c%2B%2B-inline-funtion-in-source-file/">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">跳到主内容</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://baolonglin.github.io/zh_cn/">
+
+                <span id="blog-title">BaoLong</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../../archive.html">文章存档</a>
+                </li>
+<li>
+<a href="../../categories/">标签</a>
+                </li>
+<li>
+<a href="../../rss.xml">RSS 源</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+            </li>
+<li><a href="https://baolonglin.github.io/" rel="alternate" hreflang="en">English</a></li>
+
+                
+                    
+    <li>
+    <a href="../c%2B%2B-inline-funtion-in-source-file/index.org" id="sourcelink">源代码</a>
+    </li>
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="../c%2B%2B-inline-funtion-in-source-file/" class="u-url">C++ inline funtion in source file</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                    Baolong Lin
+            </span></p>
+            <p class="dateline"><a href="../c%2B%2B-inline-funtion-in-source-file/" rel="bookmark"><time class="published dt-published" datetime="2018-02-03T21:22:10+01:00" itemprop="datePublished" title="2018-02-03 21:22">2018-02-03 21:22</time></a></p>
+                <p class="commentline">
+        
+    <a href="../c%2B%2B-inline-funtion-in-source-file/#disqus_thread" data-disqus-identifier="cache/posts/c++-inline-funtion-in-source-file.html">Comments</a>
+
+
+            
+        </p>
+<p class="sourceline"><a href="../c%2B%2B-inline-funtion-in-source-file/index.org" class="sourcelink">源代码</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <p>
+One of my colleague came to me with one link problem,
+there are two static functions in one class, they don't
+have observed difference, but one function was linked
+failed, another looked fine. Those two functions were there
+for long time. Take a look at the implementation, those two
+functions have inline keyword at the beginning in source file.
+"Public function should not put inline implementation at source file"
+, but why it worked before? Now has link problem?
+Let's start with simple example, header file test.hh
+</p>
+<div class="highlight"><pre><span></span><span class="cp">#pragma once</span>
+
+<span class="k">class</span> <span class="nc">T</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+  <span class="k">static</span> <span class="kt">void</span> <span class="n">f1</span><span class="p">();</span>
+  <span class="k">static</span> <span class="kt">void</span> <span class="nf">f2</span><span class="p">();</span>
+<span class="p">};</span>
+</pre></div>
+<p>
+source file, test.cc
+</p>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">"test.hh"</span><span class="cp"></span>
+
+<span class="k">extern</span> <span class="kt">void</span> <span class="nf">a</span><span class="p">();</span>
+
+<span class="kr">inline</span> <span class="kt">void</span> <span class="n">T</span><span class="o">::</span><span class="n">f1</span><span class="p">()</span> <span class="p">{</span> <span class="n">a</span><span class="p">();</span> <span class="p">}</span>
+<span class="kr">inline</span> <span class="kt">void</span> <span class="n">T</span><span class="o">::</span><span class="n">f2</span><span class="p">()</span> <span class="p">{</span> <span class="n">a</span><span class="p">();</span> <span class="p">}</span>
+</pre></div>
+
+<p>
+Then compile it into object
+</p>
+<div class="highlight"><pre><span></span>g++ -c test.cc
+</pre></div>
+
+<p>
+Check the symble inside the object
+</p>
+<div class="highlight"><pre><span></span>nm test.o
+</pre></div>
+<p>
+Nothing output , it meets our expectation, no one use those inline
+function, inline means copying the compiled code into the caller.
+No symble needed.
+Chang a little bit
+</p>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">"test.hh"</span><span class="cp"></span>
+
+<span class="k">extern</span> <span class="kt">void</span> <span class="nf">a</span><span class="p">();</span>
+
+<span class="k">namespace</span> <span class="p">{</span>
+<span class="kt">void</span> <span class="n">s1</span><span class="p">()</span> <span class="p">{</span> <span class="n">T</span><span class="o">::</span><span class="n">f2</span><span class="p">();</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kr">inline</span> <span class="kt">void</span> <span class="n">T</span><span class="o">::</span><span class="n">f1</span><span class="p">()</span> <span class="p">{</span> <span class="n">a</span><span class="p">();</span> <span class="p">}</span>
+<span class="kr">inline</span> <span class="kt">void</span> <span class="n">T</span><span class="o">::</span><span class="n">f2</span><span class="p">()</span> <span class="p">{</span> <span class="n">a</span><span class="p">();</span> <span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">g1</span><span class="p">()</span> <span class="p">{</span> <span class="n">T</span><span class="o">::</span><span class="n">f1</span><span class="p">();</span> <span class="p">}</span>
+</pre></div>
+<p>
+Add anonymouse namespace function a calls f2, global function
+g1 calls f1. Check the symble again
+</p>
+<pre class="example">
+$ nm test.o
+                 U _Z1av
+0000000000000000 T _Z2g1v
+0000000000000000 W _ZN1T2f1Ev
+</pre>
+<p>
+Compiler generates a weak symble for f1, but not for f2.
+How about adding optimization during compilation?
+</p>
+<div class="highlight"><pre><span></span>g++ -c -O2 test.cc
+</pre></div>
+<p>
+Now the symble table becomes
+</p>
+<pre class="example">
+nm test.o
+                 U _Z1av
+0000000000000000 T _Z2g1v
+</pre>
+<p>
+Weak symble is not generated for f1 now.
+Chang a little bit again
+</p>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">"test.hh"</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="k">extern</span> <span class="kt">void</span> <span class="nf">a</span><span class="p">();</span>
+
+<span class="k">namespace</span> <span class="p">{</span>
+<span class="kt">void</span> <span class="n">s1</span><span class="p">()</span> <span class="p">{</span> <span class="n">T</span><span class="o">::</span><span class="n">f2</span><span class="p">();</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kr">inline</span> <span class="kt">void</span> <span class="n">T</span><span class="o">::</span><span class="n">f1</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">a</span><span class="p">();</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"f1"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kr">inline</span> <span class="kt">void</span> <span class="n">T</span><span class="o">::</span><span class="n">f2</span><span class="p">()</span> <span class="p">{</span> <span class="n">a</span><span class="p">();</span> <span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">g1</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">T</span><span class="o">::</span><span class="n">f1</span><span class="p">();</span>
+  <span class="n">s1</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+<p>
+global function calls s1, f1 calls cout to ouput something.
+Compile it with O2 again, then check the symble table
+</p>
+<pre class="example">
+nm test.o
+0000000000000000 V DW.ref.__gxx_personality_v0
+0000000000000000 r GCC_except_table1
+0000000000000050 r GCC_except_table2
+0000000000000100 r GCC_except_table3
+000000000000012c r GCC_except_table4
+0000000000000158 r GCC_except_table6
+00000000000001e0 r GCC_except_table7
+                 U _Unwind_Resume
+                 U _Z1av
+0000000000000000 T _Z2g1v
+0000000000000000 W _ZN1T2f1Ev
+                 U _ZNKSt6__ndk16locale9use_facetERNS0_2idE
+                 U _ZNKSt6__ndk18ios_base6getlocEv
+0000000000000000 W _ZNSt6__ndk113basic_ostreamIcNS_11char_traitsIcEEE3putEc
+0000000000000000 W _ZNSt6__ndk113basic_ostreamIcNS_11char_traitsIcEEE5flushEv
+0000000000000000 W _ZNSt6__ndk113basic_ostreamIcNS_11char_traitsIcEEE6sentryD2Ev
+0000000000000000 W _ZNSt6__ndk116__pad_and_outputIcNS_11char_traitsIcEEEENS_19ostreambuf_iteratorIT_T0_EES6_PKS4_S8_S8_RNS_8ios_baseES4_
+0000000000000000 W _ZNSt6__ndk124__put_character_sequenceIcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_PKS4_m
+                 U _ZNSt6__ndk14coutE
+                 U _ZNSt6__ndk15ctypeIcE2idE
+                 U _ZNSt6__ndk16localeD1Ev
+                 U _ZNSt6__ndk18ios_base33__set_badbit_and_consider_rethrowEv
+                 U _ZNSt6__ndk18ios_base5clearEj
+                 U _ZSt18uncaught_exceptionv
+                 U _ZSt9terminatev
+                 U _ZdlPv
+                 U _Znwm
+0000000000000000 W __clang_call_terminate
+                 U __cxa_begin_catch
+                 U __cxa_end_catch
+                 U __gxx_personality_v0
+                 U memset
+</pre>
+<p>
+ignore the symbles which are brought by the cout, interest
+thing is the f1 comes back as weak symble again, but not f2.
+I collect those result through clang on my android phone,
+different compiler may have different result.
+The result shows that the behavior of inline depends on the
+compiler, the optimization option, the callers, the
+implementation of the inline function, etc.
+Don't put inline implementation inside the source file to make life tough.
+If consider a lot still need inline code in source file,
+make sure no one will access it outside the source file.
+It's not a big problom, at least we can find it during link,
+if the linker can inline during link stage, you may not notice
+this.
+And more suguestion about inline, check Effective C++.
+</p>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/c%2B%2B/" rel="tag">c++</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../portforward-on-android-phone/" rel="prev" title="Port forward on android phone">前一篇</a>
+            </li>
+        </ul></nav></aside><section class="comments hidden-print"><h2>注释</h2>
+        
+        
+        <div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="baolonglin",
+            disqus_url="https://baolonglin.github.io/zh_cn/posts/c%2B%2B-inline-funtion-in-source-file/",
+        disqus_title="C++ inline funtion in source file",
+        disqus_identifier="cache/posts/c++-inline-funtion-in-source-file.html",
+        disqus_config = function () {
+            this.language = "zh_cn";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        </section></article><script>var disqus_shortname="baolonglin";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2018         <a href="mailto:lbl52001@gmail.com">Baolong Lin</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../../../assets/js/all-nocdn.js"></script><script src="../../../assets/js/colorbox-i18n/jquery.colorbox-zh-CN.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("zh-cn");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>

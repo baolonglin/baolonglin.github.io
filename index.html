@@ -12,7 +12,7 @@
 <link rel="alternate" type="application/rss+xml" title="RSS (zh_cn)" href="zh_cn/rss.xml">
 <link rel="canonical" href="https://baolonglin.github.io/">
 <link rel="next" href="index-1.html" type="text/html">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/portforward-on-android-phone/" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/c%2B%2B-inline-funtion-in-source-file/" type="text/html">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -73,7 +73,185 @@
 
     
 <div class="postindex">
-    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/portforward-on-android-phone/" class="u-url">Port forward on android phone</a></h1>
+    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/c%2B%2B-inline-funtion-in-source-file/" class="u-url">C++ inline funtion in source file</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Baolong Lin
+            </span></p>
+            <p class="dateline"><a href="posts/c%2B%2B-inline-funtion-in-source-file/" rel="bookmark"><time class="published dt-published" datetime="2018-02-03T21:22:10+01:00" title="2018-02-03 21:22">2018-02-03 21:22</time></a></p>
+                <p class="commentline">
+        
+    <a href="posts/c%2B%2B-inline-funtion-in-source-file/#disqus_thread" data-disqus-identifier="cache/posts/c++-inline-funtion-in-source-file.html">Comments</a>
+
+
+        </p>
+</div>
+    </header><div class="e-content entry-content">
+    <p>
+One of my colleague came to me with one link problem,
+there are two static functions in one class, they don't
+have observed difference, but one function was linked
+failed, another looked fine. Those two functions were there
+for long time. Take a look at the implementation, those two
+functions have inline keyword at the beginning in source file.
+"Public function should not put inline implementation at source file"
+, but why it worked before? Now has link problem?
+Let's start with simple example, header file test.hh
+</p>
+<div class="highlight"><pre><span></span><span class="cp">#pragma once</span>
+
+<span class="k">class</span> <span class="nc">T</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+  <span class="k">static</span> <span class="kt">void</span> <span class="n">f1</span><span class="p">();</span>
+  <span class="k">static</span> <span class="kt">void</span> <span class="nf">f2</span><span class="p">();</span>
+<span class="p">};</span>
+</pre></div>
+<p>
+source file, test.cc
+</p>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">"test.hh"</span><span class="cp"></span>
+
+<span class="k">extern</span> <span class="kt">void</span> <span class="nf">a</span><span class="p">();</span>
+
+<span class="kr">inline</span> <span class="kt">void</span> <span class="n">T</span><span class="o">::</span><span class="n">f1</span><span class="p">()</span> <span class="p">{</span> <span class="n">a</span><span class="p">();</span> <span class="p">}</span>
+<span class="kr">inline</span> <span class="kt">void</span> <span class="n">T</span><span class="o">::</span><span class="n">f2</span><span class="p">()</span> <span class="p">{</span> <span class="n">a</span><span class="p">();</span> <span class="p">}</span>
+</pre></div>
+
+<p>
+Then compile it into object
+</p>
+<div class="highlight"><pre><span></span>g++ -c test.cc
+</pre></div>
+
+<p>
+Check the symble inside the object
+</p>
+<div class="highlight"><pre><span></span>nm test.o
+</pre></div>
+<p>
+Nothing output , it meets our expectation, no one use those inline
+function, inline means copying the compiled code into the caller.
+No symble needed.
+Chang a little bit
+</p>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">"test.hh"</span><span class="cp"></span>
+
+<span class="k">extern</span> <span class="kt">void</span> <span class="nf">a</span><span class="p">();</span>
+
+<span class="k">namespace</span> <span class="p">{</span>
+<span class="kt">void</span> <span class="n">s1</span><span class="p">()</span> <span class="p">{</span> <span class="n">T</span><span class="o">::</span><span class="n">f2</span><span class="p">();</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kr">inline</span> <span class="kt">void</span> <span class="n">T</span><span class="o">::</span><span class="n">f1</span><span class="p">()</span> <span class="p">{</span> <span class="n">a</span><span class="p">();</span> <span class="p">}</span>
+<span class="kr">inline</span> <span class="kt">void</span> <span class="n">T</span><span class="o">::</span><span class="n">f2</span><span class="p">()</span> <span class="p">{</span> <span class="n">a</span><span class="p">();</span> <span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">g1</span><span class="p">()</span> <span class="p">{</span> <span class="n">T</span><span class="o">::</span><span class="n">f1</span><span class="p">();</span> <span class="p">}</span>
+</pre></div>
+<p>
+Add anonymouse namespace function a calls f2, global function
+g1 calls f1. Check the symble again
+</p>
+<pre class="example">
+$ nm test.o
+                 U _Z1av
+0000000000000000 T _Z2g1v
+0000000000000000 W _ZN1T2f1Ev
+</pre>
+<p>
+Compiler generates a weak symble for f1, but not for f2.
+How about adding optimization during compilation?
+</p>
+<div class="highlight"><pre><span></span>g++ -c -O2 test.cc
+</pre></div>
+<p>
+Now the symble table becomes
+</p>
+<pre class="example">
+nm test.o
+                 U _Z1av
+0000000000000000 T _Z2g1v
+</pre>
+<p>
+Weak symble is not generated for f1 now.
+Chang a little bit again
+</p>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">"test.hh"</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="k">extern</span> <span class="kt">void</span> <span class="nf">a</span><span class="p">();</span>
+
+<span class="k">namespace</span> <span class="p">{</span>
+<span class="kt">void</span> <span class="n">s1</span><span class="p">()</span> <span class="p">{</span> <span class="n">T</span><span class="o">::</span><span class="n">f2</span><span class="p">();</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kr">inline</span> <span class="kt">void</span> <span class="n">T</span><span class="o">::</span><span class="n">f1</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">a</span><span class="p">();</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"f1"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kr">inline</span> <span class="kt">void</span> <span class="n">T</span><span class="o">::</span><span class="n">f2</span><span class="p">()</span> <span class="p">{</span> <span class="n">a</span><span class="p">();</span> <span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">g1</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">T</span><span class="o">::</span><span class="n">f1</span><span class="p">();</span>
+  <span class="n">s1</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+<p>
+global function calls s1, f1 calls cout to ouput something.
+Compile it with O2 again, then check the symble table
+</p>
+<pre class="example">
+nm test.o
+0000000000000000 V DW.ref.__gxx_personality_v0
+0000000000000000 r GCC_except_table1
+0000000000000050 r GCC_except_table2
+0000000000000100 r GCC_except_table3
+000000000000012c r GCC_except_table4
+0000000000000158 r GCC_except_table6
+00000000000001e0 r GCC_except_table7
+                 U _Unwind_Resume
+                 U _Z1av
+0000000000000000 T _Z2g1v
+0000000000000000 W _ZN1T2f1Ev
+                 U _ZNKSt6__ndk16locale9use_facetERNS0_2idE
+                 U _ZNKSt6__ndk18ios_base6getlocEv
+0000000000000000 W _ZNSt6__ndk113basic_ostreamIcNS_11char_traitsIcEEE3putEc
+0000000000000000 W _ZNSt6__ndk113basic_ostreamIcNS_11char_traitsIcEEE5flushEv
+0000000000000000 W _ZNSt6__ndk113basic_ostreamIcNS_11char_traitsIcEEE6sentryD2Ev
+0000000000000000 W _ZNSt6__ndk116__pad_and_outputIcNS_11char_traitsIcEEEENS_19ostreambuf_iteratorIT_T0_EES6_PKS4_S8_S8_RNS_8ios_baseES4_
+0000000000000000 W _ZNSt6__ndk124__put_character_sequenceIcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_PKS4_m
+                 U _ZNSt6__ndk14coutE
+                 U _ZNSt6__ndk15ctypeIcE2idE
+                 U _ZNSt6__ndk16localeD1Ev
+                 U _ZNSt6__ndk18ios_base33__set_badbit_and_consider_rethrowEv
+                 U _ZNSt6__ndk18ios_base5clearEj
+                 U _ZSt18uncaught_exceptionv
+                 U _ZSt9terminatev
+                 U _ZdlPv
+                 U _Znwm
+0000000000000000 W __clang_call_terminate
+                 U __cxa_begin_catch
+                 U __cxa_end_catch
+                 U __gxx_personality_v0
+                 U memset
+</pre>
+<p>
+ignore the symbles which are brought by the cout, interest
+thing is the f1 comes back as weak symble again, but not f2.
+I collect those result through clang on my android phone,
+different compiler may have different result.
+The result shows that the behavior of inline depends on the
+compiler, the optimization option, the callers, the
+implementation of the inline function, etc.
+Don't put inline implementation inside the source file to make life tough.
+If consider a lot still need inline code in source file,
+make sure no one will access it outside the source file.
+It's not a big problom, at least we can find it during link,
+if the linker can inline during link stage, you may not notice
+this.
+And more suguestion about inline, check Effective C++.
+</p>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/portforward-on-android-phone/" class="u-url">Port forward on android phone</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 Baolong Lin
@@ -115,48 +293,33 @@ I choose another SSH app <a href="https://connectbot.org/">ConnectBot</a>. But n
 </p>
 
 <ol class="org-ol">
-<li>
-<p>
-Create Host to HOST1
-</p>
-<div class="highlight"><pre><span></span>   username@HOST1:22
+<li>Create Host to HOST1
+<div class="highlight"><pre><span></span>username@HOST1:22
 </pre></div>
 </li>
-<li>
-<p>
-Add local port forward for HOST1
-</p>
-<div class="highlight"><pre><span></span>   Type: Local
-   Source port: 9999
-   Destination: HOST2:22
+<li>Add local port forward for HOST1
+<div class="highlight"><pre><span></span>Type: Local
+Source port: 9999
+Destination: HOST2:22
 </pre></div>
 </li>
-<li>
-<p>
-Create Host to HOST2
-</p>
-<div class="highlight"><pre><span></span>   username@127.0.0.1:9999
+<li>Create Host to HOST2
+<div class="highlight"><pre><span></span>username@127.0.0.1:9999
 </pre></div>
 </li>
-<li>
-<p>
-Add dynamic port forward for HOST2
-</p>
-<div class="highlight"><pre><span></span>   Type: Dynamic(SOCKS)
-   Source port: 9998
+<li>Add dynamic port forward for HOST2
+<div class="highlight"><pre><span></span>Type: Dynamic(SOCKS)
+Source port: 9998
 </pre></div>
 </li>
-<li>
-<p>
-Configure the Firefox proxy
+<li>Configure the Firefox proxy
 Open about:config change the following parameters:
-</p>
-<div class="highlight"><pre><span></span>   network.proxy.proxy_over_tls: true
-   network.proxy.socks: 127.0.0.1
-   network.proxy.socks_port: 9998
-   network.proxy.socks_remote_dns: true
-   network.proxy.socks_version: 5
-   network.proxy.type: 1
+<div class="highlight"><pre><span></span>network.proxy.proxy_over_tls: true
+network.proxy.socks: 127.0.0.1
+network.proxy.socks_port: 9998
+network.proxy.socks_remote_dns: true
+network.proxy.socks_version: 5
+network.proxy.type: 1
 </pre></div>
 </li>
 </ol>
@@ -436,9 +599,9 @@ It's quit simple and looks nice, the big thing is I can use org-mode to write bl
         </p>
 </div>
     </header><div class="e-content entry-content">
-    <div id="outline-container-orgde437b4" class="outline-2">
-<h2 id="orgde437b4">Introduction</h2>
-<div class="outline-text-2" id="text-orgde437b4">
+    <div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Introduction</h2>
+<div class="outline-text-2" id="text-1">
 <p>
 Org-mode is known as good tool to do planning/scheduling, but it also used as <a href="http://howardism.org/Technical/Emacs/literate-programming-tutorial.html">literate programming tool</a>. It's quite nice to use <a href="http://orgmode.org/worg/org-contrib/babel/">Babel</a> to execute code inside org-mode, it should be possible to use org-mode write test case.
 Right now I could not find one native way inside org-mode to support this.
@@ -447,24 +610,28 @@ The tool I need to test is quit simple, <a href="https://clang.llvm.org/docs/Cla
 </div>
 </div>
 
-<div id="outline-container-org3797fb3" class="outline-2">
-<h2 id="org3797fb3">Prequirements</h2>
-<div class="outline-text-2" id="text-org3797fb3">
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Prequirements</h2>
+<div class="outline-text-2" id="text-2">
 <p>
 Here list my environment:
 </p>
 <ul class="org-ul">
-<li>Emacs 26</li>
-<li>Org-mode 9.1.4</li>
-<li>Babel load language elisp, bash</li>
-<li>org-element</li>
+<li>Emacs 26
+</li>
+<li>Org-mode 9.1.4
+</li>
+<li>Babel load language elisp, bash
+</li>
+<li>org-element
+</li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgb7c255b" class="outline-2">
-<h2 id="orgb7c255b">Setup</h2>
-<div class="outline-text-2" id="text-orgb7c255b">
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Setup</h2>
+<div class="outline-text-2" id="text-3">
 <p>
 Just create one org file, input content like:
 </p>
@@ -532,30 +699,30 @@ The test result looks like:
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
-<col class="org-left">
-<col class="org-left">
+<col class="left">
+<col class="left">
 </colgroup>
 <tbody>
 <tr>
-<td class="org-left">(test-case-1)</td>
-<td class="org-left">PASS</td>
+<td class="left">(test-case-1)</td>
+<td class="left">PASS</td>
 </tr>
 <tr>
-<td class="org-left">(test-case-2)</td>
-<td class="org-left">PASS</td>
+<td class="left">(test-case-2)</td>
+<td class="left">PASS</td>
 </tr>
 <tr>
-<td class="org-left">(test-case-3)</td>
-<td class="org-left">FAILED</td>
+<td class="left">(test-case-3)</td>
+<td class="left">FAILED</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 
-<div id="outline-container-org023ce91" class="outline-2">
-<h2 id="org023ce91">Conclusion</h2>
-<div class="outline-text-2" id="text-org023ce91">
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">Conclusion</h2>
+<div class="outline-text-2" id="text-4">
 <p>
 The solution is not perfect enough, it has duplicate shell code under each test case, the input/output code could not be highlight.
 The report is quit simple, when test cases number becomes large, require better solution to show the test result.
@@ -649,115 +816,6 @@ In <code>Incremental reading</code>, it shows how to integrate <code>org-drill</
 
 
 <p>add <code>x-scheme-handler/org-protocol=emacsclient.desktop</code> in file <code>~/.local/share/applications/mimeapps.list</code>, under the section <code>[Default Applications]</code></p>
-</div>
-    </div>
-    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/2017/3/4/learn-some-elisp-1/" class="u-url">Learn some elisp [1]</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                Baolong Lin
-            </span></p>
-            <p class="dateline"><a href="posts/2017/3/4/learn-some-elisp-1/" rel="bookmark"><time class="published dt-published" datetime="2017-03-04T00:00:00+01:00" title="2017-03-04 00:00">2017-03-04 00:00</time></a></p>
-                <p class="commentline">
-        
-    <a href="posts/2017/3/4/learn-some-elisp-1/#disqus_thread" data-disqus-identifier="cache/posts/2017/3/4/learn-some-elisp-1.html">Comments</a>
-
-
-        </p>
-</div>
-    </header><div class="e-content entry-content">
-    <div>
-<p><code>directory-file-name</code>: Remove the file slash in Unix-syntax</p>
-<p><code>file-name-directory</code>: Get the directory of file</p>
-<p>In emacs, directory is also handled like file.
-The way to get parent directory:</p>
-<pre class="code literal-block"><span></span><span class="p">(</span><span class="nb">defun</span> <span class="nv">parent-directory</span> <span class="p">(</span><span class="nv">dir</span><span class="p">)</span>
-  <span class="p">(</span><span class="nb">unless</span> <span class="p">(</span><span class="nf">equal</span> <span class="s">"/"</span> <span class="nv">dir</span><span class="p">)</span>
-    <span class="p">(</span><span class="nf">file-name-directory</span> <span class="p">(</span><span class="nf">directory-file-name</span> <span class="nv">dir</span><span class="p">)))</span>
-  <span class="p">)</span>
-</pre>
-
-
-<p><code>with-temp-buffer</code>: Create a temporary buffer</p>
-<p><code>insert-file-contents</code>: Insert contents of file after point</p>
-<p><code>split-string</code>: split string into substrings</p>
-<p><code>thing-at-point</code>: return the ting at point</p>
-<p>Below function get value of specified attribute name from file.
-The structure in the file like
-attributeName: attributeValue</p>
-<pre class="code literal-block"><span></span><span class="p">(</span><span class="nb">defun</span> <span class="nv">get-attribute-from-mi-file</span> <span class="p">(</span><span class="nv">mi-file</span> <span class="nv">attrName</span><span class="p">)</span>
-  <span class="p">(</span><span class="nb">with-temp-buffer</span>
-    <span class="p">(</span><span class="nf">insert-file-contents</span> <span class="nv">mi-file</span><span class="p">)</span>
-    <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nv">moreLines</span> <span class="no">t</span><span class="p">)</span>
-          <span class="p">(</span><span class="nv">attrFound</span> <span class="no">nil</span><span class="p">)</span>
-          <span class="p">(</span><span class="nv">lineToken</span> <span class="o">'</span><span class="p">()))</span>
-      <span class="p">(</span><span class="k">while</span> <span class="p">(</span><span class="k">and</span> <span class="nv">moreLines</span> <span class="p">(</span><span class="nv">not</span> <span class="nv">attrFound</span><span class="p">))</span>
-        <span class="p">(</span><span class="k">setq</span> <span class="nv">lineToken</span>
-              <span class="p">(</span><span class="nv">split-string</span> <span class="p">(</span><span class="nv">thing-at-point</span> <span class="ss">'line</span> <span class="no">t</span><span class="p">)</span> <span class="s">":"</span> <span class="no">t</span> <span class="nv">split-string-default-separators</span><span class="p">))</span>
-        <span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="k">and</span> <span class="p">(</span><span class="nf">&gt;=</span> <span class="p">(</span><span class="nf">length</span> <span class="nv">lineToken</span><span class="p">)</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nf">equal</span> <span class="p">(</span><span class="nf">car</span> <span class="nv">lineToken</span><span class="p">)</span> <span class="nv">attrName</span><span class="p">))</span>
-          <span class="p">(</span><span class="k">setq</span> <span class="nv">attrFound</span> <span class="no">t</span><span class="p">)</span>
-          <span class="p">)</span>
-        <span class="p">(</span><span class="k">setq</span> <span class="nv">moreLines</span> <span class="p">(</span><span class="nf">=</span> <span class="mi">0</span> <span class="p">(</span><span class="nf">forward-line</span> <span class="mi">1</span><span class="p">)))</span>
-        <span class="p">)</span>
-      <span class="p">(</span><span class="nb">when</span> <span class="nv">attrFound</span>
-        <span class="p">(</span><span class="nf">car</span> <span class="p">(</span><span class="nv">last</span> <span class="nv">lineToken</span><span class="p">))))</span>
-    <span class="p">)</span>
-  <span class="p">)</span>
-</pre>
-
-
-<p><code>save-excursion</code>: Save point, and current buffer</p>
-<p><code>search-backward</code>: Search backward from point for string</p>
-<p><code>backward-char</code>: Move point backword</p>
-<p>Below function try to fetch the class name of toString method in C++ style.
-This function only expect that the implementation of toString is out of class
-declaration.</p>
-<pre class="code literal-block"><span></span><span class="p">(</span><span class="nb">defun</span> <span class="nv">fetch-tostring-classname</span> <span class="p">(</span><span class="nv">pos</span><span class="p">)</span>
-  <span class="p">(</span><span class="k">save-excursion</span>
-    <span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nf">search-backward</span> <span class="s">"::toString()"</span> <span class="no">nil</span> <span class="no">t</span><span class="p">)</span>
-      <span class="p">(</span><span class="nf">backward-char</span> <span class="mi">2</span><span class="p">)</span>
-      <span class="p">(</span><span class="nv">thing-at-point</span> <span class="ss">'symbol</span><span class="p">))</span>
-    <span class="p">)</span>
-  <span class="p">)</span>
-</pre>
-
-
-<p><code>file-name-as-directory</code>: Just appends a slash for a Uix-syntas file name</p>
-<p><code>concat</code>: concatenate strings</p>
-<p>Below function concat one directory with several directory or file names.
-(concat-path '/opt/apps/' 'a' 'b' 'c') returns /opt/apps/a/b/c</p>
-<pre class="code literal-block"><span></span><span class="p">(</span><span class="nb">defun</span> <span class="nv">concat-path</span> <span class="p">(</span><span class="nv">directoryName</span> <span class="nv">fileName</span> <span class="kp">&amp;rest</span> <span class="nv">otherFileNames</span><span class="p">)</span>
-  <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nv">concatPath</span> <span class="p">(</span><span class="nf">concat</span> <span class="nv">directoryName</span> <span class="nv">fileName</span><span class="p">)))</span>
-    <span class="p">(</span><span class="k">while</span> <span class="nv">otherFileNames</span>
-      <span class="p">(</span><span class="k">setq</span> <span class="nv">concatPath</span> <span class="p">(</span><span class="nf">concat</span> <span class="p">(</span><span class="nf">file-name-as-directory</span> <span class="nv">concatPath</span><span class="p">)</span> <span class="p">(</span><span class="nf">car</span> <span class="nv">otherFileNames</span><span class="p">)))</span>
-      <span class="p">(</span><span class="k">setq</span> <span class="nv">otherFileNames</span> <span class="p">(</span><span class="nf">cdr</span> <span class="nv">otherFileNames</span><span class="p">)))</span>
-    <span class="nv">concatPath</span>
-    <span class="p">)</span>
-  <span class="p">)</span>
-</pre>
-
-
-<p><code>string-match</code>: Get the index of start of first match, or nil</p>
-<p><code>match-string</code>: Get the string of text matched by last search.</p>
-<p>Below function extract one string from another string, and assume that the original string has the defined format. the input string like foo/barCT, the return string is bar.</p>
-<pre class="code literal-block"><span></span><span class="p">(</span><span class="nb">defun</span> <span class="nv">get-ct-component</span> <span class="p">(</span><span class="nv">ctIdentity</span><span class="p">)</span>
-  <span class="p">(</span><span class="nf">string-match</span> <span class="s">"\\w+/\\(\\w+\\)CT"</span> <span class="nv">ctIdentity</span><span class="p">)</span>
-  <span class="p">(</span><span class="nv">match-string</span> <span class="mi">1</span> <span class="nv">ctIdentity</span><span class="p">)</span>
-  <span class="p">)</span>
-</pre>
-
-
-<p><code>with-current-buffer</code>: Keep current buffer, execute on other buffer</p>
-<p><code>start-process</code>: start a programm in a subprocess.</p>
-<p><code>pop-to-buffer</code>: Select buffer in some window, perferably a different one.</p>
-<p><code>erase-buffer</code>: Delete the entire contents of the current buffer.</p>
-<p><code>get-buffer-create</code>: Get the buffer specified by buffer name, createing a new one if needed.</p>
-<p>Below function create one buffer <code>ct-run</code> if not exist, clear the buffer. Execute program ct_run output to that buffer, then switch to that buffer.</p>
-<pre class="code literal-block"><span></span><span class="p">(</span><span class="nb">defun</span> <span class="nv">mi-ct-run</span> <span class="p">()</span>
-  <span class="p">(</span><span class="k">interactive</span><span class="p">)</span>
-  <span class="p">(</span><span class="nb">with-current-buffer</span> <span class="p">(</span><span class="nf">get-buffer-create</span> <span class="s">"*ct-run*"</span><span class="p">)</span> <span class="p">(</span><span class="nf">erase-buffer</span><span class="p">))</span>
-  <span class="p">(</span><span class="nf">start-process</span> <span class="s">"ct-run"</span> <span class="s">"*ct-run*"</span> <span class="s">"ct_run"</span><span class="p">)</span>
-  <span class="p">(</span><span class="nv">pop-to-buffer</span> <span class="s">"*ct-run*"</span><span class="p">))</span>
-</pre>
 </div>
     </div>
     </article>

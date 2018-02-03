@@ -1,5 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>BaoLong (Posts about c++)</title><link>https://baolonglin.github.io/</link><description></description><atom:link href="https://baolonglin.github.io/categories/c%2B%2B.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2018 &lt;a href="mailto:lbl52001@gmail.com"&gt;Baolong Lin&lt;/a&gt; </copyright><lastBuildDate>Wed, 03 Jan 2018 13:11:04 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>include_next stdlib.h failed</title><link>https://baolonglin.github.io/posts/include_next-stdlibh-failed/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>BaoLong (Posts about c++)</title><link>https://baolonglin.github.io/</link><description></description><atom:link href="https://baolonglin.github.io/categories/c%2B%2B.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2018 &lt;a href="mailto:lbl52001@gmail.com"&gt;Baolong Lin&lt;/a&gt; </copyright><lastBuildDate>Sat, 03 Feb 2018 21:50:08 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>C++ inline funtion in source file</title><link>https://baolonglin.github.io/posts/c%2B%2B-inline-funtion-in-source-file/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
+One of my colleague came to me with one link problem,
+there are two static functions in one class, they don't
+have observed difference, but one function was linked
+failed, another looked fine. Those two functions were there
+for long time. Take a look at the implementation, those two
+functions have inline keyword at the beginning in source file.
+"Public function should not put inline implementation at source file"
+, but why it worked before? Now has link problem?
+Let's start with simple example, header file test.hh
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#pragma once&lt;/span&gt;
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;T&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="k"&gt;public&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+  &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;f1&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+  &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;f2&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+source file, test.cc
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;"test.hh"&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+
+&lt;span class="k"&gt;extern&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;a&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+
+&lt;span class="kr"&gt;inline&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;f1&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="kr"&gt;inline&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;f2&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+Then compile it into object
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;g++ -c test.cc
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+Check the symble inside the object
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;nm test.o
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+Nothing output , it meets our expectation, no one use those inline
+function, inline means copying the compiled code into the caller.
+No symble needed.
+Chang a little bit
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;"test.hh"&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+
+&lt;span class="k"&gt;extern&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;a&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+
+&lt;span class="k"&gt;namespace&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;s1&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;f2&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="kr"&gt;inline&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;f1&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="kr"&gt;inline&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;f2&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;g1&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;f1&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+Add anonymouse namespace function a calls f2, global function
+g1 calls f1. Check the symble again
+&lt;/p&gt;
+&lt;pre class="example"&gt;
+$ nm test.o
+                 U _Z1av
+0000000000000000 T _Z2g1v
+0000000000000000 W _ZN1T2f1Ev
+&lt;/pre&gt;
+&lt;p&gt;
+Compiler generates a weak symble for f1, but not for f2.
+How about adding optimization during compilation?
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;g++ -c -O2 test.cc
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+Now the symble table becomes
+&lt;/p&gt;
+&lt;pre class="example"&gt;
+nm test.o
+                 U _Z1av
+0000000000000000 T _Z2g1v
+&lt;/pre&gt;
+&lt;p&gt;
+Weak symble is not generated for f1 now.
+Chang a little bit again
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;"test.hh"&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+
+&lt;span class="k"&gt;extern&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;a&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+
+&lt;span class="k"&gt;namespace&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;s1&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;f2&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="kr"&gt;inline&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;f1&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+  &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;cout&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="s"&gt;"f1"&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;endl&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="kr"&gt;inline&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;f2&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;g1&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;f1&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+  &lt;span class="n"&gt;s1&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+global function calls s1, f1 calls cout to ouput something.
+Compile it with O2 again, then check the symble table
+&lt;/p&gt;
+&lt;pre class="example"&gt;
+nm test.o
+0000000000000000 V DW.ref.__gxx_personality_v0
+0000000000000000 r GCC_except_table1
+0000000000000050 r GCC_except_table2
+0000000000000100 r GCC_except_table3
+000000000000012c r GCC_except_table4
+0000000000000158 r GCC_except_table6
+00000000000001e0 r GCC_except_table7
+                 U _Unwind_Resume
+                 U _Z1av
+0000000000000000 T _Z2g1v
+0000000000000000 W _ZN1T2f1Ev
+                 U _ZNKSt6__ndk16locale9use_facetERNS0_2idE
+                 U _ZNKSt6__ndk18ios_base6getlocEv
+0000000000000000 W _ZNSt6__ndk113basic_ostreamIcNS_11char_traitsIcEEE3putEc
+0000000000000000 W _ZNSt6__ndk113basic_ostreamIcNS_11char_traitsIcEEE5flushEv
+0000000000000000 W _ZNSt6__ndk113basic_ostreamIcNS_11char_traitsIcEEE6sentryD2Ev
+0000000000000000 W _ZNSt6__ndk116__pad_and_outputIcNS_11char_traitsIcEEEENS_19ostreambuf_iteratorIT_T0_EES6_PKS4_S8_S8_RNS_8ios_baseES4_
+0000000000000000 W _ZNSt6__ndk124__put_character_sequenceIcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_PKS4_m
+                 U _ZNSt6__ndk14coutE
+                 U _ZNSt6__ndk15ctypeIcE2idE
+                 U _ZNSt6__ndk16localeD1Ev
+                 U _ZNSt6__ndk18ios_base33__set_badbit_and_consider_rethrowEv
+                 U _ZNSt6__ndk18ios_base5clearEj
+                 U _ZSt18uncaught_exceptionv
+                 U _ZSt9terminatev
+                 U _ZdlPv
+                 U _Znwm
+0000000000000000 W __clang_call_terminate
+                 U __cxa_begin_catch
+                 U __cxa_end_catch
+                 U __gxx_personality_v0
+                 U memset
+&lt;/pre&gt;
+&lt;p&gt;
+ignore the symbles which are brought by the cout, interest
+thing is the f1 comes back as weak symble again, but not f2.
+I collect those result through clang on my android phone,
+different compiler may have different result.
+The result shows that the behavior of inline depends on the
+compiler, the optimization option, the callers, the
+implementation of the inline function, etc.
+Don't put inline implementation inside the source file to make life tough.
+If consider a lot still need inline code in source file,
+make sure no one will access it outside the source file.
+It's not a big problom, at least we can find it during link,
+if the linker can inline during link stage, you may not notice
+this.
+And more suguestion about inline, check Effective C++.
+&lt;/p&gt;</description><category>c++</category><guid>https://baolonglin.github.io/posts/c%2B%2B-inline-funtion-in-source-file/</guid><pubDate>Sat, 03 Feb 2018 20:22:10 GMT</pubDate></item><item><title>include_next stdlib.h failed</title><link>https://baolonglin.github.io/posts/include_next-stdlibh-failed/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
 Recently met below error while using &lt;a href="https://github.com/Andersbakken/rtags"&gt;rtags&lt;/a&gt; to parse my code:
 &lt;/p&gt;
 &lt;pre class="example"&gt;

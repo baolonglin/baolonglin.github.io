@@ -73,7 +73,116 @@
 
     
 <div class="postindex">
-    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/2017/3/2/restore-work-space/" class="u-url">Restore workspace</a></h1>
+    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/2017/3/4/learn-some-elisp-1/" class="u-url">Learn some elisp [1]</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Baolong Lin
+            </span></p>
+            <p class="dateline"><a href="posts/2017/3/4/learn-some-elisp-1/" rel="bookmark"><time class="published dt-published" datetime="2017-03-04T00:00:00+01:00" title="2017-03-04 00:00">2017-03-04 00:00</time></a></p>
+                <p class="commentline">
+        
+    <a href="posts/2017/3/4/learn-some-elisp-1/#disqus_thread" data-disqus-identifier="cache/posts/2017/3/4/learn-some-elisp-1.html">Comments</a>
+
+
+        </p>
+</div>
+    </header><div class="e-content entry-content">
+    <div>
+<p><code>directory-file-name</code>: Remove the file slash in Unix-syntax</p>
+<p><code>file-name-directory</code>: Get the directory of file</p>
+<p>In emacs, directory is also handled like file.
+The way to get parent directory:</p>
+<pre class="code literal-block"><span></span><span class="p">(</span><span class="nb">defun</span> <span class="nv">parent-directory</span> <span class="p">(</span><span class="nv">dir</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">unless</span> <span class="p">(</span><span class="nf">equal</span> <span class="s">"/"</span> <span class="nv">dir</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">file-name-directory</span> <span class="p">(</span><span class="nf">directory-file-name</span> <span class="nv">dir</span><span class="p">)))</span>
+  <span class="p">)</span>
+</pre>
+
+
+<p><code>with-temp-buffer</code>: Create a temporary buffer</p>
+<p><code>insert-file-contents</code>: Insert contents of file after point</p>
+<p><code>split-string</code>: split string into substrings</p>
+<p><code>thing-at-point</code>: return the ting at point</p>
+<p>Below function get value of specified attribute name from file.
+The structure in the file like
+attributeName: attributeValue</p>
+<pre class="code literal-block"><span></span><span class="p">(</span><span class="nb">defun</span> <span class="nv">get-attribute-from-mi-file</span> <span class="p">(</span><span class="nv">mi-file</span> <span class="nv">attrName</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">with-temp-buffer</span>
+    <span class="p">(</span><span class="nf">insert-file-contents</span> <span class="nv">mi-file</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nv">moreLines</span> <span class="no">t</span><span class="p">)</span>
+          <span class="p">(</span><span class="nv">attrFound</span> <span class="no">nil</span><span class="p">)</span>
+          <span class="p">(</span><span class="nv">lineToken</span> <span class="o">'</span><span class="p">()))</span>
+      <span class="p">(</span><span class="k">while</span> <span class="p">(</span><span class="k">and</span> <span class="nv">moreLines</span> <span class="p">(</span><span class="nv">not</span> <span class="nv">attrFound</span><span class="p">))</span>
+        <span class="p">(</span><span class="k">setq</span> <span class="nv">lineToken</span>
+              <span class="p">(</span><span class="nv">split-string</span> <span class="p">(</span><span class="nv">thing-at-point</span> <span class="ss">'line</span> <span class="no">t</span><span class="p">)</span> <span class="s">":"</span> <span class="no">t</span> <span class="nv">split-string-default-separators</span><span class="p">))</span>
+        <span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="k">and</span> <span class="p">(</span><span class="nf">&gt;=</span> <span class="p">(</span><span class="nf">length</span> <span class="nv">lineToken</span><span class="p">)</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nf">equal</span> <span class="p">(</span><span class="nf">car</span> <span class="nv">lineToken</span><span class="p">)</span> <span class="nv">attrName</span><span class="p">))</span>
+          <span class="p">(</span><span class="k">setq</span> <span class="nv">attrFound</span> <span class="no">t</span><span class="p">)</span>
+          <span class="p">)</span>
+        <span class="p">(</span><span class="k">setq</span> <span class="nv">moreLines</span> <span class="p">(</span><span class="nf">=</span> <span class="mi">0</span> <span class="p">(</span><span class="nf">forward-line</span> <span class="mi">1</span><span class="p">)))</span>
+        <span class="p">)</span>
+      <span class="p">(</span><span class="nb">when</span> <span class="nv">attrFound</span>
+        <span class="p">(</span><span class="nf">car</span> <span class="p">(</span><span class="nv">last</span> <span class="nv">lineToken</span><span class="p">))))</span>
+    <span class="p">)</span>
+  <span class="p">)</span>
+</pre>
+
+
+<p><code>save-excursion</code>: Save point, and current buffer</p>
+<p><code>search-backward</code>: Search backward from point for string</p>
+<p><code>backward-char</code>: Move point backword</p>
+<p>Below function try to fetch the class name of toString method in C++ style.
+This function only expect that the implementation of toString is out of class
+declaration.</p>
+<pre class="code literal-block"><span></span><span class="p">(</span><span class="nb">defun</span> <span class="nv">fetch-tostring-classname</span> <span class="p">(</span><span class="nv">pos</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">save-excursion</span>
+    <span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nf">search-backward</span> <span class="s">"::toString()"</span> <span class="no">nil</span> <span class="no">t</span><span class="p">)</span>
+      <span class="p">(</span><span class="nf">backward-char</span> <span class="mi">2</span><span class="p">)</span>
+      <span class="p">(</span><span class="nv">thing-at-point</span> <span class="ss">'symbol</span><span class="p">))</span>
+    <span class="p">)</span>
+  <span class="p">)</span>
+</pre>
+
+
+<p><code>file-name-as-directory</code>: Just appends a slash for a Uix-syntas file name</p>
+<p><code>concat</code>: concatenate strings</p>
+<p>Below function concat one directory with several directory or file names.
+(concat-path '/opt/apps/' 'a' 'b' 'c') returns /opt/apps/a/b/c</p>
+<pre class="code literal-block"><span></span><span class="p">(</span><span class="nb">defun</span> <span class="nv">concat-path</span> <span class="p">(</span><span class="nv">directoryName</span> <span class="nv">fileName</span> <span class="kp">&amp;rest</span> <span class="nv">otherFileNames</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nv">concatPath</span> <span class="p">(</span><span class="nf">concat</span> <span class="nv">directoryName</span> <span class="nv">fileName</span><span class="p">)))</span>
+    <span class="p">(</span><span class="k">while</span> <span class="nv">otherFileNames</span>
+      <span class="p">(</span><span class="k">setq</span> <span class="nv">concatPath</span> <span class="p">(</span><span class="nf">concat</span> <span class="p">(</span><span class="nf">file-name-as-directory</span> <span class="nv">concatPath</span><span class="p">)</span> <span class="p">(</span><span class="nf">car</span> <span class="nv">otherFileNames</span><span class="p">)))</span>
+      <span class="p">(</span><span class="k">setq</span> <span class="nv">otherFileNames</span> <span class="p">(</span><span class="nf">cdr</span> <span class="nv">otherFileNames</span><span class="p">)))</span>
+    <span class="nv">concatPath</span>
+    <span class="p">)</span>
+  <span class="p">)</span>
+</pre>
+
+
+<p><code>string-match</code>: Get the index of start of first match, or nil</p>
+<p><code>match-string</code>: Get the string of text matched by last search.</p>
+<p>Below function extract one string from another string, and assume that the original string has the defined format. the input string like foo/barCT, the return string is bar.</p>
+<pre class="code literal-block"><span></span><span class="p">(</span><span class="nb">defun</span> <span class="nv">get-ct-component</span> <span class="p">(</span><span class="nv">ctIdentity</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">string-match</span> <span class="s">"\\w+/\\(\\w+\\)CT"</span> <span class="nv">ctIdentity</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">match-string</span> <span class="mi">1</span> <span class="nv">ctIdentity</span><span class="p">)</span>
+  <span class="p">)</span>
+</pre>
+
+
+<p><code>with-current-buffer</code>: Keep current buffer, execute on other buffer</p>
+<p><code>start-process</code>: start a programm in a subprocess.</p>
+<p><code>pop-to-buffer</code>: Select buffer in some window, perferably a different one.</p>
+<p><code>erase-buffer</code>: Delete the entire contents of the current buffer.</p>
+<p><code>get-buffer-create</code>: Get the buffer specified by buffer name, createing a new one if needed.</p>
+<p>Below function create one buffer <code>ct-run</code> if not exist, clear the buffer. Execute program ct_run output to that buffer, then switch to that buffer.</p>
+<pre class="code literal-block"><span></span><span class="p">(</span><span class="nb">defun</span> <span class="nv">mi-ct-run</span> <span class="p">()</span>
+  <span class="p">(</span><span class="k">interactive</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">with-current-buffer</span> <span class="p">(</span><span class="nf">get-buffer-create</span> <span class="s">"*ct-run*"</span><span class="p">)</span> <span class="p">(</span><span class="nf">erase-buffer</span><span class="p">))</span>
+  <span class="p">(</span><span class="nf">start-process</span> <span class="s">"ct-run"</span> <span class="s">"*ct-run*"</span> <span class="s">"ct_run"</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">pop-to-buffer</span> <span class="s">"*ct-run*"</span><span class="p">))</span>
+</pre>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/2017/3/2/restore-work-space/" class="u-url">Restore workspace</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 Baolong Lin
