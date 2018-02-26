@@ -1,0 +1,43 @@
+#+BEGIN_COMMENT
+.. title: Try golang
+.. slug: try-golang
+.. date: 2018-02-26 15:28:26 UTC+01:00
+.. tags: golang
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+#+END_COMMENT
+
+
+Recently read one short book *The Little Go Book* by Karl Seguin.
+It makes me want to try it a little bit, write small tools
+with static link and lot build in libraries.
+
+There is one small tool which was written by C++, it uses
+boost, mongocxx, libcrafter, libpcap, pthread, bsoncxx, bz2, etc.
+I was really paid a lot time to prepare them, because my
+work environment does not have many libraries installed, and I have
+no root permission, what a bad situation, I need to compile
+them, maintain them under my own directory.
+
+The tool is quite simple, one feature is parsing the pcap file, or extract
+the pcap file from tar, compressed tar, collect the all sip
+message inside the pcap file, do a little bit process,
+ store them into mongodb. Another feature is parse TTCN
+source code with antlr, collect information based on the
+AST.
+
+Fully rewrite it only cost me several days with spare time,
+ipdefrag cost me time to read the APIs, the others are quite
+straight forward. It's only 403 line with comments, blank line
+and curly blanket, and some duplicate code which i don't have
+time to remove them. It's amazing, for my limit work
+environment, just solved a small compilation issue that
+libpcap version is too low in that environment, less
+than the C++ version.
+
+Have feeling that for small tools, golang becomes one of my
+options to achieve them, even I am not so familiar with it.
+
+

@@ -73,7 +73,74 @@
 
     
 <div class="postindex">
-    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/2017/3/4/learn-some-elisp-1/" class="u-url">Learn some elisp [1]</a></h1>
+    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/2017/3/7/emacs-org-drill-org-capture-firefox/" class="u-url">Emacs org-drill org-capture org-protocol with firefox</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Baolong Lin
+            </span></p>
+            <p class="dateline"><a href="posts/2017/3/7/emacs-org-drill-org-capture-firefox/" rel="bookmark"><time class="published dt-published" datetime="2017-03-07T00:00:00+01:00" title="2017-03-07 00:00">2017-03-07 00:00</time></a></p>
+                <p class="commentline">
+        
+    <a href="posts/2017/3/7/emacs-org-drill-org-capture-firefox/#disqus_thread" data-disqus-identifier="cache/posts/2017/3/7/emacs-org-drill-org-capture-firefox.html">Comments</a>
+
+
+        </p>
+</div>
+    </header><div class="e-content entry-content">
+    <div>
+<p>Emacs can be used as flash card tool, I fallowed the page of <a href="http://orgmode.org/worg/org-contrib/org-drill.html">org-drill</a>.
+In emacs 25.1, need to install <code>org-plus-contrib</code> first. While installing <code>org-plus-conrib</code>, may get error <code>Invalid function: org-babel-header-args-safe-fn</code>, I use cpaulik's solution: <a href="https://github.com/syl20bnr/spacemacs/issues/4618">remove the ob_R.elc</a>. And I find one emacs plugin <a href="https://github.com/Malabarba/paradox">paradox</a>, which can be used to manage the installed plugins.
+In <code>Incremental reading</code>, it shows how to integrate <code>org-drill</code> with external browser. It's good to integrate <code>firefox</code> which is my default browser. I'm running <code>Arch</code> linux with windows manager <code>fluxbox</code>, it take me some time to make it working. At begining, i follow the <a href="http://orgmode.org/worg/org-contrib/org-protocol.html">org-protocol</a>, but the <code>gconftool-2</code> did not work, even i have <code>gconftool</code> installed, and have those configuration in my ~/.config, <code>firefox</code> always get error <code>(org-protocol) isn’t associated with any program</code>. I just wondered how can i configure the firefox, use application I specified. Then i tried use <code>network.protocol-handler.app.org-protocol</code>, got the same error. Then I tried to figure out which application controls the default application in my environment. Then I found <a href="https://wiki.archlinux.org/index.php/Default_applications">Arch default applications</a>, but I don't have normal desktop environment, I have <code>xdg</code> installed. How to let my installed application use <code>xdg-open</code> to open default application for specified mime type? I still don't know when I write is post. At least I tried to add desktop file into <code>xdg</code>, and configure the default application for that desktop file, luckly it works. Below is the configuration in my environment:</p>
+<ul>
+<li>emacs configuration</li>
+</ul>
+<pre class="code literal-block"><span></span><span class="p">(</span><span class="nv">require-package</span> <span class="ss">'org-plus-contrib</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">after-load</span> <span class="ss">'org</span>
+  <span class="p">(</span><span class="nb">require</span> <span class="ss">'org-drill</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">require</span> <span class="ss">'org-protocol</span><span class="p">)</span>
+  <span class="p">)</span>
+
+  <span class="p">(</span><span class="k">setq</span> <span class="nv">org-capture-templates</span>
+      <span class="o">`</span><span class="p">((</span><span class="s">"w"</span>
+         <span class="s">"Capture web snippet"</span>
+         <span class="nv">entry</span>
+         <span class="p">(</span><span class="nv">file+headline</span> <span class="s">"~/test-drill.org"</span> <span class="s">"Notes"</span><span class="p">)</span>
+         <span class="o">,</span><span class="p">(</span><span class="nf">concat</span> <span class="s">"* Fact: '%:description'        :"</span>
+                  <span class="p">(</span><span class="nf">format</span> <span class="s">"%s"</span> <span class="nv">org-drill-question-tag</span><span class="p">)</span>
+                  <span class="s">":\n:PROPERTIES:\n:DATE_ADDED: %u\n:SOURCE_URL: %c\n:END:\n\n%i\n%?\n"</span><span class="p">)</span>
+         <span class="nb">:empty-lines</span> <span class="mi">1</span>
+         <span class="nb">:immediate-finish</span> <span class="no">t</span><span class="p">)</span>
+        <span class="p">))</span>
+</pre>
+
+
+<ul>
+<li>firefox configuration</li>
+</ul>
+<p>add <code>network.protocol-handler.expose.org-protocol:false</code> into about:config, details can be found <a href="http://kb.mozillazine.org/Register_protocol">Register protocol</a></p>
+<p>add one bookmark with url:</p>
+<pre class="code literal-block"><span></span><span class="nx">javascript</span><span class="o">:</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="o">=</span><span class="s1">'org-protocol://capture://w/'</span><span class="o">+</span><span class="nb">encodeURIComponent</span><span class="p">(</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="p">)</span><span class="o">+</span><span class="s1">'/'</span><span class="o">+</span><span class="nb">encodeURIComponent</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">title</span><span class="p">)</span><span class="o">+</span><span class="s1">'/'</span><span class="o">+</span><span class="nb">encodeURIComponent</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">getSelection</span><span class="p">())</span>
+</pre>
+
+
+<ul>
+<li>xdg configuration</li>
+</ul>
+<p>add file <code>emacsclient.desktop</code> in folder <code>~/.local/share/applications</code> with content:</p>
+<pre class="code literal-block"><span></span><span class="k">[Desktop Entry]</span>
+<span class="na">Name</span><span class="o">=</span><span class="s">Emacs Client</span>
+<span class="na">Exec</span><span class="o">=</span><span class="s">emacsclient %u</span>
+<span class="na">Icon</span><span class="o">=</span><span class="s">emacs-icon</span>
+<span class="na">Type</span><span class="o">=</span><span class="s">Application</span>
+<span class="na">Terminal</span><span class="o">=</span><span class="s">false</span>
+<span class="na">MimeType</span><span class="o">=</span><span class="s">x-scheme-handler/org-protocol;</span>
+</pre>
+
+
+<p>add <code>x-scheme-handler/org-protocol=emacsclient.desktop</code> in file <code>~/.local/share/applications/mimeapps.list</code>, under the section <code>[Default Applications]</code></p>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/2017/3/4/learn-some-elisp-1/" class="u-url">Learn some elisp [1]</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 Baolong Lin

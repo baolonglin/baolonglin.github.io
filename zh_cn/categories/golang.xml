@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>BaoLong (文章分类：golang)</title><link>https://baolonglin.github.io/</link><description></description><atom:link href="https://baolonglin.github.io/zh_cn/categories/golang.xml" rel="self" type="application/rss+xml"></atom:link><language>zh_cn</language><copyright>Contents © 2018 &lt;a href="mailto:lbl52001@gmail.com"&gt;Baolong Lin&lt;/a&gt; </copyright><lastBuildDate>Mon, 26 Feb 2018 15:11:25 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Try golang</title><link>https://baolonglin.github.io/zh_cn/posts/try-golang/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
+Recently read one short book &lt;b&gt;The Little Go Book&lt;/b&gt; by Karl Seguin.
+It makes me want to try it a little bit, write small tools
+with static link and lot build in libraries.
+&lt;/p&gt;
+
+&lt;p&gt;
+There is one small tool which was written by C++, it uses
+boost, mongocxx, libcrafter, libpcap, pthread, bsoncxx, bz2, etc.
+I was really paid a lot time to prepare them, because my
+work environment does not have many libraries installed, and I have
+no root permission, what a bad situation, I need to compile
+them, maintain them under my own directory.
+&lt;/p&gt;
+
+&lt;p&gt;
+The tool is quite simple, one feature is parsing the pcap file, or extract
+the pcap file from tar, compressed tar, collect the all sip
+message inside the pcap file, do a little bit process,
+ store them into mongodb. Another feature is parse TTCN
+source code with antlr, collect information based on the
+AST.
+&lt;/p&gt;
+
+&lt;p&gt;
+Fully rewrite it only cost me several days with spare time,
+ipdefrag cost me time to read the APIs, the others are quite
+straight forward. It's only 403 line with comments, blank line
+and curly blanket, and some duplicate code which i don't have
+time to remove them. It's amazing, for my limit work
+environment, just solved a small compilation issue that
+libpcap version is too low in that environment, less
+than the C++ version.
+&lt;/p&gt;
+
+&lt;p&gt;
+Have feeling that for small tools, golang becomes one of my
+options to achieve them, even I am not so familiar with it.
+&lt;/p&gt;</description><guid>https://baolonglin.github.io/zh_cn/posts/try-golang/</guid><pubDate>Mon, 26 Feb 2018 14:28:26 GMT</pubDate></item></channel></rss>

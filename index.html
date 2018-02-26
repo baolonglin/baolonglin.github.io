@@ -12,7 +12,7 @@
 <link rel="alternate" type="application/rss+xml" title="RSS (zh_cn)" href="zh_cn/rss.xml">
 <link rel="canonical" href="https://baolonglin.github.io/">
 <link rel="next" href="index-1.html" type="text/html">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/c%2B%2B-inline-funtion-in-source-file/" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/try-golang/" type="text/html">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -73,7 +73,61 @@
 
     
 <div class="postindex">
-    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/c%2B%2B-inline-funtion-in-source-file/" class="u-url">C++ inline funtion in source file</a></h1>
+    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/try-golang/" class="u-url">Try golang</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Baolong Lin
+            </span></p>
+            <p class="dateline"><a href="posts/try-golang/" rel="bookmark"><time class="published dt-published" datetime="2018-02-26T15:28:26+01:00" title="2018-02-26 15:28">2018-02-26 15:28</time></a></p>
+                <p class="commentline">
+        
+    <a href="posts/try-golang/#disqus_thread" data-disqus-identifier="cache/posts/try-golang.html">Comments</a>
+
+
+        </p>
+</div>
+    </header><div class="e-content entry-content">
+    <p>
+Recently read one short book <b>The Little Go Book</b> by Karl Seguin.
+It makes me want to try it a little bit, write small tools
+with static link and lot build in libraries.
+</p>
+
+<p>
+There is one small tool which was written by C++, it uses
+boost, mongocxx, libcrafter, libpcap, pthread, bsoncxx, bz2, etc.
+I was really paid a lot time to prepare them, because my
+work environment does not have many libraries installed, and I have
+no root permission, what a bad situation, I need to compile
+them, maintain them under my own directory.
+</p>
+
+<p>
+The tool is quite simple, one feature is parsing the pcap file, or extract
+the pcap file from tar, compressed tar, collect the all sip
+message inside the pcap file, do a little bit process,
+ store them into mongodb. Another feature is parse TTCN
+source code with antlr, collect information based on the
+AST.
+</p>
+
+<p>
+Fully rewrite it only cost me several days with spare time,
+ipdefrag cost me time to read the APIs, the others are quite
+straight forward. It's only 403 line with comments, blank line
+and curly blanket, and some duplicate code which i don't have
+time to remove them. It's amazing, for my limit work
+environment, just solved a small compilation issue that
+libpcap version is too low in that environment, less
+than the C++ version.
+</p>
+
+<p>
+Have feeling that for small tools, golang becomes one of my
+options to achieve them, even I am not so familiar with it.
+</p>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/c%2B%2B-inline-funtion-in-source-file/" class="u-url">C++ inline funtion in source file</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 Baolong Lin
@@ -749,73 +803,6 @@ The report is quit simple, when test cases number becomes large, require better 
 <p>The package is stored at <a href="https://github.com/baolonglin/switch-process-environment">switch-process-environment</a>. It's quiet simple, just manages the emacs process environment, enables user switch the process environments.</p>
 <p>In my daily work, I need to switch between different shell environments in one project. Different shell environments provides different toolset, and those environment variables are conflict with each other. Restart emacs and recover the desktop session cost time, different git commit can have different environment variables.</p>
 <p>With that package, I can keep one emacs as daemon, don't need to restart the emacs to switch the different environment.</p>
-</div>
-    </div>
-    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/2017/3/7/emacs-org-drill-org-capture-firefox/" class="u-url">Emacs org-drill org-capture org-protocol with firefox</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                Baolong Lin
-            </span></p>
-            <p class="dateline"><a href="posts/2017/3/7/emacs-org-drill-org-capture-firefox/" rel="bookmark"><time class="published dt-published" datetime="2017-03-07T00:00:00+01:00" title="2017-03-07 00:00">2017-03-07 00:00</time></a></p>
-                <p class="commentline">
-        
-    <a href="posts/2017/3/7/emacs-org-drill-org-capture-firefox/#disqus_thread" data-disqus-identifier="cache/posts/2017/3/7/emacs-org-drill-org-capture-firefox.html">Comments</a>
-
-
-        </p>
-</div>
-    </header><div class="e-content entry-content">
-    <div>
-<p>Emacs can be used as flash card tool, I fallowed the page of <a href="http://orgmode.org/worg/org-contrib/org-drill.html">org-drill</a>.
-In emacs 25.1, need to install <code>org-plus-contrib</code> first. While installing <code>org-plus-conrib</code>, may get error <code>Invalid function: org-babel-header-args-safe-fn</code>, I use cpaulik's solution: <a href="https://github.com/syl20bnr/spacemacs/issues/4618">remove the ob_R.elc</a>. And I find one emacs plugin <a href="https://github.com/Malabarba/paradox">paradox</a>, which can be used to manage the installed plugins.
-In <code>Incremental reading</code>, it shows how to integrate <code>org-drill</code> with external browser. It's good to integrate <code>firefox</code> which is my default browser. I'm running <code>Arch</code> linux with windows manager <code>fluxbox</code>, it take me some time to make it working. At begining, i follow the <a href="http://orgmode.org/worg/org-contrib/org-protocol.html">org-protocol</a>, but the <code>gconftool-2</code> did not work, even i have <code>gconftool</code> installed, and have those configuration in my ~/.config, <code>firefox</code> always get error <code>(org-protocol) isn’t associated with any program</code>. I just wondered how can i configure the firefox, use application I specified. Then i tried use <code>network.protocol-handler.app.org-protocol</code>, got the same error. Then I tried to figure out which application controls the default application in my environment. Then I found <a href="https://wiki.archlinux.org/index.php/Default_applications">Arch default applications</a>, but I don't have normal desktop environment, I have <code>xdg</code> installed. How to let my installed application use <code>xdg-open</code> to open default application for specified mime type? I still don't know when I write is post. At least I tried to add desktop file into <code>xdg</code>, and configure the default application for that desktop file, luckly it works. Below is the configuration in my environment:</p>
-<ul>
-<li>emacs configuration</li>
-</ul>
-<pre class="code literal-block"><span></span><span class="p">(</span><span class="nv">require-package</span> <span class="ss">'org-plus-contrib</span><span class="p">)</span>
-<span class="p">(</span><span class="nv">after-load</span> <span class="ss">'org</span>
-  <span class="p">(</span><span class="nb">require</span> <span class="ss">'org-drill</span><span class="p">)</span>
-  <span class="p">(</span><span class="nb">require</span> <span class="ss">'org-protocol</span><span class="p">)</span>
-  <span class="p">)</span>
-
-  <span class="p">(</span><span class="k">setq</span> <span class="nv">org-capture-templates</span>
-      <span class="o">`</span><span class="p">((</span><span class="s">"w"</span>
-         <span class="s">"Capture web snippet"</span>
-         <span class="nv">entry</span>
-         <span class="p">(</span><span class="nv">file+headline</span> <span class="s">"~/test-drill.org"</span> <span class="s">"Notes"</span><span class="p">)</span>
-         <span class="o">,</span><span class="p">(</span><span class="nf">concat</span> <span class="s">"* Fact: '%:description'        :"</span>
-                  <span class="p">(</span><span class="nf">format</span> <span class="s">"%s"</span> <span class="nv">org-drill-question-tag</span><span class="p">)</span>
-                  <span class="s">":\n:PROPERTIES:\n:DATE_ADDED: %u\n:SOURCE_URL: %c\n:END:\n\n%i\n%?\n"</span><span class="p">)</span>
-         <span class="nb">:empty-lines</span> <span class="mi">1</span>
-         <span class="nb">:immediate-finish</span> <span class="no">t</span><span class="p">)</span>
-        <span class="p">))</span>
-</pre>
-
-
-<ul>
-<li>firefox configuration</li>
-</ul>
-<p>add <code>network.protocol-handler.expose.org-protocol:false</code> into about:config, details can be found <a href="http://kb.mozillazine.org/Register_protocol">Register protocol</a></p>
-<p>add one bookmark with url:</p>
-<pre class="code literal-block"><span></span><span class="nx">javascript</span><span class="o">:</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="o">=</span><span class="s1">'org-protocol://capture://w/'</span><span class="o">+</span><span class="nb">encodeURIComponent</span><span class="p">(</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="p">)</span><span class="o">+</span><span class="s1">'/'</span><span class="o">+</span><span class="nb">encodeURIComponent</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">title</span><span class="p">)</span><span class="o">+</span><span class="s1">'/'</span><span class="o">+</span><span class="nb">encodeURIComponent</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">getSelection</span><span class="p">())</span>
-</pre>
-
-
-<ul>
-<li>xdg configuration</li>
-</ul>
-<p>add file <code>emacsclient.desktop</code> in folder <code>~/.local/share/applications</code> with content:</p>
-<pre class="code literal-block"><span></span><span class="k">[Desktop Entry]</span>
-<span class="na">Name</span><span class="o">=</span><span class="s">Emacs Client</span>
-<span class="na">Exec</span><span class="o">=</span><span class="s">emacsclient %u</span>
-<span class="na">Icon</span><span class="o">=</span><span class="s">emacs-icon</span>
-<span class="na">Type</span><span class="o">=</span><span class="s">Application</span>
-<span class="na">Terminal</span><span class="o">=</span><span class="s">false</span>
-<span class="na">MimeType</span><span class="o">=</span><span class="s">x-scheme-handler/org-protocol;</span>
-</pre>
-
-
-<p>add <code>x-scheme-handler/org-protocol=emacsclient.desktop</code> in file <code>~/.local/share/applications/mimeapps.list</code>, under the section <code>[Default Applications]</code></p>
 </div>
     </div>
     </article>
