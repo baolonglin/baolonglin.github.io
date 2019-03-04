@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>BaoLong (文章分类：ssh)</title><link>https://baolonglin.github.io/</link><description></description><atom:link href="https://baolonglin.github.io/zh_cn/categories/ssh.xml" rel="self" type="application/rss+xml"></atom:link><language>zh_cn</language><copyright>Contents © 2018 &lt;a href="mailto:lbl52001@gmail.com"&gt;Baolong Lin&lt;/a&gt; </copyright><lastBuildDate>Sat, 03 Feb 2018 21:50:08 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Port forward on android phone</title><link>https://baolonglin.github.io/zh_cn/posts/portforward-on-android-phone/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../../assets/xml/rss.xsl" media="all"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>BaoLong (关于文章 ssh)</title><link>https://baolonglin.github.io/</link><description></description><atom:link rel="self" type="application/rss+xml" href="https://baolonglin.github.io/zh_cn/categories/ssh.xml"></atom:link><language>zh_cn</language><copyright>Contents © 2019 &lt;a href="mailto:lbl52001@gmail.com"&gt;Baolong Lin&lt;/a&gt; </copyright><lastBuildDate>Mon, 04 Mar 2019 22:41:44 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Port forward on android phone</title><link>https://baolonglin.github.io/zh_cn/posts/portforward-on-android-phone/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
 Phone reachable by hand most of time, sometime I use phone to do some work (ex, check internal email, code review comments, CI result, etc.).
 I need to login to one jump server (HOST1), then login another working server (HOST2).
 I'm using &lt;a href="https://termux.com/"&gt;Termux&lt;/a&gt; on android, it's quit easy to access SSH tool. It work fine with &lt;a href="https://github.com/tmux/tmux/wiki"&gt;tmux&lt;/a&gt;, and I run emacs inside it.
@@ -27,35 +27,40 @@ I choose another SSH app &lt;a href="https://connectbot.org/"&gt;ConnectBot&lt;/
 &lt;/p&gt;
 
 &lt;ol class="org-ol"&gt;
-&lt;li&gt;Create Host to HOST1
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;username@HOST1:22
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/li&gt;
-&lt;li&gt;Add local port forward for HOST1
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Type: Local
-Source port: 9999
-Destination: HOST2:22
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/li&gt;
-&lt;li&gt;Create Host to HOST2
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;username@127.0.0.1:9999
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/li&gt;
-&lt;li&gt;Add dynamic port forward for HOST2
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Type: Dynamic(SOCKS)
-Source port: 9998
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/li&gt;
-&lt;li&gt;Configure the Firefox proxy
+&lt;li&gt;&lt;p&gt;
+Create Host to HOST1
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   username@HOST1:22
+&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;
+Add local port forward for HOST1
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   Type: Local
+   Source port: 9999
+   Destination: HOST2:22
+&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;
+Create Host to HOST2
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   username@127.0.0.1:9999
+&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;
+Add dynamic port forward for HOST2
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   Type: Dynamic(SOCKS)
+   Source port: 9998
+&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;
+Configure the Firefox proxy
 Open about:config change the following parameters:
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;network.proxy.proxy_over_tls: true
-network.proxy.socks: 127.0.0.1
-network.proxy.socks_port: 9998
-network.proxy.socks_remote_dns: true
-network.proxy.socks_version: 5
-network.proxy.type: 1
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/li&gt;
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   network.proxy.proxy_over_tls: true
+   network.proxy.socks: 127.0.0.1
+   network.proxy.socks_port: 9998
+   network.proxy.socks_remote_dns: true
+   network.proxy.socks_version: 5
+   network.proxy.type: 1
+&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;p&gt;

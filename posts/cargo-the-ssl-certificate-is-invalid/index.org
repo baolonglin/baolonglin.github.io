@@ -1,0 +1,67 @@
+#+BEGIN_COMMENT
+.. title: Cargo: the SSL certificate is invalid
+.. slug: cargo-the-ssl-certificate-is-invalid
+.. date: 2019-03-04 22:53:32 UTC+01:00
+.. tags: 
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+
+Use the [[https://forge.rust-lang.org/other-installation-methods.html][Standalone installers]] install the Rust, meet error when install ripgrep
+#+BEGIN_SRC bash
+cargo install ripgrep
+#+END_SRC
+#+BEGIN_EXAMPLE
+    Updating crates.io index
+error: failed to fetch `https://github.com/rust-lang/crates.io-index`
+
+Caused by:
+  the SSL certificate is invalid; class=Ssl (16); code=Certificate (-17)
+#+END_EXAMPLE
+The openssl version of the running envrionment is old and i don't have permission
+to upgrade it. I checked the cargo linked library
+#+BEGIN_SRC bash
+ldd /local/users/ebaolin/sfw/rust-1.33.0/bin/cargo
+#+END_SRC
+#+BEGIN_EXAMPLE
+	linux-vdso.so.1 =>  (0x00007fff38df3000)
+	libdl.so.2 => /lib64/libdl.so.2 (0x00007fc265f16000)
+	librt.so.1 => /lib64/librt.so.1 (0x00007fc265d0d000)
+	libpthread.so.0 => /lib64/libpthread.so.0 (0x00007fc265af0000)
+	libgcc_s.so.1 => /lib64/libgcc_s.so.1 (0x00007fc2658d9000)
+	libc.so.6 => /lib64/libc.so.6 (0x00007fc26555d000)
+	/lib64/ld-linux-x86-64.so.2 (0x00007fc266f5f000)
+	libm.so.6 => /lib64/libm.so.6 (0x00007fc2652e4000)
+#+END_EXAMPLE
+No openssl libraries are dynamic linked.
+Check the cargo load files
+#+BEGIN_SRC bash
+strace -f cargo install ripgrep
+#+END_SRC
+It checks the ssl/openssl folders for certificate file
+#+BEGIN_EXAMPLE
+stat("/var/ssl", 0x7fff943a3420)        = -1 ENOENT (No such file or directory)
+stat("/usr/share/ssl", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+stat("/usr/local/ssl", 0x7fff943a3420)  = -1 ENOENT (No such file or directory)
+stat("/usr/local/openssl", 0x7fff943a3420) = -1 ENOENT (No such file or directory)
+stat("/usr/local/share", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+stat("/usr/lib/ssl", 0x7fff943a3420)    = -1 ENOENT (No such file or directory)
+stat("/usr/ssl", 0x7fff943a3420)        = -1 ENOENT (No such file or directory)
+stat("/etc/openssl", 0x7fff943a3420)    = -1 ENOENT (No such file or directory)
+stat("/etc/pki/ca-trust/extracted/pem", 0x7fff943a3420) = -1 ENOENT (No such file or directory)
+stat("/etc/pki/tls", 0x7fff943a3420)    = -1 ENOENT (No such file or directory)
+#+END_EXAMPLE
+Nothing was found, but before checking the certificate, it tries to load the cargo config
+file from `$HOME/.cargo`
+#+BEGIN_EXAMPLE
+stat("/home/baolonglin/.cargo/config", 0x7fff943a2dd0) = -1 ENOENT (No such file or directory)
+#+END_EXAMPLE
+Check [[https://doc.rust-lang.org/cargo/reference/config.html][Cargo doc]], there is `cainfo` under `http`. Copy `cert.pem` from the new
+openssl distribution to $HOME directory. change the $HOME/.cargo/config file,
+add `cainfo` with the `cert.pem` path.
+
+Now it works.

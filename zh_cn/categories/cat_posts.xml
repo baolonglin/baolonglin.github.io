@@ -1,0 +1,640 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>BaoLong (关于文章 posts)</title><link>https://baolonglin.github.io/</link><description></description><atom:link href="https://baolonglin.github.io/zh_cn/categories/cat_posts.xml" type="application/rss+xml" rel="self"></atom:link><language>zh_cn</language><copyright>Contents © 2019 &lt;a href="mailto:lbl52001@gmail.com"&gt;Baolong Lin&lt;/a&gt; </copyright><lastBuildDate>Mon, 04 Mar 2019 22:44:55 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Cargo: the SSL certificate is invalid</title><link>https://baolonglin.github.io/zh_cn/posts/cargo-the-ssl-certificate-is-invalid/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
+Use the &lt;a href="https://forge.rust-lang.org/other-installation-methods.html"&gt;Standalone installers&lt;/a&gt; install the Rust, meet error when install ripgrep
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;cargo install ripgrep
+&lt;/pre&gt;&lt;/div&gt;
+&lt;pre class="example"&gt;
+    Updating crates.io index
+error: failed to fetch `https://github.com/rust-lang/crates.io-index`
+
+Caused by:
+  the SSL certificate is invalid; class=Ssl (16); code=Certificate (-17)
+&lt;/pre&gt;
+&lt;p&gt;
+The openssl version of the running envrionment is old and i don't have permission
+to upgrade it. I checked the cargo linked library
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ldd /local/users/ebaolin/sfw/rust-1.33.0/bin/cargo
+&lt;/pre&gt;&lt;/div&gt;
+&lt;pre class="example"&gt;
+linux-vdso.so.1 =&amp;gt;  (0x00007fff38df3000)
+libdl.so.2 =&amp;gt; /lib64/libdl.so.2 (0x00007fc265f16000)
+librt.so.1 =&amp;gt; /lib64/librt.so.1 (0x00007fc265d0d000)
+libpthread.so.0 =&amp;gt; /lib64/libpthread.so.0 (0x00007fc265af0000)
+libgcc_s.so.1 =&amp;gt; /lib64/libgcc_s.so.1 (0x00007fc2658d9000)
+libc.so.6 =&amp;gt; /lib64/libc.so.6 (0x00007fc26555d000)
+/lib64/ld-linux-x86-64.so.2 (0x00007fc266f5f000)
+libm.so.6 =&amp;gt; /lib64/libm.so.6 (0x00007fc2652e4000)
+&lt;/pre&gt;
+&lt;p&gt;
+No openssl libraries are dynamic linked.
+Check the cargo load files
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;strace -f cargo install ripgrep
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+It checks the ssl/openssl folders for certificate file
+&lt;/p&gt;
+&lt;pre class="example"&gt;
+stat("/var/ssl", 0x7fff943a3420)        = -1 ENOENT (No such file or directory)
+stat("/usr/share/ssl", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+stat("/usr/local/ssl", 0x7fff943a3420)  = -1 ENOENT (No such file or directory)
+stat("/usr/local/openssl", 0x7fff943a3420) = -1 ENOENT (No such file or directory)
+stat("/usr/local/share", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+stat("/usr/lib/ssl", 0x7fff943a3420)    = -1 ENOENT (No such file or directory)
+stat("/usr/ssl", 0x7fff943a3420)        = -1 ENOENT (No such file or directory)
+stat("/etc/openssl", 0x7fff943a3420)    = -1 ENOENT (No such file or directory)
+stat("/etc/pki/ca-trust/extracted/pem", 0x7fff943a3420) = -1 ENOENT (No such file or directory)
+stat("/etc/pki/tls", 0x7fff943a3420)    = -1 ENOENT (No such file or directory)
+&lt;/pre&gt;
+&lt;p&gt;
+Nothing was found, but before checking the certificate, it tries to load the cargo config
+file from `$HOME/.cargo`
+&lt;/p&gt;
+&lt;pre class="example"&gt;
+stat("/home/baolonglin/.cargo/config", 0x7fff943a2dd0) = -1 ENOENT (No such file or directory)
+&lt;/pre&gt;
+&lt;p&gt;
+Check &lt;a href="https://doc.rust-lang.org/cargo/reference/config.html"&gt;Cargo doc&lt;/a&gt;, there is `cainfo` under `http`. Copy `cert.pem` from the new
+openssl distribution to $HOME directory. change the $HOME/.cargo/config file,
+add `cainfo` with the `cert.pem` path.
+&lt;/p&gt;
+
+&lt;p&gt;
+Now it works.
+&lt;/p&gt;</description><guid>https://baolonglin.github.io/zh_cn/posts/cargo-the-ssl-certificate-is-invalid/</guid><pubDate>Mon, 04 Mar 2019 21:53:32 GMT</pubDate></item><item><title>Try golang</title><link>https://baolonglin.github.io/zh_cn/posts/try-golang/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
+Recently read one short book &lt;b&gt;The Little Go Book&lt;/b&gt; by Karl Seguin.
+It makes me want to try it a little bit, write small tools
+with static link and lot build in libraries.
+&lt;/p&gt;
+
+&lt;p&gt;
+There is one small tool which was written by C++, it uses
+boost, mongocxx, libcrafter, libpcap, pthread, bsoncxx, bz2, etc.
+I was really paid a lot time to prepare them, because my
+work environment does not have many libraries installed, and I have
+no root permission, what a bad situation, I need to compile
+them, maintain them under my own directory.
+&lt;/p&gt;
+
+&lt;p&gt;
+The tool is quite simple, one feature is parsing the pcap file, or extract
+the pcap file from tar, compressed tar, collect the all sip
+message inside the pcap file, do a little bit process,
+ store them into mongodb. Another feature is parse TTCN
+source code with antlr, collect information based on the
+AST.
+&lt;/p&gt;
+
+&lt;p&gt;
+Fully rewrite it only cost me several days with spare time,
+ipdefrag cost me time to read the APIs, the others are quite
+straight forward. It's only 403 line with comments, blank line
+and curly blanket, and some duplicate code which i don't have
+time to remove them. It's amazing, for my limit work
+environment, just solved a small compilation issue that
+libpcap version is too low in that environment, less
+than the C++ version.
+&lt;/p&gt;
+
+&lt;p&gt;
+Have feeling that for small tools, golang becomes one of my
+options to achieve them, even I am not so familiar with it.
+&lt;/p&gt;</description><guid>https://baolonglin.github.io/zh_cn/posts/try-golang/</guid><pubDate>Mon, 26 Feb 2018 14:28:26 GMT</pubDate></item><item><title>C++ inline funtion in source file</title><link>https://baolonglin.github.io/zh_cn/posts/c%2B%2B-inline-funtion-in-source-file/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
+One of my colleague came to me with one link problem,
+there are two static functions in one class, they don't
+have observed difference, but one function was linked
+failed, another looked fine. Those two functions were there
+for long time. Take a look at the implementation, those two
+functions have inline keyword at the beginning in source file.
+"Public function should not put inline implementation at source file"
+, but why it worked before? Now has link problem?
+Let's start with simple example, header file test.hh
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#pragma once&lt;/span&gt;
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;T&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="k"&gt;public&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+  &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;f1&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+  &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;f2&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+source file, test.cc
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;"test.hh"&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+
+&lt;span class="k"&gt;extern&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;a&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+
+&lt;span class="kr"&gt;inline&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;f1&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="kr"&gt;inline&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;f2&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+Then compile it into object
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;g++ -c test.cc
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+Check the symble inside the object
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;nm test.o
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+Nothing output , it meets our expectation, no one use those inline
+function, inline means copying the compiled code into the caller.
+No symble needed.
+Chang a little bit
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;"test.hh"&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+
+&lt;span class="k"&gt;extern&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;a&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+
+&lt;span class="k"&gt;namespace&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;s1&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;f2&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="kr"&gt;inline&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;f1&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="kr"&gt;inline&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;f2&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;g1&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;f1&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+Add anonymouse namespace function a calls f2, global function
+g1 calls f1. Check the symble again
+&lt;/p&gt;
+&lt;pre class="example"&gt;
+$ nm test.o
+                 U _Z1av
+0000000000000000 T _Z2g1v
+0000000000000000 W _ZN1T2f1Ev
+&lt;/pre&gt;
+&lt;p&gt;
+Compiler generates a weak symble for f1, but not for f2.
+How about adding optimization during compilation?
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;g++ -c -O2 test.cc
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+Now the symble table becomes
+&lt;/p&gt;
+&lt;pre class="example"&gt;
+nm test.o
+                 U _Z1av
+0000000000000000 T _Z2g1v
+&lt;/pre&gt;
+&lt;p&gt;
+Weak symble is not generated for f1 now.
+Chang a little bit again
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;"test.hh"&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+
+&lt;span class="k"&gt;extern&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;a&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+
+&lt;span class="k"&gt;namespace&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;s1&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;f2&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="kr"&gt;inline&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;f1&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+  &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;cout&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="s"&gt;"f1"&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;endl&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="kr"&gt;inline&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;f2&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;g1&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;f1&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+  &lt;span class="n"&gt;s1&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+global function calls s1, f1 calls cout to ouput something.
+Compile it with O2 again, then check the symble table
+&lt;/p&gt;
+&lt;pre class="example"&gt;
+nm test.o
+0000000000000000 V DW.ref.__gxx_personality_v0
+0000000000000000 r GCC_except_table1
+0000000000000050 r GCC_except_table2
+0000000000000100 r GCC_except_table3
+000000000000012c r GCC_except_table4
+0000000000000158 r GCC_except_table6
+00000000000001e0 r GCC_except_table7
+                 U _Unwind_Resume
+                 U _Z1av
+0000000000000000 T _Z2g1v
+0000000000000000 W _ZN1T2f1Ev
+                 U _ZNKSt6__ndk16locale9use_facetERNS0_2idE
+                 U _ZNKSt6__ndk18ios_base6getlocEv
+0000000000000000 W _ZNSt6__ndk113basic_ostreamIcNS_11char_traitsIcEEE3putEc
+0000000000000000 W _ZNSt6__ndk113basic_ostreamIcNS_11char_traitsIcEEE5flushEv
+0000000000000000 W _ZNSt6__ndk113basic_ostreamIcNS_11char_traitsIcEEE6sentryD2Ev
+0000000000000000 W _ZNSt6__ndk116__pad_and_outputIcNS_11char_traitsIcEEEENS_19ostreambuf_iteratorIT_T0_EES6_PKS4_S8_S8_RNS_8ios_baseES4_
+0000000000000000 W _ZNSt6__ndk124__put_character_sequenceIcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_PKS4_m
+                 U _ZNSt6__ndk14coutE
+                 U _ZNSt6__ndk15ctypeIcE2idE
+                 U _ZNSt6__ndk16localeD1Ev
+                 U _ZNSt6__ndk18ios_base33__set_badbit_and_consider_rethrowEv
+                 U _ZNSt6__ndk18ios_base5clearEj
+                 U _ZSt18uncaught_exceptionv
+                 U _ZSt9terminatev
+                 U _ZdlPv
+                 U _Znwm
+0000000000000000 W __clang_call_terminate
+                 U __cxa_begin_catch
+                 U __cxa_end_catch
+                 U __gxx_personality_v0
+                 U memset
+&lt;/pre&gt;
+&lt;p&gt;
+ignore the symbles which are brought by the cout, interest
+thing is the f1 comes back as weak symble again, but not f2.
+I collect those result through clang on my android phone,
+different compiler may have different result.
+The result shows that the behavior of inline depends on the
+compiler, the optimization option, the callers, the
+implementation of the inline function, etc.
+Don't put inline implementation inside the source file to make life tough.
+If consider a lot still need inline code in source file,
+make sure no one will access it outside the source file.
+It's not a big problom, at least we can find it during link,
+if the linker can inline during link stage, you may not notice
+this.
+And more suguestion about inline, check Effective C++.
+&lt;/p&gt;</description><guid>https://baolonglin.github.io/zh_cn/posts/c%2B%2B-inline-funtion-in-source-file/</guid><pubDate>Sat, 03 Feb 2018 20:22:10 GMT</pubDate></item><item><title>Port forward on android phone</title><link>https://baolonglin.github.io/zh_cn/posts/portforward-on-android-phone/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
+Phone reachable by hand most of time, sometime I use phone to do some work (ex, check internal email, code review comments, CI result, etc.).
+I need to login to one jump server (HOST1), then login another working server (HOST2).
+I'm using &lt;a href="https://termux.com/"&gt;Termux&lt;/a&gt; on android, it's quit easy to access SSH tool. It work fine with &lt;a href="https://github.com/tmux/tmux/wiki"&gt;tmux&lt;/a&gt;, and I run emacs inside it.
+When I need to access the web (gerrit, jenkins, etc), I need to do port forward.
+It can be achieve by SSH command, refer to &lt;a href="https://superuser.com/questions/96489/an-ssh-tunnel-via-multiple-hops"&gt;an-ssh-tunnel-via-multiple-hops&lt;/a&gt;.
+Shell script depends on lsof
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;LOCAL_PORT_SSH_PORT=9999
+REMOTE_IP=HOST2
+JUMP_HOST=HOST1
+USER_NAME=xxx
+DYNAMIC_SOCK_PORT=9998
+
+if ! lsof -i:$LOCAL_PORT_SSH_PORT; then
+    ssh -AX -f -L $LOCAL_PORT_SSH_PORT:$REMOTE_IP:22 -N $USER_NAME@$JUMP_HOST
+    ssh -f -D $DYNAMIC_SOCK_PORT -N -p $LOCAL_PORT_SSH_PORT $USER_NAME@127.0.0.1
+fi
+
+ssh -AX -p $LOCAL_PORT_SSH_PORT $USER_NAME@127.0.0.1
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+On android phone, I don't want to type so many command or create one script to do that.
+I choose another SSH app &lt;a href="https://connectbot.org/"&gt;ConnectBot&lt;/a&gt;. But need to do following step once.
+&lt;/p&gt;
+
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;p&gt;
+Create Host to HOST1
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   username@HOST1:22
+&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;
+Add local port forward for HOST1
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   Type: Local
+   Source port: 9999
+   Destination: HOST2:22
+&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;
+Create Host to HOST2
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   username@127.0.0.1:9999
+&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;
+Add dynamic port forward for HOST2
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   Type: Dynamic(SOCKS)
+   Source port: 9998
+&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;
+Configure the Firefox proxy
+Open about:config change the following parameters:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   network.proxy.proxy_over_tls: true
+   network.proxy.socks: 127.0.0.1
+   network.proxy.socks_port: 9998
+   network.proxy.socks_remote_dns: true
+   network.proxy.socks_version: 5
+   network.proxy.type: 1
+&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+Now login HOST1, HOST2 with ConnectBot, use Firefox visit the internal website with the same way.
+&lt;/p&gt;</description><guid>https://baolonglin.github.io/zh_cn/posts/portforward-on-android-phone/</guid><pubDate>Thu, 25 Jan 2018 14:13:24 GMT</pubDate></item><item><title>Manage email by mu4e</title><link>https://baolonglin.github.io/zh_cn/posts/manage-email-by-mu4e/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
+There are a lot of posts mentioned m4u solution to manage mail
+under mu4e, do everything in emacs becomes my hobby when
+I jump into the emacs hole.
+&lt;/p&gt;
+
+&lt;p&gt;
+I found one nice post to start with
+&lt;a href="http://cachestocaches.com/2017/3/complete-guide-email-emacs-using-mu-and-/"&gt;A COMPLETE GUIDE TO EMAIL IN EMACS USING MU AND MU4E&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+only extra information I can provide is the configuration
+for office365, below is part of offlineimap configuration,
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;[Repository Remote]
+auth_mechanisms = GSSAPI, CRAM-MD5, PLAIN, LOGIN
+type = IMAP
+maxconnections = 2
+remotehost = outlook.office365.com
+remoteuser = &amp;lt;mail address&amp;gt;
+remotepass = &amp;lt;mail password&amp;gt;
+folderfilter = lambda folder: folder in [ 'INBOX', 'Sent Items' ]
+# The file is copy from Arch linux, different linux distribution has different location
+sslcacertfile = ~/tls-ca-bundle.pem
+&lt;/pre&gt;&lt;/div&gt;</description><guid>https://baolonglin.github.io/zh_cn/posts/manage-email-by-mu4e/</guid><pubDate>Fri, 12 Jan 2018 15:48:31 GMT</pubDate></item><item><title>First book in 2018</title><link>https://baolonglin.github.io/zh_cn/posts/first-book-in-2018/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
+Heard about &amp;lt;The Pragmatic Programmer&amp;gt; long time ago, recently I use the spare time to go through this book.
+It's a fantastic book, everyone start progrmming should take a look at it. I should read it 10 years ago :(.
+If don't have time, just go through the Tips, jump to the tip which feel interest.
+&lt;/p&gt;
+
+&lt;p&gt;
+Recall the passed 10 years' career, I met so many progrmmers that forgot to care about their craft.
+"Care About" is the most important, then "Think", those are the first two tips in the book.
+&lt;/p&gt;
+
+&lt;p&gt;
+"Don't Live with Broken Windows", it's really hard to follow in realistic, even you want to repair the window,
+there will be many "guru" popup with differnt words: "Don't touch anything if it works", "Don't touch my code", etc.
+Some famous words are not working in every scenario. "Critically analyze what you read and hear", That's important.
+&lt;/p&gt;
+
+&lt;p&gt;
+Tips in Chapter 2, I can't agree more, those are all important in daily works. DRY(Don't repeat yourself), it means
+less duplication, decouple the code, make code reusable, then testable, this rule is really importatant while programming.
+&lt;/p&gt;
+
+&lt;p&gt;
+Each programmer should have one toolbox, there are editor, programming language, script language, debuging tool, always keep
+in mind, automatic everything can be automatic. Working with readable text file instand of writing code. Generate the code
+if needed.
+&lt;/p&gt;
+
+&lt;p&gt;
+Don't expect perfect software, what we can do is make it better. It's real life. Design by contract is a good habit when programming,
+but I didn't meet any project use this way, unit test sounds like a programming way to apply design by contract. Assert is
+a good way to make application crash early.
+&lt;/p&gt;
+
+&lt;p&gt;
+There are many ways to do decoupling, one method it mentions in the book "Blackboard" sounds interest to me.
+The blackboard system can decouple each other compoletely, provide a place to share knowledge with each other.
+&lt;/p&gt;
+
+&lt;p&gt;
+While coding, always keep the code easy to be tested.
+&lt;/p&gt;
+
+&lt;p&gt;
+Organization sounds like out of the scope of programmer, but team atmosphere is really important for daily work.
+&lt;/p&gt;</description><guid>https://baolonglin.github.io/zh_cn/posts/first-book-in-2018/</guid><pubDate>Wed, 10 Jan 2018 13:13:28 GMT</pubDate></item><item><title>include_next stdlib.h failed</title><link>https://baolonglin.github.io/zh_cn/posts/include_next-stdlibh-failed/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
+Recently met below error while using &lt;a href="https://github.com/Andersbakken/rtags"&gt;rtags&lt;/a&gt; to parse my code:
+&lt;/p&gt;
+&lt;pre class="example"&gt;
+handleInclude failed (nil) inclusion directive include stdlib.h /opt/gcc/6.2.0/include/c++/6.2.0/cstdlib:75:1
+&lt;/pre&gt;
+
+&lt;p&gt;
+But the source file was compiled success with the specified GCC(6.2.0), that error line of cstlib is:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="cpf"&gt;_next &amp;lt;stdlib.h&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+Tried to find the stdlib.h under gcc 6.2.0, there are two files:
+&lt;/p&gt;
+&lt;pre class="example"&gt;
+/opt/gcc/6.2.0/include/c++/6.2.0/tr1/stdlib.h
+/opt/gcc/6.2.0/include/c++/6.2.0/stdlib.h
+&lt;/pre&gt;
+&lt;p&gt;
+check the stdlib.h under &lt;code&gt;/usr/include&lt;/code&gt;, there are six files:
+&lt;/p&gt;
+&lt;pre class="example"&gt;
+/usr/include/c++/4.7/tr1/stdlib.h
+/usr/include/c++/4.3/tr1/stdlib.h
+/usr/include/stdlib.h
+/usr/include/bind/isc/stdlib.h
+/usr/include/dhcp/isc/stdlib.h
+/usr/include/bits/stdlib.h
+&lt;/pre&gt;
+
+&lt;p&gt;
+Checked the default include directories of compiler with &lt;code&gt;/opt/gcc/6.2.0/bin/g++ -xc++ -v -E -dM -&lt;/code&gt; , there is no &lt;b&gt;tr1&lt;/b&gt; related directory, but find that &lt;code&gt;/usr/include&lt;/code&gt; is the last one in the include directories.
+&lt;/p&gt;
+&lt;pre class="example"&gt;
+Using built-in specs.
+COLLECT_GCC=/opt/gcc/6.2.0/bin/g++
+Target: x86_64-pc-linux-gnu
+Configured with: /local/working/gcc-6.2.0/configure --prefix=/opt/gcc/6.2.0 --enable-languages=c,c++,fortran --enable-libmpx --with-as=/opt/binutils/2.25/bin/as --with-gnu-as
+Thread model: posix
+gcc version 6.2.0 (GCC)
+COLLECT_GCC_OPTIONS='-v' '-E' '-dM' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+ /opt/gcc/6.2.0/bin/../libexec/gcc/x86_64-pc-linux-gnu/6.2.0/cc1plus -E -quiet -v -iprefix /opt/gcc/6.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/
+6.2.0/ -D_GNU_SOURCE - -mtune=generic -march=x86-64 -dM
+ignoring nonexistent directory "/opt/gcc/6.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/6.2.0/../../../../x86_64-pc-linux-gnu/include"
+ignoring duplicate directory "/opt/gcc/6.2.0/bin/../lib/gcc/../../lib/gcc/x86_64-pc-linux-gnu/6.2.0/../../../../include/c++/6.2.0"
+ignoring duplicate directory "/opt/gcc/6.2.0/bin/../lib/gcc/../../lib/gcc/x86_64-pc-linux-gnu/6.2.0/../../../../include/c++/6.2.0/x86_64-pc-linux-gnu"
+ignoring duplicate directory "/opt/gcc/6.2.0/bin/../lib/gcc/../../lib/gcc/x86_64-pc-linux-gnu/6.2.0/../../../../include/c++/6.2.0/backward"
+ignoring duplicate directory "/opt/gcc/6.2.0/bin/../lib/gcc/../../lib/gcc/x86_64-pc-linux-gnu/6.2.0/include"
+ignoring duplicate directory "/opt/gcc/6.2.0/bin/../lib/gcc/../../lib/gcc/x86_64-pc-linux-gnu/6.2.0/include-fixed"
+ignoring nonexistent directory "/opt/gcc/6.2.0/bin/../lib/gcc/../../lib/gcc/x86_64-pc-linux-gnu/6.2.0/../../../../x86_64-pc-linux-gnu/include"
+#include "..." search starts here:
+#include &amp;lt;...&amp;gt; search starts here:
+ /opt/gcc/6.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/6.2.0/../../../../include/c++/6.2.0
+ /opt/gcc/6.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/6.2.0/../../../../include/c++/6.2.0/x86_64-pc-linux-gnu
+ /opt/gcc/6.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/6.2.0/../../../../include/c++/6.2.0/backward
+ /opt/gcc/6.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/6.2.0/include
+ /opt/gcc/6.2.0/bin/../lib/gcc/x86_64-pc-linux-gnu/6.2.0/include-fixed
+ /usr/local/include
+ /opt/gcc/6.2.0/bin/../lib/gcc/../../include
+ /usr/include
+End of search list.
+&lt;/pre&gt;
+
+&lt;p&gt;
+Which stdlib.h is the compiler required?
+&lt;/p&gt;
+
+&lt;p&gt;
+First need to know the meaning of &lt;code&gt;#include_next&lt;/code&gt;, according GCC &lt;a href="https://gcc.gnu.org/onlinedocs/cpp/Wrapper-Headers.html"&gt;Wrapper Header&lt;/a&gt;:
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;
+Include the next file with this name. This directive works like #include except in searching for the specified file: it starts searching the list of header file directories after the directory in which the current file was found.
+&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;
+&lt;code&gt;#include_next&lt;/code&gt; is used for add stuff to the header file without replace it entirely in C++ header files.
+&lt;/p&gt;
+
+&lt;p&gt;
+Find the include files using &lt;code&gt;/opt/gcc/6.2.0/bin/g++ -M&lt;/code&gt; :
+&lt;/p&gt;
+&lt;pre class="example"&gt;
+/opt/gcc/6.2.0/include/c++/6.2.0/cstdlib
+/usr/include/stdlib.h
+&lt;/pre&gt;
+
+&lt;p&gt;
+The left thing is make the correct order of include pathes. The &lt;code&gt;/user/include&lt;/code&gt; path must behind the &lt;code&gt;/opt/gcc/6.2.0/include/c++/6.2.0&lt;/code&gt;.
+&lt;/p&gt;</description><guid>https://baolonglin.github.io/zh_cn/posts/include_next-stdlibh-failed/</guid><pubDate>Wed, 03 Jan 2018 12:00:18 GMT</pubDate></item><item><title>Blogging with emacs org, nikola on android</title><link>https://baolonglin.github.io/zh_cn/posts/blogging-with-emacs-org-nikola-on-android/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
+It's useful to write blog on mobile which reachable
+any spare time. I use &lt;a href="https://termux.com"&gt;Termux&lt;/a&gt; as a Linux environment.
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;apt install emacs clang git python python-dev libxml2 libxml2-dev libxslt libxslt-dev libjpeg-turbo-dev ndk-sysroot
+pip install virtualenv
+mkdir ~/pyenv
+virtualenv ~/pyenv/nikola
+&lt;span class="nb"&gt;source&lt;/span&gt; ~/pyenv/nikola/activate
+&lt;span class="nv"&gt;LDFLAGS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"-L/system/lib/"&lt;/span&gt; &lt;span class="nv"&gt;CFLAGS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"-I/data/data/com.termux/files/usr/include/"&lt;/span&gt; pip install --upgrade &lt;span class="s2"&gt;"Nikola[extras]"&lt;/span&gt;
+git clone &amp;lt;git repo&amp;gt; ~/blog
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+Now setup the Emacs, start new post as on laptop.
+&lt;/p&gt;</description><guid>https://baolonglin.github.io/zh_cn/posts/blogging-with-emacs-org-nikola-on-android/</guid><pubDate>Fri, 29 Dec 2017 21:55:21 GMT</pubDate></item><item><title>Quite nice to write blog with emacs org nikola</title><link>https://baolonglin.github.io/zh_cn/posts/quite-nice-to-write-blog-with-emacs-org-nikola/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
+Plan to use &lt;a href="https://getnikola.com/"&gt;Nikola&lt;/a&gt; as my blogging tool when I read cestlaz's blog &lt;a href="http://cestlaz.github.io/posts/2016-04-17-emacs-jekyll-nikola/"&gt;Blogging with Emacs, Jekyll and Nikola&lt;/a&gt;. Today I fallow streakycobra's nice blog &lt;a href="https://streakycobra.github.io/posts/blogging-in-org-mode-with-nikola/"&gt;Blogging in org-mode with Nikola&lt;/a&gt; setup my blog on github.
+It's quit simple and looks nice, the big thing is I can use org-mode to write blog without extra steps.
+&lt;/p&gt;</description><guid>https://baolonglin.github.io/zh_cn/posts/quite-nice-to-write-blog-with-emacs-org-nikola/</guid><pubDate>Fri, 29 Dec 2017 14:41:15 GMT</pubDate></item><item><title>Maintain test cases with org-mode</title><link>https://baolonglin.github.io/zh_cn/posts/maintain-test-cases-with-org-mode/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;div id="outline-container-org1e81dae" class="outline-2"&gt;
+&lt;h2 id="org1e81dae"&gt;Introduction&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org1e81dae"&gt;
+&lt;p&gt;
+Org-mode is known as good tool to do planning/scheduling, but it also used as &lt;a href="http://howardism.org/Technical/Emacs/literate-programming-tutorial.html"&gt;literate programming tool&lt;/a&gt;. It's quite nice to use &lt;a href="http://orgmode.org/worg/org-contrib/babel/"&gt;Babel&lt;/a&gt; to execute code inside org-mode, it should be possible to use org-mode write test case.
+Right now I could not find one native way inside org-mode to support this.
+The tool I need to test is quit simple, &lt;a href="https://clang.llvm.org/docs/ClangFormat.html"&gt;clang-format&lt;/a&gt;, input one code snippet, output formated code.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org9aced66" class="outline-2"&gt;
+&lt;h2 id="org9aced66"&gt;Prequirements&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org9aced66"&gt;
+&lt;p&gt;
+Here list my environment:
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Emacs 26&lt;/li&gt;
+&lt;li&gt;Org-mode 9.1.4&lt;/li&gt;
+&lt;li&gt;Babel load language elisp, bash&lt;/li&gt;
+&lt;li&gt;org-element&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org9084bde" class="outline-2"&gt;
+&lt;h2 id="org9084bde"&gt;Setup&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org9084bde"&gt;
+&lt;p&gt;
+Just create one org file, input content like:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;* Test title
+** Setup
+#+BEGIN_SRC elisp
+(setq org-confirm-babel-evaluate nil)
+#+END_SRC
+** Test suite title
+*** Test case title
+    &amp;lt;&amp;lt; add test case content here, use yasnippet to insert here &amp;gt;&amp;gt;
+** Report
+#+BEGIN_SRC emacs-lisp
+  (org-element-map (org-element-parse-buffer) '(fixed-width example-block)
+    (lambda (result)
+      (progn
+	(list (org-element-property :results result)
+	      (if (string-prefix-p "PASS" (org-element-property :value result) )
+		  "PASS"
+		"FAILED")
+	      )
+	))
+    )
+#+END_SRC
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+The content under Setup headline describes the setup information.
+The content under Report headline describes the test result report.
+The test case use yasnippet like:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;# -*- mode: snippet -*-
+# name: tftc
+# key: tftc
+# --
+*** ${1: test case name}
+#+name: ${1:$(replace-regexp-in-string " " "-" (downcase yas-text))}
+#+BEGIN_SRC bash :results verbatim
+format_result="$(clang-format &amp;lt;&amp;lt; EOF
+{
+${2: input original source code}
+}
+EOF
+)"
+
+require_format="$(cat &amp;lt;&amp;lt; EOF
+{
+${3: input expected source code}
+}
+EOF
+)"
+
+diff -u &amp;lt;(echo "$format_result") &amp;lt;(echo "$require_format")
+if [ "$?" -eq 0 ]; then
+echo "PASS"
+else
+echo "FAILED"
+fi
+#+END_SRC
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+After added the test case just execute org-babel-execute-buffer, the test report will be generated in the end of current org file.
+The test result looks like:
+&lt;/p&gt;
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;(test-case-1)&lt;/td&gt;
+&lt;td class="org-left"&gt;PASS&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;(test-case-2)&lt;/td&gt;
+&lt;td class="org-left"&gt;PASS&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;(test-case-3)&lt;/td&gt;
+&lt;td class="org-left"&gt;FAILED&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org3875cd9" class="outline-2"&gt;
+&lt;h2 id="org3875cd9"&gt;Conclusion&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org3875cd9"&gt;
+&lt;p&gt;
+The solution is not perfect enough, it has duplicate shell code under each test case, the input/output code could not be highlight.
+The report is quit simple, when test cases number becomes large, require better solution to show the test result.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><guid>https://baolonglin.github.io/zh_cn/posts/maintain-test-cases-with-org-mode/</guid><pubDate>Fri, 29 Dec 2017 13:26:15 GMT</pubDate></item></channel></rss>
