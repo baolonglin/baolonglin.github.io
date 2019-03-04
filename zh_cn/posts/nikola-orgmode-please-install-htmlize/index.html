@@ -3,30 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cargo: the SSL certificate is invalid | BaoLong</title>
+<title>Nikola orgmode: Please install htmlize | BaoLong</title>
 <link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
 <link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../../rss.xml">
 <link rel="alternate" type="application/rss+xml" title="RSS (zh_cn)" href="../../rss.xml">
-<link rel="canonical" href="https://baolonglin.github.io/zh_cn/posts/cargo-the-ssl-certificate-is-invalid/">
+<link rel="canonical" href="https://baolonglin.github.io/zh_cn/posts/nikola-orgmode-please-install-htmlize/">
 <!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Baolong Lin">
-<link rel="prev" href="../try-golang/" title="Try golang" type="text/html">
-<link rel="next" href="../nikola-orgmode-please-install-htmlize/" title="Nikola orgmode: Please install htmlize" type="text/html">
+<link rel="prev" href="../cargo-the-ssl-certificate-is-invalid/" title="Cargo: the SSL certificate is invalid" type="text/html">
 <meta property="og:site_name" content="BaoLong">
-<meta property="og:title" content="Cargo: the SSL certificate is invalid">
-<meta property="og:url" content="https://baolonglin.github.io/zh_cn/posts/cargo-the-ssl-certificate-is-invalid/">
-<meta property="og:description" content="Use the Standalone installers install the Rust, meet error when install ripgrep
-
-cargo install ripgrep
+<meta property="og:title" content="Nikola orgmode: Please install htmlize">
+<meta property="og:url" content="https://baolonglin.github.io/zh_cn/posts/nikola-orgmode-please-install-htmlize/">
+<meta property="og:description" content='Not touched nikola for long time, the org-mode plugin need to be upgrade, after upgrade, error happends when build:
 
 
-    Updating crates.io index
-error: failed to fetch `https://github.com/rust-lang/crates.io-ind">
+Traceback (most recent call last):
+  File "/local/workspace/baolonglin.github.io/p'>
 <meta property="og:type" content="article">
-<meta property="article:published_time" content="2019-03-04T22:53:32+01:00">
-<link rel="alternate" hreflang="en" href="../../../posts/cargo-the-ssl-certificate-is-invalid/">
+<meta property="article:published_time" content="2019-03-04T23:47:46+01:00">
+<link rel="alternate" hreflang="en" href="../../../posts/nikola-orgmode-please-install-htmlize/">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">跳到主内容</a>
@@ -88,7 +85,7 @@ error: failed to fetch `https://github.com/rust-lang/crates.io-ind">
         <!--Body content-->
         
         
-<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Cargo: the SSL certificate is invalid</a></h1>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Nikola orgmode: Please install htmlize</a></h1>
 
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
@@ -96,11 +93,11 @@ error: failed to fetch `https://github.com/rust-lang/crates.io-ind">
             </span></p>
             <p class="dateline">
             <a href="." rel="bookmark">
-            <time class="published dt-published" datetime="2019-03-04T22:53:32+01:00" itemprop="datePublished" title="2019-03-04 22:53">2019-03-04 22:53</time></a>
+            <time class="published dt-published" datetime="2019-03-04T23:47:46+01:00" itemprop="datePublished" title="2019-03-04 23:47">2019-03-04 23:47</time></a>
             </p>
                 <p class="commentline">
         
-    <a href="#disqus_thread" data-disqus-identifier="cache/posts/cargo-the-ssl-certificate-is-invalid.html">Comments</a>
+    <a href="#disqus_thread" data-disqus-identifier="cache/posts/nikola-orgmode-please-install-htmlize.html">Comments</a>
 
 
             
@@ -112,77 +109,42 @@ error: failed to fetch `https://github.com/rust-lang/crates.io-ind">
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
     <p>
-Use the <a href="https://forge.rust-lang.org/other-installation-methods.html">Standalone installers</a> install the Rust, meet error when install ripgrep
+Not touched nikola for long time, the org-mode plugin need to be upgrade, after upgrade, error happends when build:
 </p>
-<div class="highlight"><pre><span></span>cargo install ripgrep
-</pre></div>
 <pre class="example">
-    Updating crates.io index
-error: failed to fetch `https://github.com/rust-lang/crates.io-index`
-
-Caused by:
-  the SSL certificate is invalid; class=Ssl (16); code=Certificate (-17)
+Traceback (most recent call last):
+  File "/local/workspace/baolonglin.github.io/plugins/orgmode/orgmode.py", line 74, in compile
+    subprocess.check_call(command)
+  File "/app/python/3.5.5/lib/python3.5/subprocess.py", line 271, in check_call
+    raise CalledProcessError(retcode, cmd)
+subprocess.CalledProcessError: Command '['emacs', '--batch', '-l', '/localworkspace/baolonglin.github.io/plugins/orgmode/init.el', '--eval', '(nikola-html-export "/local/workspace/baolonglin.github.io/posts/cargo-the-ssl-certificate-is-invalid.org" "/local/workspace/baolonglin.github.io/cache/posts/cargo-the-ssl-certificate-is-invalid.html")']' returned non-zero exit status 255
 </pre>
 <p>
-The openssl version of the running envrionment is old and i don't have permission
-to upgrade it. I checked the cargo linked library
+Execute the command external, get error like:
 </p>
-<div class="highlight"><pre><span></span>ldd /local/users/ebaolin/sfw/rust-1.33.0/bin/cargo
-</pre></div>
 <pre class="example">
-linux-vdso.so.1 =&gt;  (0x00007fff38df3000)
-libdl.so.2 =&gt; /lib64/libdl.so.2 (0x00007fc265f16000)
-librt.so.1 =&gt; /lib64/librt.so.1 (0x00007fc265d0d000)
-libpthread.so.0 =&gt; /lib64/libpthread.so.0 (0x00007fc265af0000)
-libgcc_s.so.1 =&gt; /lib64/libgcc_s.so.1 (0x00007fc2658d9000)
-libc.so.6 =&gt; /lib64/libc.so.6 (0x00007fc26555d000)
-/lib64/ld-linux-x86-64.so.2 (0x00007fc266f5f000)
-libm.so.6 =&gt; /lib64/libm.so.6 (0x00007fc2652e4000)
+Created img-url link.
+Please install htmlize from https://github.com/hniksic/emacs-htmlize
 </pre>
 <p>
-No openssl libraries are dynamic linked.
-Check the cargo load files
+Check the init.el under the plugins/orgmode, it has:
 </p>
-<div class="highlight"><pre><span></span>strace -f cargo install ripgrep
+<div class="highlight"><pre><span></span>(require 'package)
+(setq package-load-list '((htmlize t)))
+(package-initialize)
 </pre></div>
 <p>
-It checks the ssl/openssl folders for certificate file
+But my emacs has htmlize installed, use the installed one, comment out those lines add below:
 </p>
-<pre class="example">
-stat("/var/ssl", 0x7fff943a3420)        = -1 ENOENT (No such file or directory)
-stat("/usr/share/ssl", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
-stat("/usr/local/ssl", 0x7fff943a3420)  = -1 ENOENT (No such file or directory)
-stat("/usr/local/openssl", 0x7fff943a3420) = -1 ENOENT (No such file or directory)
-stat("/usr/local/share", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
-stat("/usr/lib/ssl", 0x7fff943a3420)    = -1 ENOENT (No such file or directory)
-stat("/usr/ssl", 0x7fff943a3420)        = -1 ENOENT (No such file or directory)
-stat("/etc/openssl", 0x7fff943a3420)    = -1 ENOENT (No such file or directory)
-stat("/etc/pki/ca-trust/extracted/pem", 0x7fff943a3420) = -1 ENOENT (No such file or directory)
-stat("/etc/pki/tls", 0x7fff943a3420)    = -1 ENOENT (No such file or directory)
-</pre>
-<p>
-Nothing was found, but before checking the certificate, it tries to load the cargo config
-file from `$HOME/.cargo`
-</p>
-<pre class="example">
-stat("/home/baolonglin/.cargo/config", 0x7fff943a2dd0) = -1 ENOENT (No such file or directory)
-</pre>
-<p>
-Check <a href="https://doc.rust-lang.org/cargo/reference/config.html">Cargo doc</a>, there is `cainfo` under `http`. Copy `cert.pem` from the new
-openssl distribution to $HOME directory. change the $HOME/.cargo/config file,
-add `cainfo` with the `cert.pem` path.
-</p>
-
-<p>
-Now it works.
-</p>
+<div class="highlight"><pre><span></span>(if (file-directory-p "~/.emacs.d/elpa-27.0")
+    (let ((default-directory "~/.emacs.d/elpa-27.0"))
+      (normal-top-level-add-subdirs-to-load-path)))
+(require 'htmlize)
+</pre></div>
     </div>
     <aside class="postpromonav"><nav><ul class="pager hidden-print">
 <li class="previous">
-                <a href="../try-golang/" rel="prev" title="Try golang">上一篇文章</a>
-            </li>
-            <li class="next">
-                <a href="../nikola-orgmode-please-install-htmlize/" rel="next" title="Nikola orgmode: Please install htmlize">下一篇文章</a>
+                <a href="../cargo-the-ssl-certificate-is-invalid/" rel="prev" title="Cargo: the SSL certificate is invalid">上一篇文章</a>
             </li>
         </ul></nav></aside><section class="comments hidden-print"><h2>评论</h2>
         
@@ -190,9 +152,9 @@ Now it works.
         <div id="disqus_thread"></div>
         <script>
         var disqus_shortname ="baolonglin",
-            disqus_url="https://baolonglin.github.io/zh_cn/posts/cargo-the-ssl-certificate-is-invalid/",
-        disqus_title="Cargo: the SSL certificate is invalid",
-        disqus_identifier="cache/posts/cargo-the-ssl-certificate-is-invalid.html",
+            disqus_url="https://baolonglin.github.io/zh_cn/posts/nikola-orgmode-please-install-htmlize/",
+        disqus_title="Nikola orgmode: Please install htmlize",
+        disqus_identifier="cache/posts/nikola-orgmode-please-install-htmlize.html",
         disqus_config = function () {
             this.language = "zh_cn";
         };

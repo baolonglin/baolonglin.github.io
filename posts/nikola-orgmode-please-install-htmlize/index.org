@@ -1,0 +1,40 @@
+#+BEGIN_COMMENT
+.. title: Nikola orgmode: Please install htmlize
+.. slug: nikola-orgmode-please-install-htmlize
+.. date: 2019-03-04 23:47:46 UTC+01:00
+.. tags: 
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+
+Not touched nikola for long time, the org-mode plugin need to be upgrade, after upgrade, error happends when build:
+#+BEGIN_EXAMPLE
+Traceback (most recent call last):
+  File "/local/workspace/baolonglin.github.io/plugins/orgmode/orgmode.py", line 74, in compile
+    subprocess.check_call(command)
+  File "/app/python/3.5.5/lib/python3.5/subprocess.py", line 271, in check_call
+    raise CalledProcessError(retcode, cmd)
+subprocess.CalledProcessError: Command '['emacs', '--batch', '-l', '/localworkspace/baolonglin.github.io/plugins/orgmode/init.el', '--eval', '(nikola-html-export "/local/workspace/baolonglin.github.io/posts/cargo-the-ssl-certificate-is-invalid.org" "/local/workspace/baolonglin.github.io/cache/posts/cargo-the-ssl-certificate-is-invalid.html")']' returned non-zero exit status 255
+#+END_EXAMPLE
+Execute the command external, get error like:
+#+BEGIN_EXAMPLE
+Created img-url link.
+Please install htmlize from https://github.com/hniksic/emacs-htmlize
+#+END_EXAMPLE
+Check the init.el under the plugins/orgmode, it has:
+#+BEGIN_SRC elisp
+(require 'package)
+(setq package-load-list '((htmlize t)))
+(package-initialize)
+#+END_SRC
+But my emacs has htmlize installed, use the installed one, comment out those lines add below:
+#+BEGIN_SRC elisp
+(if (file-directory-p "~/.emacs.d/elpa-27.0")
+    (let ((default-directory "~/.emacs.d/elpa-27.0"))
+      (normal-top-level-add-subdirs-to-load-path)))
+(require 'htmlize)
+#+END_SRC

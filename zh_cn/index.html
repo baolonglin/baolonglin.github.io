@@ -75,7 +75,58 @@
     
         
     <div class="postindex">
-            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/cargo-the-ssl-certificate-is-invalid/" class="u-url">Cargo: the SSL certificate is invalid</a></h1>
+            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/nikola-orgmode-please-install-htmlize/" class="u-url">Nikola orgmode: Please install htmlize</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        Baolong Lin
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/nikola-orgmode-please-install-htmlize/" rel="bookmark">
+            <time class="published dt-published" datetime="2019-03-04T23:47:46+01:00" itemprop="datePublished" title="2019-03-04 23:47">2019-03-04 23:47</time></a>
+            </p>
+                        <p class="commentline">
+        
+    <a href="posts/nikola-orgmode-please-install-htmlize/#disqus_thread" data-disqus-identifier="cache/posts/nikola-orgmode-please-install-htmlize.html">Comments</a>
+
+
+                </p>
+</div>
+            </header><div class="e-content entry-content">
+                    <p>
+Not touched nikola for long time, the org-mode plugin need to be upgrade, after upgrade, error happends when build:
+</p>
+<pre class="example">
+Traceback (most recent call last):
+  File "/local/workspace/baolonglin.github.io/plugins/orgmode/orgmode.py", line 74, in compile
+    subprocess.check_call(command)
+  File "/app/python/3.5.5/lib/python3.5/subprocess.py", line 271, in check_call
+    raise CalledProcessError(retcode, cmd)
+subprocess.CalledProcessError: Command '['emacs', '--batch', '-l', '/localworkspace/baolonglin.github.io/plugins/orgmode/init.el', '--eval', '(nikola-html-export "/local/workspace/baolonglin.github.io/posts/cargo-the-ssl-certificate-is-invalid.org" "/local/workspace/baolonglin.github.io/cache/posts/cargo-the-ssl-certificate-is-invalid.html")']' returned non-zero exit status 255
+</pre>
+<p>
+Execute the command external, get error like:
+</p>
+<pre class="example">
+Created img-url link.
+Please install htmlize from https://github.com/hniksic/emacs-htmlize
+</pre>
+<p>
+Check the init.el under the plugins/orgmode, it has:
+</p>
+<div class="highlight"><pre><span></span>(require 'package)
+(setq package-load-list '((htmlize t)))
+(package-initialize)
+</pre></div>
+<p>
+But my emacs has htmlize installed, use the installed one, comment out those lines add below:
+</p>
+<div class="highlight"><pre><span></span>(if (file-directory-p "~/.emacs.d/elpa-27.0")
+    (let ((default-directory "~/.emacs.d/elpa-27.0"))
+      (normal-top-level-add-subdirs-to-load-path)))
+(require 'htmlize)
+</pre></div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/cargo-the-ssl-certificate-is-invalid/" class="u-url">Cargo: the SSL certificate is invalid</a></h1>
                 <div class="metadata">
                     <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                         Baolong Lin
@@ -762,150 +813,6 @@ Now setup the Emacs, start new post as on laptop.
 Plan to use <a href="https://getnikola.com/">Nikola</a> as my blogging tool when I read cestlaz's blog <a href="http://cestlaz.github.io/posts/2016-04-17-emacs-jekyll-nikola/">Blogging with Emacs, Jekyll and Nikola</a>. Today I fallow streakycobra's nice blog <a href="https://streakycobra.github.io/posts/blogging-in-org-mode-with-nikola/">Blogging in org-mode with Nikola</a> setup my blog on github.
 It's quit simple and looks nice, the big thing is I can use org-mode to write blog without extra steps.
 </p>
-                </div>
-            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/maintain-test-cases-with-org-mode/" class="u-url">Maintain test cases with org-mode</a></h1>
-                <div class="metadata">
-                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                        Baolong Lin
-                    </span></p>
-            <p class="dateline">
-            <a href="posts/maintain-test-cases-with-org-mode/" rel="bookmark">
-            <time class="published dt-published" datetime="2017-12-29T14:26:15+01:00" itemprop="datePublished" title="2017-12-29 14:26">2017-12-29 14:26</time></a>
-            </p>
-                        <p class="commentline">
-        
-    <a href="posts/maintain-test-cases-with-org-mode/#disqus_thread" data-disqus-identifier="cache/posts/maintain-test-cases-with-org-mode.html">Comments</a>
-
-
-                </p>
-</div>
-            </header><div class="e-content entry-content">
-                    <div id="outline-container-org1e81dae" class="outline-2">
-<h2 id="org1e81dae">Introduction</h2>
-<div class="outline-text-2" id="text-org1e81dae">
-<p>
-Org-mode is known as good tool to do planning/scheduling, but it also used as <a href="http://howardism.org/Technical/Emacs/literate-programming-tutorial.html">literate programming tool</a>. It's quite nice to use <a href="http://orgmode.org/worg/org-contrib/babel/">Babel</a> to execute code inside org-mode, it should be possible to use org-mode write test case.
-Right now I could not find one native way inside org-mode to support this.
-The tool I need to test is quit simple, <a href="https://clang.llvm.org/docs/ClangFormat.html">clang-format</a>, input one code snippet, output formated code.
-</p>
-</div>
-</div>
-
-<div id="outline-container-org9aced66" class="outline-2">
-<h2 id="org9aced66">Prequirements</h2>
-<div class="outline-text-2" id="text-org9aced66">
-<p>
-Here list my environment:
-</p>
-<ul class="org-ul">
-<li>Emacs 26</li>
-<li>Org-mode 9.1.4</li>
-<li>Babel load language elisp, bash</li>
-<li>org-element</li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-org9084bde" class="outline-2">
-<h2 id="org9084bde">Setup</h2>
-<div class="outline-text-2" id="text-org9084bde">
-<p>
-Just create one org file, input content like:
-</p>
-<div class="highlight"><pre><span></span>* Test title
-** Setup
-#+BEGIN_SRC elisp
-(setq org-confirm-babel-evaluate nil)
-#+END_SRC
-** Test suite title
-*** Test case title
-    &lt;&lt; add test case content here, use yasnippet to insert here &gt;&gt;
-** Report
-#+BEGIN_SRC emacs-lisp
-  (org-element-map (org-element-parse-buffer) '(fixed-width example-block)
-    (lambda (result)
-      (progn
-	(list (org-element-property :results result)
-	      (if (string-prefix-p "PASS" (org-element-property :value result) )
-		  "PASS"
-		"FAILED")
-	      )
-	))
-    )
-#+END_SRC
-</pre></div>
-
-<p>
-The content under Setup headline describes the setup information.
-The content under Report headline describes the test result report.
-The test case use yasnippet like:
-</p>
-<div class="highlight"><pre><span></span># -*- mode: snippet -*-
-# name: tftc
-# key: tftc
-# --
-*** ${1: test case name}
-#+name: ${1:$(replace-regexp-in-string " " "-" (downcase yas-text))}
-#+BEGIN_SRC bash :results verbatim
-format_result="$(clang-format &lt;&lt; EOF
-{
-${2: input original source code}
-}
-EOF
-)"
-
-require_format="$(cat &lt;&lt; EOF
-{
-${3: input expected source code}
-}
-EOF
-)"
-
-diff -u &lt;(echo "$format_result") &lt;(echo "$require_format")
-if [ "$?" -eq 0 ]; then
-echo "PASS"
-else
-echo "FAILED"
-fi
-#+END_SRC
-</pre></div>
-
-<p>
-After added the test case just execute org-babel-execute-buffer, the test report will be generated in the end of current org file.
-The test result looks like:
-</p>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<colgroup>
-<col class="org-left">
-<col class="org-left">
-</colgroup>
-<tbody>
-<tr>
-<td class="org-left">(test-case-1)</td>
-<td class="org-left">PASS</td>
-</tr>
-<tr>
-<td class="org-left">(test-case-2)</td>
-<td class="org-left">PASS</td>
-</tr>
-<tr>
-<td class="org-left">(test-case-3)</td>
-<td class="org-left">FAILED</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-
-<div id="outline-container-org3875cd9" class="outline-2">
-<h2 id="org3875cd9">Conclusion</h2>
-<div class="outline-text-2" id="text-org3875cd9">
-<p>
-The solution is not perfect enough, it has duplicate shell code under each test case, the input/output code could not be highlight.
-The report is quit simple, when test cases number becomes large, require better solution to show the test result.
-</p>
-</div>
-</div>
                 </div>
             </article>
 </div>

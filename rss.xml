@@ -1,5 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>BaoLong</title><link>https://baolonglin.github.io/</link><description>This is a site for Baolong.</description><atom:link href="https://baolonglin.github.io/rss.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><copyright>Contents © 2019 &lt;a href="mailto:lbl52001@gmail.com"&gt;Baolong Lin&lt;/a&gt; </copyright><lastBuildDate>Mon, 04 Mar 2019 22:44:55 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Cargo: the SSL certificate is invalid</title><link>https://baolonglin.github.io/posts/cargo-the-ssl-certificate-is-invalid/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>BaoLong</title><link>https://baolonglin.github.io/</link><description>This is a site for Baolong.</description><atom:link type="application/rss+xml" href="https://baolonglin.github.io/rss.xml" rel="self"></atom:link><language>en</language><copyright>Contents © 2019 &lt;a href="mailto:lbl52001@gmail.com"&gt;Baolong Lin&lt;/a&gt; </copyright><lastBuildDate>Mon, 04 Mar 2019 22:53:53 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Nikola orgmode: Please install htmlize</title><link>https://baolonglin.github.io/posts/nikola-orgmode-please-install-htmlize/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
+Not touched nikola for long time, the org-mode plugin need to be upgrade, after upgrade, error happends when build:
+&lt;/p&gt;
+&lt;pre class="example"&gt;
+Traceback (most recent call last):
+  File "/local/workspace/baolonglin.github.io/plugins/orgmode/orgmode.py", line 74, in compile
+    subprocess.check_call(command)
+  File "/app/python/3.5.5/lib/python3.5/subprocess.py", line 271, in check_call
+    raise CalledProcessError(retcode, cmd)
+subprocess.CalledProcessError: Command '['emacs', '--batch', '-l', '/localworkspace/baolonglin.github.io/plugins/orgmode/init.el', '--eval', '(nikola-html-export "/local/workspace/baolonglin.github.io/posts/cargo-the-ssl-certificate-is-invalid.org" "/local/workspace/baolonglin.github.io/cache/posts/cargo-the-ssl-certificate-is-invalid.html")']' returned non-zero exit status 255
+&lt;/pre&gt;
+&lt;p&gt;
+Execute the command external, get error like:
+&lt;/p&gt;
+&lt;pre class="example"&gt;
+Created img-url link.
+Please install htmlize from https://github.com/hniksic/emacs-htmlize
+&lt;/pre&gt;
+&lt;p&gt;
+Check the init.el under the plugins/orgmode, it has:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;(require 'package)
+(setq package-load-list '((htmlize t)))
+(package-initialize)
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+But my emacs has htmlize installed, use the installed one, comment out those lines add below:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;(if (file-directory-p "~/.emacs.d/elpa-27.0")
+    (let ((default-directory "~/.emacs.d/elpa-27.0"))
+      (normal-top-level-add-subdirs-to-load-path)))
+(require 'htmlize)
+&lt;/pre&gt;&lt;/div&gt;</description><guid>https://baolonglin.github.io/posts/nikola-orgmode-please-install-htmlize/</guid><pubDate>Mon, 04 Mar 2019 22:47:46 GMT</pubDate></item><item><title>Cargo: the SSL certificate is invalid</title><link>https://baolonglin.github.io/posts/cargo-the-ssl-certificate-is-invalid/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
 Use the &lt;a href="https://forge.rust-lang.org/other-installation-methods.html"&gt;Standalone installers&lt;/a&gt; install the Rust, meet error when install ripgrep
 &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;cargo install ripgrep
@@ -507,134 +539,4 @@ Now setup the Emacs, start new post as on laptop.
 &lt;/p&gt;</description><category>org-mode</category><guid>https://baolonglin.github.io/posts/blogging-with-emacs-org-nikola-on-android/</guid><pubDate>Fri, 29 Dec 2017 21:55:21 GMT</pubDate></item><item><title>Quite nice to write blog with emacs org nikola</title><link>https://baolonglin.github.io/posts/quite-nice-to-write-blog-with-emacs-org-nikola/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
 Plan to use &lt;a href="https://getnikola.com/"&gt;Nikola&lt;/a&gt; as my blogging tool when I read cestlaz's blog &lt;a href="http://cestlaz.github.io/posts/2016-04-17-emacs-jekyll-nikola/"&gt;Blogging with Emacs, Jekyll and Nikola&lt;/a&gt;. Today I fallow streakycobra's nice blog &lt;a href="https://streakycobra.github.io/posts/blogging-in-org-mode-with-nikola/"&gt;Blogging in org-mode with Nikola&lt;/a&gt; setup my blog on github.
 It's quit simple and looks nice, the big thing is I can use org-mode to write blog without extra steps.
-&lt;/p&gt;</description><category>org-mode</category><guid>https://baolonglin.github.io/posts/quite-nice-to-write-blog-with-emacs-org-nikola/</guid><pubDate>Fri, 29 Dec 2017 14:41:15 GMT</pubDate></item><item><title>Maintain test cases with org-mode</title><link>https://baolonglin.github.io/posts/maintain-test-cases-with-org-mode/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;div id="outline-container-org1e81dae" class="outline-2"&gt;
-&lt;h2 id="org1e81dae"&gt;Introduction&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org1e81dae"&gt;
-&lt;p&gt;
-Org-mode is known as good tool to do planning/scheduling, but it also used as &lt;a href="http://howardism.org/Technical/Emacs/literate-programming-tutorial.html"&gt;literate programming tool&lt;/a&gt;. It's quite nice to use &lt;a href="http://orgmode.org/worg/org-contrib/babel/"&gt;Babel&lt;/a&gt; to execute code inside org-mode, it should be possible to use org-mode write test case.
-Right now I could not find one native way inside org-mode to support this.
-The tool I need to test is quit simple, &lt;a href="https://clang.llvm.org/docs/ClangFormat.html"&gt;clang-format&lt;/a&gt;, input one code snippet, output formated code.
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org9aced66" class="outline-2"&gt;
-&lt;h2 id="org9aced66"&gt;Prequirements&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org9aced66"&gt;
-&lt;p&gt;
-Here list my environment:
-&lt;/p&gt;
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;Emacs 26&lt;/li&gt;
-&lt;li&gt;Org-mode 9.1.4&lt;/li&gt;
-&lt;li&gt;Babel load language elisp, bash&lt;/li&gt;
-&lt;li&gt;org-element&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org9084bde" class="outline-2"&gt;
-&lt;h2 id="org9084bde"&gt;Setup&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org9084bde"&gt;
-&lt;p&gt;
-Just create one org file, input content like:
-&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;* Test title
-** Setup
-#+BEGIN_SRC elisp
-(setq org-confirm-babel-evaluate nil)
-#+END_SRC
-** Test suite title
-*** Test case title
-    &amp;lt;&amp;lt; add test case content here, use yasnippet to insert here &amp;gt;&amp;gt;
-** Report
-#+BEGIN_SRC emacs-lisp
-  (org-element-map (org-element-parse-buffer) '(fixed-width example-block)
-    (lambda (result)
-      (progn
-	(list (org-element-property :results result)
-	      (if (string-prefix-p "PASS" (org-element-property :value result) )
-		  "PASS"
-		"FAILED")
-	      )
-	))
-    )
-#+END_SRC
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;
-The content under Setup headline describes the setup information.
-The content under Report headline describes the test result report.
-The test case use yasnippet like:
-&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;# -*- mode: snippet -*-
-# name: tftc
-# key: tftc
-# --
-*** ${1: test case name}
-#+name: ${1:$(replace-regexp-in-string " " "-" (downcase yas-text))}
-#+BEGIN_SRC bash :results verbatim
-format_result="$(clang-format &amp;lt;&amp;lt; EOF
-{
-${2: input original source code}
-}
-EOF
-)"
-
-require_format="$(cat &amp;lt;&amp;lt; EOF
-{
-${3: input expected source code}
-}
-EOF
-)"
-
-diff -u &amp;lt;(echo "$format_result") &amp;lt;(echo "$require_format")
-if [ "$?" -eq 0 ]; then
-echo "PASS"
-else
-echo "FAILED"
-fi
-#+END_SRC
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;
-After added the test case just execute org-babel-execute-buffer, the test report will be generated in the end of current org file.
-The test result looks like:
-&lt;/p&gt;
-&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
-
-
-&lt;colgroup&gt;
-&lt;col class="org-left"&gt;
-
-&lt;col class="org-left"&gt;
-&lt;/colgroup&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td class="org-left"&gt;(test-case-1)&lt;/td&gt;
-&lt;td class="org-left"&gt;PASS&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;(test-case-2)&lt;/td&gt;
-&lt;td class="org-left"&gt;PASS&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;(test-case-3)&lt;/td&gt;
-&lt;td class="org-left"&gt;FAILED&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org3875cd9" class="outline-2"&gt;
-&lt;h2 id="org3875cd9"&gt;Conclusion&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org3875cd9"&gt;
-&lt;p&gt;
-The solution is not perfect enough, it has duplicate shell code under each test case, the input/output code could not be highlight.
-The report is quit simple, when test cases number becomes large, require better solution to show the test result.
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;</description><category>org-mode</category><guid>https://baolonglin.github.io/posts/maintain-test-cases-with-org-mode/</guid><pubDate>Fri, 29 Dec 2017 13:26:15 GMT</pubDate></item></channel></rss>
+&lt;/p&gt;</description><category>org-mode</category><guid>https://baolonglin.github.io/posts/quite-nice-to-write-blog-with-emacs-org-nikola/</guid><pubDate>Fri, 29 Dec 2017 14:41:15 GMT</pubDate></item></channel></rss>
