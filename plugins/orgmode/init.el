@@ -3,12 +3,16 @@
 ;; Load org-mode
 ;; Requires org-mode v8.x
 
-(require 'package)
-(setq package-load-list '((htmlize t)))
-(package-initialize)
+;;(require 'package)
+;;(setq package-load-list '((htmlize t)))
+;;(package-initialize)
 
 (require 'org)
 (require 'ox-html)
+(if (file-directory-p "~/.emacs.d/elpa-27.0")
+    (let ((default-directory "~/.emacs.d/elpa-27.0"))
+      (normal-top-level-add-subdirs-to-load-path)))
+(require 'htmlize)
 
 ;;; Custom configuration for the export.
 
