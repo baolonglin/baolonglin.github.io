@@ -1,0 +1,25 @@
+#+BEGIN_COMMENT
+.. title: Copy paste from Emacs nw to other application
+.. slug: copy-paste-from-emacs-nw-to-other-application
+.. date: 2019-03-04 23:56:54 UTC+01:00
+.. tags: 
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+Their is one plugin to use make it possible: [[https://elpa.gnu.org/packages/xclip.html][xclip]]
+
+This plugin uses xclip/xsel on Linux, if both of them are not exist, it uses emacs `make-frame-on-display`.
+They require `DISPLAY` to be set correctly. In my case, I use putty to login the server then use `emacsclient -nw`
+to connect to the emacs daemon, I have no xclip/xsel installed. 
+Some times the `DISPLAY` was not set correctly when multiple ssh clients connect to the server.
+
+Follow steps can make the copy/paste works again.
+
+#+BEGIN_SRC elisp
+(setq xclip--hidden-frame nil)
+(setenv "DISPLAY" "localhost:12.0")
+#+END_SRC

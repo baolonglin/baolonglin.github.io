@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>BaoLong</title><link>https://baolonglin.github.io/</link><description>This is a site for Baolong.</description><atom:link type="application/rss+xml" href="https://baolonglin.github.io/zh_cn/rss.xml" rel="self"></atom:link><language>zh_cn</language><copyright>Contents © 2019 &lt;a href="mailto:lbl52001@gmail.com"&gt;Baolong Lin&lt;/a&gt; </copyright><lastBuildDate>Mon, 04 Mar 2019 22:53:53 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Nikola orgmode: Please install htmlize</title><link>https://baolonglin.github.io/zh_cn/posts/nikola-orgmode-please-install-htmlize/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0"><channel><title>BaoLong</title><link>https://baolonglin.github.io/</link><description>This is a site for Baolong.</description><atom:link type="application/rss+xml" href="https://baolonglin.github.io/zh_cn/rss.xml" rel="self"></atom:link><language>zh_cn</language><copyright>Contents © 2019 &lt;a href="mailto:lbl52001@gmail.com"&gt;Baolong Lin&lt;/a&gt; </copyright><lastBuildDate>Mon, 04 Mar 2019 23:07:28 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Copy paste from Emacs nw to other application</title><link>https://baolonglin.github.io/zh_cn/posts/copy-paste-from-emacs-nw-to-other-application/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
+Their is one plugin to use make it possible: &lt;a href="https://elpa.gnu.org/packages/xclip.html"&gt;xclip&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+This plugin uses xclip/xsel on Linux, if both of them are not exist, it uses emacs `make-frame-on-display`.
+They require `DISPLAY` to be set correctly. In my case, I use putty to login the server then use `emacsclient -nw`
+to connect to the emacs daemon, I have no xclip/xsel installed. 
+Some times the `DISPLAY` was not set correctly when multiple ssh clients connect to the server.
+&lt;/p&gt;
+
+&lt;p&gt;
+Follow steps can make the copy/paste works again.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;(setq xclip--hidden-frame nil)
+(setenv "DISPLAY" "localhost:12.0")
+&lt;/pre&gt;&lt;/div&gt;</description><guid>https://baolonglin.github.io/zh_cn/posts/copy-paste-from-emacs-nw-to-other-application/</guid><pubDate>Mon, 04 Mar 2019 22:56:54 GMT</pubDate></item><item><title>Nikola orgmode: Please install htmlize</title><link>https://baolonglin.github.io/zh_cn/posts/nikola-orgmode-please-install-htmlize/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
 Not touched nikola for long time, the org-mode plugin need to be upgrade, after upgrade, error happends when build:
 &lt;/p&gt;
 &lt;pre class="example"&gt;
@@ -536,7 +553,4 @@ git clone &amp;lt;git repo&amp;gt; ~/blog
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;
 Now setup the Emacs, start new post as on laptop.
-&lt;/p&gt;</description><guid>https://baolonglin.github.io/zh_cn/posts/blogging-with-emacs-org-nikola-on-android/</guid><pubDate>Fri, 29 Dec 2017 21:55:21 GMT</pubDate></item><item><title>Quite nice to write blog with emacs org nikola</title><link>https://baolonglin.github.io/zh_cn/posts/quite-nice-to-write-blog-with-emacs-org-nikola/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
-Plan to use &lt;a href="https://getnikola.com/"&gt;Nikola&lt;/a&gt; as my blogging tool when I read cestlaz's blog &lt;a href="http://cestlaz.github.io/posts/2016-04-17-emacs-jekyll-nikola/"&gt;Blogging with Emacs, Jekyll and Nikola&lt;/a&gt;. Today I fallow streakycobra's nice blog &lt;a href="https://streakycobra.github.io/posts/blogging-in-org-mode-with-nikola/"&gt;Blogging in org-mode with Nikola&lt;/a&gt; setup my blog on github.
-It's quit simple and looks nice, the big thing is I can use org-mode to write blog without extra steps.
-&lt;/p&gt;</description><guid>https://baolonglin.github.io/zh_cn/posts/quite-nice-to-write-blog-with-emacs-org-nikola/</guid><pubDate>Fri, 29 Dec 2017 14:41:15 GMT</pubDate></item></channel></rss>
+&lt;/p&gt;</description><guid>https://baolonglin.github.io/zh_cn/posts/blogging-with-emacs-org-nikola-on-android/</guid><pubDate>Fri, 29 Dec 2017 21:55:21 GMT</pubDate></item></channel></rss>

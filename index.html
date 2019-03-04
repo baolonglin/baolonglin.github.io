@@ -13,7 +13,7 @@
 <link rel="alternate" type="application/rss+xml" title="RSS (zh_cn)" href="zh_cn/rss.xml">
 <link rel="canonical" href="https://baolonglin.github.io/">
 <link rel="next" href="index-1.html" type="text/html">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/nikola-orgmode-please-install-htmlize/" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/copy-paste-from-emacs-nw-to-other-application/" type="text/html">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -75,7 +75,43 @@
     
         
     <div class="postindex">
-            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/nikola-orgmode-please-install-htmlize/" class="u-url">Nikola orgmode: Please install htmlize</a></h1>
+            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/copy-paste-from-emacs-nw-to-other-application/" class="u-url">Copy paste from Emacs nw to other application</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        Baolong Lin
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/copy-paste-from-emacs-nw-to-other-application/" rel="bookmark">
+            <time class="published dt-published" datetime="2019-03-04T23:56:54+01:00" itemprop="datePublished" title="2019-03-04 23:56">2019-03-04 23:56</time></a>
+            </p>
+                        <p class="commentline">
+        
+    <a href="posts/copy-paste-from-emacs-nw-to-other-application/#disqus_thread" data-disqus-identifier="cache/posts/copy-paste-from-emacs-nw-to-other-application.html">Comments</a>
+
+
+                </p>
+</div>
+            </header><div class="e-content entry-content">
+                    <p>
+Their is one plugin to use make it possible: <a href="https://elpa.gnu.org/packages/xclip.html">xclip</a>
+</p>
+
+<p>
+This plugin uses xclip/xsel on Linux, if both of them are not exist, it uses emacs `make-frame-on-display`.
+They require `DISPLAY` to be set correctly. In my case, I use putty to login the server then use `emacsclient -nw`
+to connect to the emacs daemon, I have no xclip/xsel installed. 
+Some times the `DISPLAY` was not set correctly when multiple ssh clients connect to the server.
+</p>
+
+<p>
+Follow steps can make the copy/paste works again.
+</p>
+
+<div class="highlight"><pre><span></span>(setq xclip--hidden-frame nil)
+(setenv "DISPLAY" "localhost:12.0")
+</pre></div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/nikola-orgmode-please-install-htmlize/" class="u-url">Nikola orgmode: Please install htmlize</a></h1>
                 <div class="metadata">
                     <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                         Baolong Lin
@@ -790,28 +826,6 @@ git clone &lt;git repo&gt; ~/blog
 </pre></div>
 <p>
 Now setup the Emacs, start new post as on laptop.
-</p>
-                </div>
-            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/quite-nice-to-write-blog-with-emacs-org-nikola/" class="u-url">Quite nice to write blog with emacs org nikola</a></h1>
-                <div class="metadata">
-                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                        Baolong Lin
-                    </span></p>
-            <p class="dateline">
-            <a href="posts/quite-nice-to-write-blog-with-emacs-org-nikola/" rel="bookmark">
-            <time class="published dt-published" datetime="2017-12-29T15:41:15+01:00" itemprop="datePublished" title="2017-12-29 15:41">2017-12-29 15:41</time></a>
-            </p>
-                        <p class="commentline">
-        
-    <a href="posts/quite-nice-to-write-blog-with-emacs-org-nikola/#disqus_thread" data-disqus-identifier="cache/posts/quite-nice-to-write-blog-with-emacs-org-nikola.html">Comments</a>
-
-
-                </p>
-</div>
-            </header><div class="e-content entry-content">
-                    <p>
-Plan to use <a href="https://getnikola.com/">Nikola</a> as my blogging tool when I read cestlaz's blog <a href="http://cestlaz.github.io/posts/2016-04-17-emacs-jekyll-nikola/">Blogging with Emacs, Jekyll and Nikola</a>. Today I fallow streakycobra's nice blog <a href="https://streakycobra.github.io/posts/blogging-in-org-mode-with-nikola/">Blogging in org-mode with Nikola</a> setup my blog on github.
-It's quit simple and looks nice, the big thing is I can use org-mode to write blog without extra steps.
 </p>
                 </div>
             </article>
