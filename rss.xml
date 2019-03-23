@@ -1,5 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0"><channel><title>BaoLong</title><link>https://baolonglin.github.io/</link><description>This is a site for Baolong.</description><atom:link type="application/rss+xml" href="https://baolonglin.github.io/rss.xml" rel="self"></atom:link><language>en</language><copyright>Contents © 2019 &lt;a href="mailto:lbl52001@gmail.com"&gt;Baolong Lin&lt;/a&gt; </copyright><lastBuildDate>Mon, 04 Mar 2019 23:07:28 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Copy paste from Emacs nw to other application</title><link>https://baolonglin.github.io/posts/copy-paste-from-emacs-nw-to-other-application/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>BaoLong</title><link>https://baolonglin.github.io/</link><description>This is a site for Baolong.</description><atom:link href="https://baolonglin.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2019 &lt;a href="mailto:lbl52001@gmail.com"&gt;Baolong Lin&lt;/a&gt; </copyright><lastBuildDate>Sat, 23 Mar 2019 22:55:08 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Ruby on Rails same form with different post URL</title><link>https://baolonglin.github.io/posts/ruby-on-rails-same-form-with-different-post-url/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
+In &lt;a href="https://guides.rubyonrails.org/getting_started.html"&gt;Ruby on rails getting started&lt;/a&gt;, chapter &lt;b&gt;5.12 Using partial to clean up duplication in views&lt;/b&gt;,
+it removes the duplicate view of new and update, provides one _form view which will be shared
+by new and create, but it forgets the url which is required in new view.
+&lt;/p&gt;
+
+&lt;p&gt;
+As the routing shows:
+&lt;/p&gt;
+&lt;pre class="example"&gt;
+bin/rails routes
+                   Prefix Verb   URI Pattern                                                                              Controller#Action
+            welcome_index GET    /welcome/index(.:format)                                                                 welcome#index
+                 articles GET    /articles(.:format)                                                                      articles#index
+                          POST   /articles(.:format)                                                                      articles#create
+              new_article GET    /articles/new(.:format)                                                                  articles#new
+             edit_article GET    /articles/:id/edit(.:format)                                                             articles#edit
+                  article GET    /articles/:id(.:format)                                                                  articles#show
+                          PATCH  /articles/:id(.:format)                                                                  articles#update
+                          PUT    /articles/:id(.:format)                                                                  articles#update
+                          DELETE /articles/:id(.:format)                                                                  articles#destroy
+                     root GET    /                                                                                        welcome#index
+       rails_service_blob GET    /rails/active_storage/blobs/:signed_id/*filename(.:format)                               active_storage/blobs#show
+rails_blob_representation GET    /rails/active_storage/representations/:signed_blob_id/:variation_key/*filename(.:format) active_storage/representations#show
+       rails_disk_service GET    /rails/active_storage/disk/:encoded_key/*filename(.:format)                              active_storage/disk#show
+update_rails_disk_service PUT    /rails/active_storage/disk/:encoded_token(.:format)                                      active_storage/disk#update
+     rails_direct_uploads POST   /rails/active_storage/direct_uploads(.:format)                                           active_storage/direct_uploads#create
+&lt;/pre&gt;
+
+&lt;p&gt;
+Create articale is going to use POST /articles(.:format) with articles prefix, but the update is going to use PATCH/PUT with article prefix.
+&lt;/p&gt;
+
+&lt;p&gt;
+At &lt;b&gt;5.2 The first form&lt;/b&gt;,
+&lt;/p&gt;
+&lt;pre class="example"&gt;
+The form needs to use a different URL in order to go somewhere else. This can be done quite simply with the :url option of form_with. Typically in Rails, the action that is used for new form submissions like this is called "create", and so the form should be pointed to that action.
+&lt;/pre&gt;
+
+&lt;p&gt;
+It does not make sense that new created _form solve the url problem. After google, find solution blow:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;%= form_with scope: :article,
+    url: @article.id.present? ? article_path : articles_path,
+    method: @article.id.present? ? :PATCH : :POST,
+    local: true do |form| %&amp;gt;
+
+&amp;lt;% if @article.errors.any? %&amp;gt;
+&amp;lt;div id="error_explanation"&amp;gt;
+  &amp;lt;h2&amp;gt;
+    &amp;lt;%= pluralize(@article.errors.count, "error") %&amp;gt; prohibited this article from being saved:
+  &amp;lt;/h2&amp;gt;
+  &amp;lt;ul&amp;gt;
+    &amp;lt;% @article.errors.full_messages.each do |msg| %&amp;gt;
+    &amp;lt;li&amp;gt;&amp;lt;%= msg %&amp;gt;&amp;lt;/li&amp;gt;
+    &amp;lt;% end %&amp;gt;
+  &amp;lt;/ul&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;% end %&amp;gt;
+
+&amp;lt;p&amp;gt;
+  &amp;lt;%= form.label :title %&amp;gt;&amp;lt;br&amp;gt;
+  &amp;lt;%= form.text_field :title %&amp;gt;
+&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;
+  &amp;lt;%= form.label :text %&amp;gt;&amp;lt;br&amp;gt;
+  &amp;lt;%= form.text_area :text %&amp;gt;
+&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;
+  &amp;lt;%= form.submit %&amp;gt;
+&amp;lt;/p&amp;gt;
+&amp;lt;% end %&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+Check the @articla id present or not, the solution is working for this scenario, how about other senarios that share the form, but can't distiguish with the id or any data inside input object.
+&lt;/p&gt;</description><guid>https://baolonglin.github.io/posts/ruby-on-rails-same-form-with-different-post-url/</guid><pubDate>Sat, 23 Mar 2019 22:37:14 GMT</pubDate></item><item><title>Copy paste from Emacs nw to other application</title><link>https://baolonglin.github.io/posts/copy-paste-from-emacs-nw-to-other-application/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
 Their is one plugin to use make it possible: &lt;a href="https://elpa.gnu.org/packages/xclip.html"&gt;xclip&lt;/a&gt;
 &lt;/p&gt;
 
@@ -539,18 +618,4 @@ Find the include files using &lt;code&gt;/opt/gcc/6.2.0/bin/g++ -M&lt;/code&gt; 
 
 &lt;p&gt;
 The left thing is make the correct order of include pathes. The &lt;code&gt;/user/include&lt;/code&gt; path must behind the &lt;code&gt;/opt/gcc/6.2.0/include/c++/6.2.0&lt;/code&gt;.
-&lt;/p&gt;</description><category>c++</category><guid>https://baolonglin.github.io/posts/include_next-stdlibh-failed/</guid><pubDate>Wed, 03 Jan 2018 12:00:18 GMT</pubDate></item><item><title>Blogging with emacs org, nikola on android</title><link>https://baolonglin.github.io/posts/blogging-with-emacs-org-nikola-on-android/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
-It's useful to write blog on mobile which reachable
-any spare time. I use &lt;a href="https://termux.com"&gt;Termux&lt;/a&gt; as a Linux environment.
-&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;apt install emacs clang git python python-dev libxml2 libxml2-dev libxslt libxslt-dev libjpeg-turbo-dev ndk-sysroot
-pip install virtualenv
-mkdir ~/pyenv
-virtualenv ~/pyenv/nikola
-&lt;span class="nb"&gt;source&lt;/span&gt; ~/pyenv/nikola/activate
-&lt;span class="nv"&gt;LDFLAGS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"-L/system/lib/"&lt;/span&gt; &lt;span class="nv"&gt;CFLAGS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"-I/data/data/com.termux/files/usr/include/"&lt;/span&gt; pip install --upgrade &lt;span class="s2"&gt;"Nikola[extras]"&lt;/span&gt;
-git clone &amp;lt;git repo&amp;gt; ~/blog
-&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;
-Now setup the Emacs, start new post as on laptop.
-&lt;/p&gt;</description><category>org-mode</category><guid>https://baolonglin.github.io/posts/blogging-with-emacs-org-nikola-on-android/</guid><pubDate>Fri, 29 Dec 2017 21:55:21 GMT</pubDate></item></channel></rss>
+&lt;/p&gt;</description><category>c++</category><guid>https://baolonglin.github.io/posts/include_next-stdlibh-failed/</guid><pubDate>Wed, 03 Jan 2018 12:00:18 GMT</pubDate></item></channel></rss>

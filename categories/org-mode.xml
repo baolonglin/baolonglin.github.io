@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>BaoLong (Posts about org-mode)</title><link>https://baolonglin.github.io/</link><description></description><atom:link rel="self" type="application/rss+xml" href="https://baolonglin.github.io/categories/org-mode.xml"></atom:link><language>en</language><copyright>Contents © 2019 &lt;a href="mailto:lbl52001@gmail.com"&gt;Baolong Lin&lt;/a&gt; </copyright><lastBuildDate>Mon, 04 Mar 2019 22:41:45 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Blogging with emacs org, nikola on android</title><link>https://baolonglin.github.io/posts/blogging-with-emacs-org-nikola-on-android/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>BaoLong (Posts about org-mode)</title><link>https://baolonglin.github.io/</link><description></description><atom:link href="https://baolonglin.github.io/categories/org-mode.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2019 &lt;a href="mailto:lbl52001@gmail.com"&gt;Baolong Lin&lt;/a&gt; </copyright><lastBuildDate>Sat, 23 Mar 2019 22:33:11 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Blogging with emacs org, nikola on android</title><link>https://baolonglin.github.io/posts/blogging-with-emacs-org-nikola-on-android/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
 It's useful to write blog on mobile which reachable
 any spare time. I use &lt;a href="https://termux.com"&gt;Termux&lt;/a&gt; as a Linux environment.
 &lt;/p&gt;
@@ -16,9 +16,9 @@ Now setup the Emacs, start new post as on laptop.
 &lt;/p&gt;</description><category>org-mode</category><guid>https://baolonglin.github.io/posts/blogging-with-emacs-org-nikola-on-android/</guid><pubDate>Fri, 29 Dec 2017 21:55:21 GMT</pubDate></item><item><title>Quite nice to write blog with emacs org nikola</title><link>https://baolonglin.github.io/posts/quite-nice-to-write-blog-with-emacs-org-nikola/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
 Plan to use &lt;a href="https://getnikola.com/"&gt;Nikola&lt;/a&gt; as my blogging tool when I read cestlaz's blog &lt;a href="http://cestlaz.github.io/posts/2016-04-17-emacs-jekyll-nikola/"&gt;Blogging with Emacs, Jekyll and Nikola&lt;/a&gt;. Today I fallow streakycobra's nice blog &lt;a href="https://streakycobra.github.io/posts/blogging-in-org-mode-with-nikola/"&gt;Blogging in org-mode with Nikola&lt;/a&gt; setup my blog on github.
 It's quit simple and looks nice, the big thing is I can use org-mode to write blog without extra steps.
-&lt;/p&gt;</description><category>org-mode</category><guid>https://baolonglin.github.io/posts/quite-nice-to-write-blog-with-emacs-org-nikola/</guid><pubDate>Fri, 29 Dec 2017 14:41:15 GMT</pubDate></item><item><title>Maintain test cases with org-mode</title><link>https://baolonglin.github.io/posts/maintain-test-cases-with-org-mode/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;div id="outline-container-org1e81dae" class="outline-2"&gt;
-&lt;h2 id="org1e81dae"&gt;Introduction&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org1e81dae"&gt;
+&lt;/p&gt;</description><category>org-mode</category><guid>https://baolonglin.github.io/posts/quite-nice-to-write-blog-with-emacs-org-nikola/</guid><pubDate>Fri, 29 Dec 2017 14:41:15 GMT</pubDate></item><item><title>Maintain test cases with org-mode</title><link>https://baolonglin.github.io/posts/maintain-test-cases-with-org-mode/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;div id="outline-container-orgd9bd9bb" class="outline-2"&gt;
+&lt;h2 id="orgd9bd9bb"&gt;Introduction&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgd9bd9bb"&gt;
 &lt;p&gt;
 Org-mode is known as good tool to do planning/scheduling, but it also used as &lt;a href="http://howardism.org/Technical/Emacs/literate-programming-tutorial.html"&gt;literate programming tool&lt;/a&gt;. It's quite nice to use &lt;a href="http://orgmode.org/worg/org-contrib/babel/"&gt;Babel&lt;/a&gt; to execute code inside org-mode, it should be possible to use org-mode write test case.
 Right now I could not find one native way inside org-mode to support this.
@@ -27,9 +27,9 @@ The tool I need to test is quit simple, &lt;a href="https://clang.llvm.org/docs/
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org9aced66" class="outline-2"&gt;
-&lt;h2 id="org9aced66"&gt;Prequirements&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org9aced66"&gt;
+&lt;div id="outline-container-org03b32b4" class="outline-2"&gt;
+&lt;h2 id="org03b32b4"&gt;Prequirements&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org03b32b4"&gt;
 &lt;p&gt;
 Here list my environment:
 &lt;/p&gt;
@@ -42,9 +42,9 @@ Here list my environment:
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org9084bde" class="outline-2"&gt;
-&lt;h2 id="org9084bde"&gt;Setup&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org9084bde"&gt;
+&lt;div id="outline-container-org3fa2d26" class="outline-2"&gt;
+&lt;h2 id="org3fa2d26"&gt;Setup&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org3fa2d26"&gt;
 &lt;p&gt;
 Just create one org file, input content like:
 &lt;/p&gt;
@@ -138,9 +138,9 @@ The test result looks like:
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org3875cd9" class="outline-2"&gt;
-&lt;h2 id="org3875cd9"&gt;Conclusion&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org3875cd9"&gt;
+&lt;div id="outline-container-orge2b506a" class="outline-2"&gt;
+&lt;h2 id="orge2b506a"&gt;Conclusion&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge2b506a"&gt;
 &lt;p&gt;
 The solution is not perfect enough, it has duplicate shell code under each test case, the input/output code could not be highlight.
 The report is quit simple, when test cases number becomes large, require better solution to show the test result.

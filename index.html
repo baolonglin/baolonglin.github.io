@@ -13,7 +13,7 @@
 <link rel="alternate" type="application/rss+xml" title="RSS (zh_cn)" href="zh_cn/rss.xml">
 <link rel="canonical" href="https://baolonglin.github.io/">
 <link rel="next" href="index-1.html" type="text/html">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/copy-paste-from-emacs-nw-to-other-application/" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/ruby-on-rails-same-form-with-different-post-url/" type="text/html">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -75,7 +75,105 @@
     
         
     <div class="postindex">
-            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/copy-paste-from-emacs-nw-to-other-application/" class="u-url">Copy paste from Emacs nw to other application</a></h1>
+            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/ruby-on-rails-same-form-with-different-post-url/" class="u-url">Ruby on Rails same form with different post URL</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        Baolong Lin
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/ruby-on-rails-same-form-with-different-post-url/" rel="bookmark">
+            <time class="published dt-published" datetime="2019-03-23T23:37:14+01:00" itemprop="datePublished" title="2019-03-23 23:37">2019-03-23 23:37</time></a>
+            </p>
+                        <p class="commentline">
+        
+    <a href="posts/ruby-on-rails-same-form-with-different-post-url/#disqus_thread" data-disqus-identifier="cache/posts/ruby-on-rails-same-form-with-different-post-url.html">Comments</a>
+
+
+                </p>
+</div>
+            </header><div class="e-content entry-content">
+                    <p>
+In <a href="https://guides.rubyonrails.org/getting_started.html">Ruby on rails getting started</a>, chapter <b>5.12 Using partial to clean up duplication in views</b>,
+it removes the duplicate view of new and update, provides one _form view which will be shared
+by new and create, but it forgets the url which is required in new view.
+</p>
+
+<p>
+As the routing shows:
+</p>
+<pre class="example">
+bin/rails routes
+                   Prefix Verb   URI Pattern                                                                              Controller#Action
+            welcome_index GET    /welcome/index(.:format)                                                                 welcome#index
+                 articles GET    /articles(.:format)                                                                      articles#index
+                          POST   /articles(.:format)                                                                      articles#create
+              new_article GET    /articles/new(.:format)                                                                  articles#new
+             edit_article GET    /articles/:id/edit(.:format)                                                             articles#edit
+                  article GET    /articles/:id(.:format)                                                                  articles#show
+                          PATCH  /articles/:id(.:format)                                                                  articles#update
+                          PUT    /articles/:id(.:format)                                                                  articles#update
+                          DELETE /articles/:id(.:format)                                                                  articles#destroy
+                     root GET    /                                                                                        welcome#index
+       rails_service_blob GET    /rails/active_storage/blobs/:signed_id/*filename(.:format)                               active_storage/blobs#show
+rails_blob_representation GET    /rails/active_storage/representations/:signed_blob_id/:variation_key/*filename(.:format) active_storage/representations#show
+       rails_disk_service GET    /rails/active_storage/disk/:encoded_key/*filename(.:format)                              active_storage/disk#show
+update_rails_disk_service PUT    /rails/active_storage/disk/:encoded_token(.:format)                                      active_storage/disk#update
+     rails_direct_uploads POST   /rails/active_storage/direct_uploads(.:format)                                           active_storage/direct_uploads#create
+</pre>
+
+<p>
+Create articale is going to use POST /articles(.:format) with articles prefix, but the update is going to use PATCH/PUT with article prefix.
+</p>
+
+<p>
+At <b>5.2 The first form</b>,
+</p>
+<pre class="example">
+The form needs to use a different URL in order to go somewhere else. This can be done quite simply with the :url option of form_with. Typically in Rails, the action that is used for new form submissions like this is called "create", and so the form should be pointed to that action.
+</pre>
+
+<p>
+It does not make sense that new created _form solve the url problem. After google, find solution blow:
+</p>
+<div class="highlight"><pre><span></span>&lt;%= form_with scope: :article,
+    url: @article.id.present? ? article_path : articles_path,
+    method: @article.id.present? ? :PATCH : :POST,
+    local: true do |form| %&gt;
+
+&lt;% if @article.errors.any? %&gt;
+&lt;div id="error_explanation"&gt;
+  &lt;h2&gt;
+    &lt;%= pluralize(@article.errors.count, "error") %&gt; prohibited this article from being saved:
+  &lt;/h2&gt;
+  &lt;ul&gt;
+    &lt;% @article.errors.full_messages.each do |msg| %&gt;
+    &lt;li&gt;&lt;%= msg %&gt;&lt;/li&gt;
+    &lt;% end %&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+&lt;% end %&gt;
+
+&lt;p&gt;
+  &lt;%= form.label :title %&gt;&lt;br&gt;
+  &lt;%= form.text_field :title %&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+  &lt;%= form.label :text %&gt;&lt;br&gt;
+  &lt;%= form.text_area :text %&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+  &lt;%= form.submit %&gt;
+&lt;/p&gt;
+&lt;% end %&gt;
+</pre></div>
+
+<p>
+Check the @articla id present or not, the solution is working for this scenario, how about other senarios that share the form, but can't distiguish with the id or any data inside input object.
+</p>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/copy-paste-from-emacs-nw-to-other-application/" class="u-url">Copy paste from Emacs nw to other application</a></h1>
                 <div class="metadata">
                     <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                         Baolong Lin
@@ -793,39 +891,6 @@ Find the include files using <code>/opt/gcc/6.2.0/bin/g++ -M</code> :
 
 <p>
 The left thing is make the correct order of include pathes. The <code>/user/include</code> path must behind the <code>/opt/gcc/6.2.0/include/c++/6.2.0</code>.
-</p>
-                </div>
-            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/blogging-with-emacs-org-nikola-on-android/" class="u-url">Blogging with emacs org, nikola on android</a></h1>
-                <div class="metadata">
-                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                        Baolong Lin
-                    </span></p>
-            <p class="dateline">
-            <a href="posts/blogging-with-emacs-org-nikola-on-android/" rel="bookmark">
-            <time class="published dt-published" datetime="2017-12-29T22:55:21+01:00" itemprop="datePublished" title="2017-12-29 22:55">2017-12-29 22:55</time></a>
-            </p>
-                        <p class="commentline">
-        
-    <a href="posts/blogging-with-emacs-org-nikola-on-android/#disqus_thread" data-disqus-identifier="cache/posts/blogging-with-emacs-org-nikola-on-android.html">Comments</a>
-
-
-                </p>
-</div>
-            </header><div class="e-content entry-content">
-                    <p>
-It's useful to write blog on mobile which reachable
-any spare time. I use <a href="https://termux.com">Termux</a> as a Linux environment.
-</p>
-<div class="highlight"><pre><span></span>apt install emacs clang git python python-dev libxml2 libxml2-dev libxslt libxslt-dev libjpeg-turbo-dev ndk-sysroot
-pip install virtualenv
-mkdir ~/pyenv
-virtualenv ~/pyenv/nikola
-<span class="nb">source</span> ~/pyenv/nikola/activate
-<span class="nv">LDFLAGS</span><span class="o">=</span><span class="s2">"-L/system/lib/"</span> <span class="nv">CFLAGS</span><span class="o">=</span><span class="s2">"-I/data/data/com.termux/files/usr/include/"</span> pip install --upgrade <span class="s2">"Nikola[extras]"</span>
-git clone &lt;git repo&gt; ~/blog
-</pre></div>
-<p>
-Now setup the Emacs, start new post as on laptop.
 </p>
                 </div>
             </article>

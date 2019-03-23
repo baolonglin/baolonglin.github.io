@@ -75,7 +75,40 @@
     
         
     <div class="postindex">
-            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/quite-nice-to-write-blog-with-emacs-org-nikola/" class="u-url">Quite nice to write blog with emacs org nikola</a></h1>
+            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/blogging-with-emacs-org-nikola-on-android/" class="u-url">Blogging with emacs org, nikola on android</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        Baolong Lin
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/blogging-with-emacs-org-nikola-on-android/" rel="bookmark">
+            <time class="published dt-published" datetime="2017-12-29T22:55:21+01:00" itemprop="datePublished" title="2017-12-29 22:55">2017-12-29 22:55</time></a>
+            </p>
+                        <p class="commentline">
+        
+    <a href="posts/blogging-with-emacs-org-nikola-on-android/#disqus_thread" data-disqus-identifier="cache/posts/blogging-with-emacs-org-nikola-on-android.html">Comments</a>
+
+
+                </p>
+</div>
+            </header><div class="e-content entry-content">
+                    <p>
+It's useful to write blog on mobile which reachable
+any spare time. I use <a href="https://termux.com">Termux</a> as a Linux environment.
+</p>
+<div class="highlight"><pre><span></span>apt install emacs clang git python python-dev libxml2 libxml2-dev libxslt libxslt-dev libjpeg-turbo-dev ndk-sysroot
+pip install virtualenv
+mkdir ~/pyenv
+virtualenv ~/pyenv/nikola
+<span class="nb">source</span> ~/pyenv/nikola/activate
+<span class="nv">LDFLAGS</span><span class="o">=</span><span class="s2">"-L/system/lib/"</span> <span class="nv">CFLAGS</span><span class="o">=</span><span class="s2">"-I/data/data/com.termux/files/usr/include/"</span> pip install --upgrade <span class="s2">"Nikola[extras]"</span>
+git clone &lt;git repo&gt; ~/blog
+</pre></div>
+<p>
+Now setup the Emacs, start new post as on laptop.
+</p>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/quite-nice-to-write-blog-with-emacs-org-nikola/" class="u-url">Quite nice to write blog with emacs org nikola</a></h1>
                 <div class="metadata">
                     <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                         Baolong Lin
@@ -114,9 +147,9 @@ It's quit simple and looks nice, the big thing is I can use org-mode to write bl
                 </p>
 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org1e81dae" class="outline-2">
-<h2 id="org1e81dae">Introduction</h2>
-<div class="outline-text-2" id="text-org1e81dae">
+                    <div id="outline-container-orgd9bd9bb" class="outline-2">
+<h2 id="orgd9bd9bb">Introduction</h2>
+<div class="outline-text-2" id="text-orgd9bd9bb">
 <p>
 Org-mode is known as good tool to do planning/scheduling, but it also used as <a href="http://howardism.org/Technical/Emacs/literate-programming-tutorial.html">literate programming tool</a>. It's quite nice to use <a href="http://orgmode.org/worg/org-contrib/babel/">Babel</a> to execute code inside org-mode, it should be possible to use org-mode write test case.
 Right now I could not find one native way inside org-mode to support this.
@@ -125,9 +158,9 @@ The tool I need to test is quit simple, <a href="https://clang.llvm.org/docs/Cla
 </div>
 </div>
 
-<div id="outline-container-org9aced66" class="outline-2">
-<h2 id="org9aced66">Prequirements</h2>
-<div class="outline-text-2" id="text-org9aced66">
+<div id="outline-container-org03b32b4" class="outline-2">
+<h2 id="org03b32b4">Prequirements</h2>
+<div class="outline-text-2" id="text-org03b32b4">
 <p>
 Here list my environment:
 </p>
@@ -140,9 +173,9 @@ Here list my environment:
 </div>
 </div>
 
-<div id="outline-container-org9084bde" class="outline-2">
-<h2 id="org9084bde">Setup</h2>
-<div class="outline-text-2" id="text-org9084bde">
+<div id="outline-container-org3fa2d26" class="outline-2">
+<h2 id="org3fa2d26">Setup</h2>
+<div class="outline-text-2" id="text-org3fa2d26">
 <p>
 Just create one org file, input content like:
 </p>
@@ -231,9 +264,9 @@ The test result looks like:
 </div>
 </div>
 
-<div id="outline-container-org3875cd9" class="outline-2">
-<h2 id="org3875cd9">Conclusion</h2>
-<div class="outline-text-2" id="text-org3875cd9">
+<div id="outline-container-orge2b506a" class="outline-2">
+<h2 id="orge2b506a">Conclusion</h2>
+<div class="outline-text-2" id="text-orge2b506a">
 <p>
 The solution is not perfect enough, it has duplicate shell code under each test case, the input/output code could not be highlight.
 The report is quit simple, when test cases number becomes large, require better solution to show the test result.
