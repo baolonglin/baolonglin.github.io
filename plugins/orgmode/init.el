@@ -9,8 +9,8 @@
 
 (require 'org)
 (require 'ox-html)
-(if (file-directory-p "~/.emacs.d/elpa-27.0")
-    (let ((default-directory "~/.emacs.d/elpa-27.0"))
+(if (file-directory-p "~/.emacs.d/elpa-26.1")
+    (let ((default-directory "~/.emacs.d/elpa-26.1"))
       (normal-top-level-add-subdirs-to-load-path)))
 (require 'htmlize)
 

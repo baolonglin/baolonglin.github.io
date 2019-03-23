@@ -1,0 +1,47 @@
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="c1">#include &lt;iostream&gt;</span>
+<span class="c1">#include &lt;vector&gt;</span>
+
+<span class="k">class</span> <span class="nc">Exception</span>
+<span class="p">{</span>
+<span class="ss">public:
+	</span><span class="no">Exception</span><span class="p">(</span><span class="n">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">:</span> <span class="n">_i</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+	<span class="p">}</span>
+	<span class="o">~</span><span class="no">Exception</span><span class="p">()</span> <span class="kp">throw</span><span class="p">(</span><span class="n">int</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s2">"Throw : "</span> <span class="o">&lt;&lt;</span> <span class="n">_i</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+		<span class="kp">throw</span> <span class="n">_i</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="ss">private:
+	</span><span class="n">int</span> <span class="n">_i</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">class</span> <span class="nc">OtherObject</span>
+<span class="p">{</span>
+<span class="ss">public:
+	</span><span class="o">~</span><span class="no">OtherObject</span><span class="p">()</span> <span class="p">{</span>
+		<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s2">"~OtherObject"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">};</span>
+
+<span class="n">int</span> <span class="n">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">try</span> <span class="p">{</span>
+		<span class="no">OtherObject</span> <span class="n">o</span><span class="p">;</span>
+		<span class="p">{</span>
+			<span class="no">Exception</span> <span class="n">e</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+			<span class="kp">throw</span> <span class="mi">3</span><span class="p">;</span> 
+		<span class="p">}</span>
+		<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s2">"after throw"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+	<span class="p">}</span> <span class="kp">catch</span> <span class="p">(</span><span class="n">int</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s2">"Catch : "</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">try</span> <span class="p">{</span>
+		<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="no">Exception</span><span class="o">&gt;</span> <span class="n">v</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
+	<span class="p">}</span> <span class="kp">catch</span> <span class="p">(.</span><span class="nf">.</span><span class="o">.</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s2">"Catch something"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+

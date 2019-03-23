@@ -1,0 +1,81 @@
+#+BEGIN_COMMENT
+.. title: Ruby on Rails same form with different post URL
+.. slug: ruby-on-rails-same-form-with-different-post-url
+.. date: 2019-03-23 23:37:14 UTC+01:00
+.. tags: 
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+In [[https://guides.rubyonrails.org/getting_started.html][Ruby on rails getting started]], chapter *5.12 Using partial to clean up duplication in views*,
+it removes the duplicate view of new and update, provides one _form view which will be shared
+by new and create, but it forgets the url which is required in new view.
+
+As the routing shows:
+#+BEGIN_EXAMPLE
+bin/rails routes
+                   Prefix Verb   URI Pattern                                                                              Controller#Action
+            welcome_index GET    /welcome/index(.:format)                                                                 welcome#index
+                 articles GET    /articles(.:format)                                                                      articles#index
+                          POST   /articles(.:format)                                                                      articles#create
+              new_article GET    /articles/new(.:format)                                                                  articles#new
+             edit_article GET    /articles/:id/edit(.:format)                                                             articles#edit
+                  article GET    /articles/:id(.:format)                                                                  articles#show
+                          PATCH  /articles/:id(.:format)                                                                  articles#update
+                          PUT    /articles/:id(.:format)                                                                  articles#update
+                          DELETE /articles/:id(.:format)                                                                  articles#destroy
+                     root GET    /                                                                                        welcome#index
+       rails_service_blob GET    /rails/active_storage/blobs/:signed_id/*filename(.:format)                               active_storage/blobs#show
+rails_blob_representation GET    /rails/active_storage/representations/:signed_blob_id/:variation_key/*filename(.:format) active_storage/representations#show
+       rails_disk_service GET    /rails/active_storage/disk/:encoded_key/*filename(.:format)                              active_storage/disk#show
+update_rails_disk_service PUT    /rails/active_storage/disk/:encoded_token(.:format)                                      active_storage/disk#update
+     rails_direct_uploads POST   /rails/active_storage/direct_uploads(.:format)                                           active_storage/direct_uploads#create
+#+END_EXAMPLE
+
+Create articale is going to use POST /articles(.:format) with articles prefix, but the update is going to use PATCH/PUT with article prefix.
+
+At *5.2 The first form*,
+#+BEGIN_EXAMPLE
+The form needs to use a different URL in order to go somewhere else. This can be done quite simply with the :url option of form_with. Typically in Rails, the action that is used for new form submissions like this is called "create", and so the form should be pointed to that action.
+#+END_EXAMPLE
+
+It does not make sense that new created _form solve the url problem. After google, find solution blow:
+#+BEGIN_SRC rubyonrails
+<%= form_with scope: :article,
+    url: @article.id.present? ? article_path : articles_path,
+    method: @article.id.present? ? :PATCH : :POST,
+    local: true do |form| %>
+
+<% if @article.errors.any? %>
+<div id="error_explanation">
+  <h2>
+    <%= pluralize(@article.errors.count, "error") %> prohibited this article from being saved:
+  </h2>
+  <ul>
+    <% @article.errors.full_messages.each do |msg| %>
+    <li><%= msg %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+
+<p>
+  <%= form.label :title %><br>
+  <%= form.text_field :title %>
+</p>
+
+<p>
+  <%= form.label :text %><br>
+  <%= form.text_area :text %>
+</p>
+
+<p>
+  <%= form.submit %>
+</p>
+<% end %>
+#+END_SRC
+
+Check the @articla id present or not, the solution is working for this scenario, how about other senarios that share the form, but can't distiguish with the id or any data inside input object.

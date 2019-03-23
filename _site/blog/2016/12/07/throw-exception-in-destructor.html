@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Throw exception in C++ destructor</title>
+		<link rel="stylesheet" type="text/css" href="/css/main.css">
+		<link rel="stylesheet" type="text/css" href="/css/syntax.css">
+	</head>
+	<body>
+		<nav>
+			<ul>
+				<li><a href="/">Home</a></li>
+				<li><a href="/blog">Blog</a></li>
+			</ul>
+		</nav>
+		<div class="container">
+			<h1>Throw exception in C++ destructor</h1>
+<p class="meta">07 Dec 2016</p>
+
+<div class="post">
+     <p>We should <code class="highlighter-rouge">Prevent exceptions from leaving destructors</code> as <strong>Effective C++</strong> suggeust, and in that book, it also explains the reason: <code class="highlighter-rouge">Now there are two simulataneously active exceptions, and that's one too many for C++</code>. Is not that program interupt when throw one exception? Why two exceptions will be throw out? Let’s use one example to make those clear.</p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="cp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+</span>
+<span class="k">class</span> <span class="nc">Exception</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+	<span class="n">Exception</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">:</span> <span class="n">_i</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+	<span class="p">}</span>
+	<span class="o">~</span><span class="n">Exception</span><span class="p">()</span> <span class="k">throw</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Throw : "</span> <span class="o">&lt;&lt;</span> <span class="n">_i</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+		<span class="k">throw</span> <span class="n">_i</span><span class="p">;</span>        <span class="c1">// &lt;-- 1
+</span>	<span class="p">}</span>
+<span class="k">private</span><span class="o">:</span>
+	<span class="kt">int</span> <span class="n">_i</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">class</span> <span class="nc">OtherObject</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+	<span class="o">~</span><span class="n">OtherObject</span><span class="p">()</span> <span class="p">{</span>
+		<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"~OtherObject"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="k">try</span> <span class="p">{</span>
+		<span class="n">OtherObject</span> <span class="n">o</span><span class="p">;</span> <span class="c1">// &lt;-- 2
+</span>		<span class="p">{</span>
+			<span class="n">Exception</span> <span class="n">e</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>  <span class="c1">// &lt;-- 3
+</span>			<span class="c1">//throw 3; // &lt;-- 4
+</span>		<span class="p">}</span> <span class="c1">// &lt;-- 4
+</span>		<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"after throw"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> <span class="c1">// &lt;-- 5
+</span>	<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Catch : "</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> <span class="c1">// &lt;-- 6
+</span>	<span class="p">}</span>
+
+	<span class="k">try</span> <span class="p">{</span>
+		<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Exception</span><span class="o">&gt;</span> <span class="n">v</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span> <span class="c1">// &lt;-- 7
+</span>	<span class="p">}</span> <span class="k">catch</span> <span class="p">(...)</span> <span class="p">{</span>
+		<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Catch something"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> <span class="c1">// &lt;-- 8
+</span>	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>In the example above, use g++ 4.3.4, output looks like:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Throw : 10
+~OtherObject
+Catch : 10
+Throw : 0
+Throw : 0
+terminate called after throwing an instance of 'int'
+Aborted (core dumped)
+</code></pre>
+</div>
+
+<p><strong>NOTE:</strong> in g++ 6.2.1, it only get one <code class="highlighter-rouge">Throw : 0</code>. Because the STL vector’s destructor default is noexcept, it terminate the program met the first exception.</p>
+
+<p>What happends? The program is interrupt when object <code class="highlighter-rouge">e</code> throws exception in destructor, that’s why position 5 is not executed.
+But C++ doing a little bit more, it tries to release the object inside the try block, that’s why <code class="highlighter-rouge">~OtherObject</code> is printed out.
+The exception throw by the destructor is caught successfully, position 6 is executed.
+What happends at position 7, why position 8 is not executed?
+Do another test, if we try to open the position 3, throw exception before object <code class="highlighter-rouge">e</code> to be destruct, what will happen? In that case two exceptions are going to be throw out. Now the console output looks like:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Throw : 10
+terminate called after throwing an instance of 'int'
+Aborted (core dumped)
+</code></pre>
+</div>
+
+<p>Haaa, that’s <code class="highlighter-rouge">too many exceptions for C++</code>, C++ could not handle more than one exception properly, call terminate directly.
+Now go back to position 7, it creates 4 instance of <code class="highlighter-rouge">Exception</code> and store it in <code class="highlighter-rouge">vector</code>, from my understanding, <code class="highlighter-rouge">vector</code> just destroy the objects inside it, call destructor of each object.
+Here C++ compiler don’t interupt the program met the first throw, continue call the destructor of the second object.</p>
+
+<p>It’s really bad idea to throw exception from destructor incase C++ need to safely release the temporary object and don’t support multiple exceptions could be thrown in one try catch block.
+That’s why noexcept is the default added in C++11. You’ll see warnings like:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>test.cc: In destructor ‘Exception::~Exception()’:
+test.cc:12:9: warning: throw will always call terminate() [-Wterminate]
+   throw _i;
+         ^~
+test.cc:12:9: note: in C++11 destructors default to noexcept
+</code></pre>
+</div>
+
+</div>
+
+		</div>
+		<footer>
+			<ul>
+				<li><a href="mailto:lbl52001@gmail.com">email</a></li>
+				<li><a href="https://github.com/baolonglin">github page</a></li>
+			</ul>
+		</footer>
+	</body>
+</html>
