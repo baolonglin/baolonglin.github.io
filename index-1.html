@@ -129,6 +129,17 @@ Now setup the Emacs, start new post as on laptop.
 Plan to use <a href="https://getnikola.com/">Nikola</a> as my blogging tool when I read cestlaz's blog <a href="http://cestlaz.github.io/posts/2016-04-17-emacs-jekyll-nikola/">Blogging with Emacs, Jekyll and Nikola</a>. Today I fallow streakycobra's nice blog <a href="https://streakycobra.github.io/posts/blogging-in-org-mode-with-nikola/">Blogging in org-mode with Nikola</a> setup my blog on github.
 It's quit simple and looks nice, the big thing is I can use org-mode to write blog without extra steps.
 </p>
+
+<p>
+Quite lazy to update the blog, quick guide to come back to write blog:
+</p>
+<div class="highlight"><pre><span></span>git clone https://github.com/baolonglin/baolonglin.github.io
+<span class="c1"># switch to sources branch inside magit</span>
+<span class="c1"># start shell inside emacs</span>
+<span class="c1"># source &lt;pyenv&gt;/bin/active</span>
+nikola auto -a &lt;ip&gt; -p <span class="m">9000</span>
+nikola github_deploy
+</pre></div>
                 </div>
             </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/maintain-test-cases-with-org-mode/" class="u-url">Maintain test cases with org-mode</a></h1>
                 <div class="metadata">
@@ -147,9 +158,9 @@ It's quit simple and looks nice, the big thing is I can use org-mode to write bl
                 </p>
 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-orgd9bd9bb" class="outline-2">
-<h2 id="orgd9bd9bb">Introduction</h2>
-<div class="outline-text-2" id="text-orgd9bd9bb">
+                    <div id="outline-container-orgd82c299" class="outline-2">
+<h2 id="orgd82c299">Introduction</h2>
+<div class="outline-text-2" id="text-orgd82c299">
 <p>
 Org-mode is known as good tool to do planning/scheduling, but it also used as <a href="http://howardism.org/Technical/Emacs/literate-programming-tutorial.html">literate programming tool</a>. It's quite nice to use <a href="http://orgmode.org/worg/org-contrib/babel/">Babel</a> to execute code inside org-mode, it should be possible to use org-mode write test case.
 Right now I could not find one native way inside org-mode to support this.
@@ -158,9 +169,9 @@ The tool I need to test is quit simple, <a href="https://clang.llvm.org/docs/Cla
 </div>
 </div>
 
-<div id="outline-container-org03b32b4" class="outline-2">
-<h2 id="org03b32b4">Prequirements</h2>
-<div class="outline-text-2" id="text-org03b32b4">
+<div id="outline-container-org224e727" class="outline-2">
+<h2 id="org224e727">Prequirements</h2>
+<div class="outline-text-2" id="text-org224e727">
 <p>
 Here list my environment:
 </p>
@@ -173,9 +184,9 @@ Here list my environment:
 </div>
 </div>
 
-<div id="outline-container-org3fa2d26" class="outline-2">
-<h2 id="org3fa2d26">Setup</h2>
-<div class="outline-text-2" id="text-org3fa2d26">
+<div id="outline-container-orgd779657" class="outline-2">
+<h2 id="orgd779657">Setup</h2>
+<div class="outline-text-2" id="text-orgd779657">
 <p>
 Just create one org file, input content like:
 </p>
@@ -264,9 +275,9 @@ The test result looks like:
 </div>
 </div>
 
-<div id="outline-container-orge2b506a" class="outline-2">
-<h2 id="orge2b506a">Conclusion</h2>
-<div class="outline-text-2" id="text-orge2b506a">
+<div id="outline-container-org42e905a" class="outline-2">
+<h2 id="org42e905a">Conclusion</h2>
+<div class="outline-text-2" id="text-org42e905a">
 <p>
 The solution is not perfect enough, it has duplicate shell code under each test case, the input/output code could not be highlight.
 The report is quit simple, when test cases number becomes large, require better solution to show the test result.
@@ -654,11 +665,11 @@ Now go back to position 7, it creates 4 instance of <code>Exception</code> and s
 Here C++ compiler don't interupt the program met the first throw, continue call the destructor of the second object.</p>
 <p>It's really bad idea to throw exception from destructor incase C++ need to safely release the temporary object and don't support multiple exceptions could be thrown in one try catch block.
 That's why noexcept is the default added in C++11. You'll see warnings like:</p>
-<pre class="code literal-block"><span></span>test.cc: In destructor ‘Exception::~Exception()’:
-test.cc:12:9: warning: throw will always call terminate() [-Wterminate]
-   throw _i;
-         ^~
-test.cc:12:9: note: in C++11 destructors default to noexcept
+<pre class="code literal-block"><span></span><span class="n">test</span><span class="p">.</span><span class="n">cc</span><span class="p">:</span> <span class="k">In</span> <span class="k">destructor</span> <span class="err">‘</span><span class="k">Exception</span><span class="p">::</span><span class="o">~</span><span class="k">Exception</span><span class="p">()</span><span class="err">’</span><span class="p">:</span>
+<span class="n">test</span><span class="p">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">12</span><span class="p">:</span><span class="mi">9</span><span class="p">:</span> <span class="n">warning</span><span class="p">:</span> <span class="n">throw</span> <span class="n">will</span> <span class="n">always</span> <span class="k">call</span> <span class="k">terminate</span><span class="p">()</span> <span class="p">[</span><span class="o">-</span><span class="n">Wterminate</span><span class="p">]</span>
+   <span class="n">throw</span> <span class="n">_i</span><span class="p">;</span>
+         <span class="o">^~</span>
+<span class="n">test</span><span class="p">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">12</span><span class="p">:</span><span class="mi">9</span><span class="p">:</span> <span class="n">note</span><span class="p">:</span> <span class="k">in</span> <span class="k">C</span><span class="o">++</span><span class="mi">11</span> <span class="n">destructors</span> <span class="k">default</span> <span class="k">to</span> <span class="n">noexcept</span>
 </pre>
 </div>
                 </div>
@@ -669,7 +680,7 @@ test.cc:12:9: note: in C++11 destructors default to noexcept
 <li class="previous"><a href="." rel="prev">Newer posts</a></li>
         </ul>
 <script>var disqus_shortname="baolonglin";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><!--End of body content--><footer id="footer">
-            Contents © 2019         <a href="mailto:lbl52001@gmail.com">Baolong Lin</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2020         <a href="mailto:lbl52001@gmail.com">Baolong Lin</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
             
         </footer>
 </div>

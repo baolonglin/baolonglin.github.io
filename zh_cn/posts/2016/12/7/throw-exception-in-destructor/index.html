@@ -181,11 +181,11 @@ Now go back to position 7, it creates 4 instance of <code>Exception</code> and s
 Here C++ compiler don't interupt the program met the first throw, continue call the destructor of the second object.</p>
 <p>It's really bad idea to throw exception from destructor incase C++ need to safely release the temporary object and don't support multiple exceptions could be thrown in one try catch block.
 That's why noexcept is the default added in C++11. You'll see warnings like:</p>
-<pre class="code literal-block"><span></span>test.cc: In destructor ‘Exception::~Exception()’:
-test.cc:12:9: warning: throw will always call terminate() [-Wterminate]
-   throw _i;
-         ^~
-test.cc:12:9: note: in C++11 destructors default to noexcept
+<pre class="code literal-block"><span></span><span class="n">test</span><span class="p">.</span><span class="n">cc</span><span class="p">:</span> <span class="k">In</span> <span class="k">destructor</span> <span class="err">‘</span><span class="k">Exception</span><span class="p">::</span><span class="o">~</span><span class="k">Exception</span><span class="p">()</span><span class="err">’</span><span class="p">:</span>
+<span class="n">test</span><span class="p">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">12</span><span class="p">:</span><span class="mi">9</span><span class="p">:</span> <span class="n">warning</span><span class="p">:</span> <span class="n">throw</span> <span class="n">will</span> <span class="n">always</span> <span class="k">call</span> <span class="k">terminate</span><span class="p">()</span> <span class="p">[</span><span class="o">-</span><span class="n">Wterminate</span><span class="p">]</span>
+   <span class="n">throw</span> <span class="n">_i</span><span class="p">;</span>
+         <span class="o">^~</span>
+<span class="n">test</span><span class="p">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">12</span><span class="p">:</span><span class="mi">9</span><span class="p">:</span> <span class="n">note</span><span class="p">:</span> <span class="k">in</span> <span class="k">C</span><span class="o">++</span><span class="mi">11</span> <span class="n">destructors</span> <span class="k">default</span> <span class="k">to</span> <span class="n">noexcept</span>
 </pre>
 </div>
     </div>
@@ -216,7 +216,7 @@ test.cc:12:9: note: in C++11 destructors default to noexcept
 
 
         </section></article><script>var disqus_shortname="baolonglin";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><!--End of body content--><footer id="footer">
-            Contents © 2019         <a href="mailto:lbl52001@gmail.com">Baolong Lin</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2020         <a href="mailto:lbl52001@gmail.com">Baolong Lin</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
             
         </footer>
 </div>

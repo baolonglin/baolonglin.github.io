@@ -11,3 +11,14 @@
 
 Plan to use [[https://getnikola.com/][Nikola]] as my blogging tool when I read cestlaz's blog [[http://cestlaz.github.io/posts/2016-04-17-emacs-jekyll-nikola/][Blogging with Emacs, Jekyll and Nikola]]. Today I fallow streakycobra's nice blog [[https://streakycobra.github.io/posts/blogging-in-org-mode-with-nikola/][Blogging in org-mode with Nikola]] setup my blog on github.
 It's quit simple and looks nice, the big thing is I can use org-mode to write blog without extra steps.
+
+Quite lazy to update the blog, quick guide to come back to write blog:
+#+BEGIN_SRC sh
+git clone https://github.com/baolonglin/baolonglin.github.io
+# switch to sources branch inside magit
+# start shell inside emacs
+# source <pyenv>/bin/active
+nikola auto -a <ip> -p 9000
+nikola github_deploy
+#+END_SRC
+
