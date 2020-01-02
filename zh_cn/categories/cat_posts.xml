@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../../assets/xml/rss.xsl" media="all"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>BaoLong (关于文章 posts)</title><link>https://baolonglin.github.io/</link><description></description><atom:link type="application/rss+xml" rel="self" href="https://baolonglin.github.io/zh_cn/categories/cat_posts.xml"></atom:link><language>zh_cn</language><copyright>Contents © 2020 &lt;a href="mailto:lbl52001@gmail.com"&gt;Baolong Lin&lt;/a&gt; </copyright><lastBuildDate>Thu, 02 Jan 2020 21:59:54 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Ruby on Rails same form with different post URL</title><link>https://baolonglin.github.io/zh_cn/posts/ruby-on-rails-same-form-with-different-post-url/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0"><channel><title>BaoLong (关于文章 posts)</title><link>https://baolonglin.github.io/</link><description></description><atom:link rel="self" href="https://baolonglin.github.io/zh_cn/categories/cat_posts.xml" type="application/rss+xml"></atom:link><language>zh_cn</language><copyright>Contents © 2020 &lt;a href="mailto:lbl52001@gmail.com"&gt;Baolong Lin&lt;/a&gt; </copyright><lastBuildDate>Thu, 02 Jan 2020 22:24:49 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Ruby on Rails same form with different post URL</title><link>https://baolonglin.github.io/zh_cn/posts/ruby-on-rails-same-form-with-different-post-url/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
 In &lt;a href="https://guides.rubyonrails.org/getting_started.html"&gt;Ruby on rails getting started&lt;/a&gt;, chapter &lt;b&gt;5.12 Using partial to clean up duplication in views&lt;/b&gt;,
 it removes the duplicate view of new and update, provides one _form view which will be shared
 by new and create, but it forgets the url which is required in new view.
@@ -85,7 +85,7 @@ Their is one plugin to use make it possible: &lt;a href="https://elpa.gnu.org/pa
 &lt;p&gt;
 This plugin uses xclip/xsel on Linux, if both of them are not exist, it uses emacs `make-frame-on-display`.
 They require `DISPLAY` to be set correctly. In my case, I use putty to login the server then use `emacsclient -nw`
-to connect to the emacs daemon, I have no xclip/xsel installed. 
+to connect to the emacs daemon, I have no xclip/xsel installed.
 Some times the `DISPLAY` was not set correctly when multiple ssh clients connect to the server.
 &lt;/p&gt;
 
@@ -93,9 +93,31 @@ Some times the `DISPLAY` was not set correctly when multiple ssh clients connect
 Follow steps can make the copy/paste works again.
 &lt;/p&gt;
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;(setq xclip--hidden-frame nil)
-(setenv "DISPLAY" "localhost:12.0")
-&lt;/pre&gt;&lt;/div&gt;</description><guid>https://baolonglin.github.io/zh_cn/posts/copy-paste-from-emacs-nw-to-other-application/</guid><pubDate>Mon, 04 Mar 2019 22:56:54 GMT</pubDate></item><item><title>Nikola orgmode: Please install htmlize</title><link>https://baolonglin.github.io/zh_cn/posts/nikola-orgmode-please-install-htmlize/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;setq&lt;/span&gt; &lt;span class="nv"&gt;xclip--hidden-frame&lt;/span&gt; &lt;span class="no"&gt;nil&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;setenv&lt;/span&gt; &lt;span class="s"&gt;"DISPLAY"&lt;/span&gt; &lt;span class="s"&gt;"localhost:12.0"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;
+To reset the hidden frame when new emacs client connect to deamon, write an funciton like:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;defun&lt;/span&gt; &lt;span class="nv"&gt;bl-update-display&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;display&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="s"&gt;"Reset the DISPLAY in EMACS client and kill the xclip hidden frame if exist."&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;setenv&lt;/span&gt; &lt;span class="s"&gt;"DISPLAY"&lt;/span&gt; &lt;span class="nv"&gt;display&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;delete-frame&lt;/span&gt; &lt;span class="nv"&gt;xclip--hidden-frame&lt;/span&gt; &lt;span class="no"&gt;t&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;setq&lt;/span&gt; &lt;span class="nv"&gt;xclip--hidden-frame&lt;/span&gt; &lt;span class="no"&gt;nil&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+Then add alias to emacs client like:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;alias&lt;/span&gt; &lt;span class="nv"&gt;ecnw&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"emacsclient -nw -c --eval \"(bl-update-display \\\"&lt;/span&gt;&lt;span class="nv"&gt;$DISPLAY&lt;/span&gt;&lt;span class="s2"&gt;\\\")\""&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+&lt;b&gt;NOTE&lt;/b&gt;: Limitation of this workaround, if more than one emacs client connect to the deamon, only one client work properly.
+&lt;/p&gt;</description><guid>https://baolonglin.github.io/zh_cn/posts/copy-paste-from-emacs-nw-to-other-application/</guid><pubDate>Mon, 04 Mar 2019 22:56:54 GMT</pubDate></item><item><title>Nikola orgmode: Please install htmlize</title><link>https://baolonglin.github.io/zh_cn/posts/nikola-orgmode-please-install-htmlize/</link><dc:creator>Baolong Lin</dc:creator><description>&lt;p&gt;
 Not touched nikola for long time, the org-mode plugin need to be upgrade, after upgrade, error happends when build:
 &lt;/p&gt;
 &lt;pre class="example"&gt;

@@ -197,7 +197,7 @@ Their is one plugin to use make it possible: <a href="https://elpa.gnu.org/packa
 <p>
 This plugin uses xclip/xsel on Linux, if both of them are not exist, it uses emacs `make-frame-on-display`.
 They require `DISPLAY` to be set correctly. In my case, I use putty to login the server then use `emacsclient -nw`
-to connect to the emacs daemon, I have no xclip/xsel installed. 
+to connect to the emacs daemon, I have no xclip/xsel installed.
 Some times the `DISPLAY` was not set correctly when multiple ssh clients connect to the server.
 </p>
 
@@ -205,9 +205,31 @@ Some times the `DISPLAY` was not set correctly when multiple ssh clients connect
 Follow steps can make the copy/paste works again.
 </p>
 
-<div class="highlight"><pre><span></span>(setq xclip--hidden-frame nil)
-(setenv "DISPLAY" "localhost:12.0")
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="k">setq</span> <span class="nv">xclip--hidden-frame</span> <span class="no">nil</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">setenv</span> <span class="s">"DISPLAY"</span> <span class="s">"localhost:12.0"</span><span class="p">)</span>
 </pre></div>
+
+
+<p>
+To reset the hidden frame when new emacs client connect to deamon, write an funciton like:
+</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="nb">defun</span> <span class="nv">bl-update-display</span> <span class="p">(</span><span class="nv">display</span><span class="p">)</span>
+  <span class="s">"Reset the DISPLAY in EMACS client and kill the xclip hidden frame if exist."</span>
+  <span class="p">(</span><span class="nv">setenv</span> <span class="s">"DISPLAY"</span> <span class="nv">display</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">delete-frame</span> <span class="nv">xclip--hidden-frame</span> <span class="no">t</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">setq</span> <span class="nv">xclip--hidden-frame</span> <span class="no">nil</span><span class="p">)</span>
+  <span class="p">)</span>
+</pre></div>
+
+<p>
+Then add alias to emacs client like:
+</p>
+<div class="highlight"><pre><span></span><span class="nb">alias</span> <span class="nv">ecnw</span><span class="o">=</span><span class="s2">"emacsclient -nw -c --eval \"(bl-update-display \\\"</span><span class="nv">$DISPLAY</span><span class="s2">\\\")\""</span>
+</pre></div>
+
+<p>
+<b>NOTE</b>: Limitation of this workaround, if more than one emacs client connect to the deamon, only one client work properly.
+</p>
                 </div>
             </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/nikola-orgmode-please-install-htmlize/" class="u-url">Nikola orgmode: Please install htmlize</a></h1>
                 <div class="metadata">
