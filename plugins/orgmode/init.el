@@ -9,8 +9,9 @@
 
 (require 'org)
 (require 'ox-html)
-(if (file-directory-p "~/.emacs.d/elpa-26.1")
-    (let ((default-directory "~/.emacs.d/elpa-26.1"))
+
+(if (file-directory-p "~/.emacs.d/elpa-27.0")
+    (let ((default-directory "~/.emacs.d/elpa-27.0"))
       (normal-top-level-add-subdirs-to-load-path)))
 (require 'htmlize)
 
@@ -110,7 +111,9 @@ contextual information."
           (code (org-element-property :value src-block))
           (code-html (org-html-format-code src-block info)))
       (if nikola-use-pygments
-          (pygmentize (downcase lang) (org-html-decode-plain-text code))
+          (progn
+            (unless lang (setq lang ""))
+            (pygmentize (downcase lang) (org-html-decode-plain-text code)))
         code-html))))
 
 ;; Export images with custom link type
